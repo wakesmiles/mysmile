@@ -1,0 +1,69 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --primary-color: #681296;
+}
+
+html,
+body {
+  padding: 0;
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
+    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+@media (prefers-color-scheme: dark) {
+  html {
+    color-scheme: dark;
+  }
+  body {
+    color: white;
+    background: black;
+  }
+}
+
+@screen sm {
+  .login-input, .registration-input {
+    @apply shadow-sm text-sm;
+  }
+  .registration-label {
+    @apply text-sm;
+  }
+}
+
+/**Volunteer Login****************************************/
+.password-toggle {
+  @apply relative bottom-7 float-right right-3;
+}
+
+.login-input {
+  @apply w-full rounded-xl border border-gray-300 text-gray-900 placeholder-gray-500;
+}
+
+.login-input:focus {
+  @apply z-10 border-primary-color outline-none ring-primary-color;
+}
+
+/**Volunteer Registration*******************/
+.registration-label {
+  @apply block font-medium text-gray-700;
+}
+
+.registration-input {
+  @apply mt-1 block w-full rounded-md border-gray-300;
+}
+
+.registration-input:focus {
+  @apply border-primary-color ring-primary-color;
+}
