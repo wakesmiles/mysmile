@@ -42,7 +42,7 @@ const Registration = () => {
                   ref={fnameRef}
                   name="first-name"
                   type="text"
-                  autocomplete="on"
+                  autoComplete="on"
                   className="registration-input"
                   required
                 />
@@ -56,7 +56,7 @@ const Registration = () => {
                   ref={lnameRef}
                   type="text"
                   name="last-name"
-                  autocomplete="on"
+                  autoComplete="on"
                   className="registration-input"
                   required
                 />
@@ -70,7 +70,7 @@ const Registration = () => {
                   ref={emailRef}
                   type="email"
                   name="email-address"
-                  autocomplete="on"
+                  autoComplete="on"
                   className="registration-input"
                   required
                 />
@@ -98,7 +98,7 @@ const Registration = () => {
                   ref={phoneRef}
                   type="tel"
                   name="phone-number"
-                  autocomplete="on"
+                  autoComplete="on"
                   className="registration-input"
                   pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
                   required
@@ -113,7 +113,7 @@ const Registration = () => {
                   ref={addressRef}
                   type="text"
                   name="street-address"
-                  autocomplete="on"
+                  autoComplete="on"
                   className="registration-input"
                   required
                 />
@@ -127,7 +127,7 @@ const Registration = () => {
                   ref={cityRef}
                   type="text"
                   name="city"
-                  autocomplete="on"
+                  autoComplete="on"
                   className="registration-input"
                   required
                 />
@@ -140,7 +140,7 @@ const Registration = () => {
                 <select
                   ref={stateRef}
                   name="state"
-                  autocomplete="on"
+                  autoComplete="on"
                   className="registration-input"
                   required
                 >
@@ -158,7 +158,7 @@ const Registration = () => {
                   ref={zipRef}
                   type="text"
                   name="zip-code"
-                  autocomplete="on"
+                  autoComplete="on"
                   className="registration-input"
                   pattern="[0-9]{5}"
                   required
@@ -168,7 +168,7 @@ const Registration = () => {
             <hr className="mt-5 mb-5" />
             <fieldset>
               <legend className="registration-header">Exposure Waiver</legend>
-              <div className="italic">
+              <div className="italic text-sm">
                 <p className="mt-3">
                   I understand there is potential risk for exposure to
                   bloodborne pathogens (BBP’s) including Human Immunodeficiency
@@ -214,7 +214,7 @@ const Registration = () => {
               <legend className="registration-header">
                 HIPAA Privacy and Confidentiality Statement
               </legend>
-              <div className="italic">
+              <div className="italic text-sm">
                 <p className="mt-3">
                   I understand that as a volunteer at Raleigh-Wake County Dental
                   Society Community Dental Health Program, INC. (Wake Smiles), I
