@@ -1,16 +1,17 @@
 import { useState, useRef } from "react";
 
 const Registration = () => {
-  const [stage, setStage] = useState(0);
   const fnameRef = useRef("");
   const lnameRef = useRef("");
   const emailRef = useRef("");
   const passwordRef = useRef("");
-  const phoneRef = useRef(0);
+  const phoneRef = useRef("");
   const addressRef = useRef("");
   const cityRef = useRef("");
   const stateRef = useRef("");
-  const zipRef = useRef(0);
+  const zipRef = useRef("");
+  const waiverRef = useRef(false);
+  const hipaaRef = useRef(false);
 
   const states = [
     "AL", "AK", "AZ", "AR", "CA", "CO", "CT", "DE", "DC", "FL", "GA", 
@@ -22,176 +23,152 @@ const Registration = () => {
 
   const Option = (props) => <option>{props.label}</option>;
 
-  const toggleStage = (e) => {
-    e.preventDefault();
-
-    if (fnameRef.current.value === "" || lname.current.value === "" || emailRef.current.value === "")
-
-    setStage((prev) => prev + 1);
+  const handleSubmit = (e) => {
+    return;
   };
 
   return (
-    <div className="grid h-screen place-items-center">
+    <div className="grid place-items-center p-8">
       <form method="POST">
-        {stage === 0 ? (
-          <div
-            className="overflow-hidden shadow sm:rounded-md"
-            style={{ width: "500px" }}
-          >
-            <div className="bg-white px-4 py-5 sm:p-6">
-              <div className="grid grid-cols-6 gap-6">
-                <div className="col-span-3">
-                  <label htmlFor="first-name" className="registration-label">
-                    First Name
-                  </label>
-                  <input
-                    ref={fnameRef}
-                    name="first-name"
-                    type="text"
-                    autoComplete="given-name"
-                    className="registration-input"
-                    required
-                  />
-                </div>
+        <div className="registration-container">
+          <div className="bg-white px-4 py-5 sm:p-6">
+            <legend className="registration-header">Basic Information</legend>
+            <div className="grid grid-cols-6 gap-3 mt-3">
+              <div className="col-span-3">
+                <label htmlFor="first-name" className="registration-label">
+                  First Name
+                </label>
+                <input
+                  ref={fnameRef}
+                  name="first-name"
+                  type="text"
+                  autocomplete="on"
+                  className="registration-input"
+                  required
+                />
+              </div>
 
-                <div className="col-span-3">
-                  <label htmlFor="last-name" className="registration-label">
-                    Last Name
-                  </label>
-                  <input
-                    ref={lnameRef}
-                    type="text"
-                    name="last-name"
-                    autoComplete="family-name"
-                    className="registration-input"
-                    required
-                  />
-                </div>
+              <div className="col-span-3">
+                <label htmlFor="last-name" className="registration-label">
+                  Last Name
+                </label>
+                <input
+                  ref={lnameRef}
+                  type="text"
+                  name="last-name"
+                  autocomplete="on"
+                  className="registration-input"
+                  required
+                />
+              </div>
 
-                <div className="col-span-6">
-                  <label htmlFor="email-address" className="registration-label">
-                    Email
-                  </label>
-                  <input
-                    ref={emailRef}
-                    type="text"
-                    name="email-address"
-                    autoComplete="email"
-                    className="registration-input"
-                    required
-                  />
-                </div>
+              <div className="col-span-6">
+                <label htmlFor="email-address" className="registration-label">
+                  Email
+                </label>
+                <input
+                  ref={emailRef}
+                  type="email"
+                  name="email-address"
+                  autocomplete="on"
+                  className="registration-input"
+                  required
+                />
+              </div>
 
-                <div className="col-span-6">
-                  <label htmlFor="password" className="registration-label">
-                    Password (at least 6 chars)
-                  </label>
-                  <input
-                    ref={passwordRef}
-                    name="password"
-                    type="text"
-                    className="registration-input"
-                    required
-                  />
-                </div>
+              <div className="col-span-6">
+                <label htmlFor="password" className="registration-label">
+                  Password (at least 6 chars)
+                </label>
+                <input
+                  ref={passwordRef}
+                  name="password"
+                  type="text"
+                  className="registration-input"
+                  minLength="6"
+                  required
+                />
+              </div>
 
-                <div className="col-span-6">
-                  <label htmlFor="phone-number" className="registration-label">
-                    Phone (###-###-####)
-                  </label>
-                  <input
-                    ref={phoneRef}
-                    type="tel"
-                    name="phone-number"
-                    autoComplete="phone"
-                    className="registration-input"
-                    pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
-                    required
-                  />
-                </div>
+              <div className="col-span-6">
+                <label htmlFor="phone-number" className="registration-label">
+                  Phone (###-###-####)
+                </label>
+                <input
+                  ref={phoneRef}
+                  type="tel"
+                  name="phone-number"
+                  autocomplete="on"
+                  className="registration-input"
+                  pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
+                  required
+                />
+              </div>
 
-                <div className="col-span-6">
-                  <label
-                    htmlFor="street-address"
-                    className="registration-label"
-                  >
-                    Street Address
-                  </label>
-                  <input
-                    ref={addressRef}
-                    type="text"
-                    name="street-address"
-                    autoComplete="street-address"
-                    className="registration-input"
-                    required
-                  />
-                </div>
+              <div className="col-span-6">
+                <label htmlFor="street-address" className="registration-label">
+                  Street Address
+                </label>
+                <input
+                  ref={addressRef}
+                  type="text"
+                  name="street-address"
+                  autocomplete="on"
+                  className="registration-input"
+                  required
+                />
+              </div>
 
-                <div className="col-span-2">
-                  <label htmlFor="city" className="registration-label">
-                    City
-                  </label>
-                  <input
-                    ref={cityRef}
-                    type="text"
-                    name="city"
-                    autoComplete="address-level2"
-                    className="registration-input"
-                    required
-                  />
-                </div>
+              <div className="col-span-2">
+                <label htmlFor="city" className="registration-label">
+                  City
+                </label>
+                <input
+                  ref={cityRef}
+                  type="text"
+                  name="city"
+                  autocomplete="on"
+                  className="registration-input"
+                  required
+                />
+              </div>
 
-                <div className="col-span-2">
-                  <label htmlFor="state" className="registration-label">
-                    State / Province
-                  </label>
-                  <select
-                    ref={stateRef}
-                    name="state"
-                    autoComplete="state"
-                    className="mt-1 block w-full rounded-md border border-gray-300 bg-white py-2 px-3 shadow-sm focus:border-primary-color focus:outline-none focus:ring-primary-color sm:text-sm"
-                    required
-                  >
-                    {states.map((v, i) => (
-                      <Option key={i.toString()} label={v} />
-                    ))}
-                  </select>
-                </div>
+              <div className="col-span-2">
+                <label htmlFor="state" className="registration-label">
+                  State / Province
+                </label>
+                <select
+                  ref={stateRef}
+                  name="state"
+                  autocomplete="on"
+                  className="registration-input"
+                  required
+                >
+                  {states.map((v, i) => (
+                    <Option key={i.toString()} label={v} />
+                  ))}
+                </select>
+              </div>
 
-                <div className="col-span-2">
-                  <label htmlFor="postal-code" className="registration-label">
-                    ZIP Code
-                  </label>
-                  <input
-                    ref={zipRef}
-                    type="text"
-                    name="postal-code"
-                    autoComplete="postal-code"
-                    className="registration-input"
-                    required
-                  />
-                </div>
+              <div className="col-span-2">
+                <label htmlFor="zip-code" className="registration-label">
+                  ZIP Code (#####)
+                </label>
+                <input
+                  ref={zipRef}
+                  type="text"
+                  name="zip-code"
+                  autocomplete="on"
+                  className="registration-input"
+                  pattern="[0-9]{5}"
+                  required
+                />
               </div>
             </div>
-            <div className="bg-gray-50 px-4 py-3 text-right sm:px-6">
-              <button
-                className="inline-flex justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-primary-color focus:ring-offset-2"
-                onClick={(e) => toggleStage(e)}
-              >
-                Next
-              </button>
-            </div>
-          </div>
-        ) : stage === 1 ? (
-          <div
-            className="overflow-hidden shadow sm:rounded-md"
-            style={{ width: "500px" }}
-          >
-            <div className="space-y-6 bg-white px-4 py-5 sm:p-6">
-              <fieldset>
-                <legend className="contents text-base font-medium text-gray-900">
-                  Exposure Waiver
-                </legend>
+            <hr className="mt-5 mb-5" />
+            <fieldset>
+              <legend className="registration-header">Exposure Waiver</legend>
+              <div className="italic">
                 <p className="mt-3">
                   I understand there is potential risk for exposure to
                   bloodborne pathogens (BBP’s) including Human Immunodeficiency
@@ -213,45 +190,31 @@ const Registration = () => {
                   am responsible for my own medical care. I also understand that
                   I am not entitled to reimbursement from Raleigh-Wake County
                   Dental Society Community Dental Health Program, INC. (Wake
-                  Smiles) for any of my expenditures
+                  Smiles) for any of my expenditures.
                 </p>
-                <div className="mt-4 space-y-4">
-                  <div className="flex items-center">
-                    <input
-                      id="push-everything"
-                      name="push-notifications"
-                      type="radio"
-                      className="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-primary-color"
-                    />
-                    <label
-                      htmlFor="push-everything"
-                      className="ml-3 registration-label"
-                    >
-                      Agree
-                    </label>
-                  </div>
+              </div>
+              <div className="mt-4 space-y-4">
+                <div className="flex items-center">
+                  <input
+                    id="exposure-waiver"
+                    name="exposure-waiver"
+                    type="radio"
+                    className="h-4 w-4 border-gray-300 text-indigo-600"
+                    ref={waiverRef}
+                    required
+                  />
+                  <label htmlFor="exposure-waiver" className="ml-3">
+                    Agree
+                  </label>
                 </div>
-              </fieldset>
-            </div>
-            <div className="bg-gray-50 px-4 py-3 text-right sm:px-6">
-              <button
-                className="inline-flex justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-primary-color focus:ring-offset-2"
-                onClick={(e) => toggleStage(e)}
-              >
-                Next
-              </button>
-            </div>
-          </div>
-        ) : (
-          <div
-            className="overflow-hidden shadow sm:rounded-md"
-            style={{ width: "500px" }}
-          >
-            <div className="space-y-6 bg-white px-4 py-5 sm:p-6">
-              <fieldset>
-                <legend className="contents text-base font-medium text-gray-900">
-                  HIPAA Privacy and Confidentiality Agreement
-                </legend>
+              </div>
+            </fieldset>
+            <hr className="mt-5 mb-5" />
+            <fieldset>
+              <legend className="registration-header">
+                HIPAA Privacy and Confidentiality Statement
+              </legend>
+              <div className="italic">
                 <p className="mt-3">
                   I understand that as a volunteer at Raleigh-Wake County Dental
                   Society Community Dental Health Program, INC. (Wake Smiles), I
@@ -282,34 +245,34 @@ const Registration = () => {
                   to not disclose any confidential information learned at Wake
                   Smiles.
                 </p>
-                <div className="mt-4 space-y-4">
-                  <div className="flex items-center">
-                    <input
-                      id="push-everything"
-                      name="push-notifications"
-                      type="radio"
-                      className="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-primary-color"
-                    />
-                    <label
-                      htmlFor="push-everything"
-                      className="ml-3 registration-label"
-                    >
-                      Agree
-                    </label>
-                  </div>
+              </div>
+              <div className="mt-4 space-y-4">
+                <div className="flex items-center">
+                  <input
+                    id="hipaa"
+                    name="hipaa"
+                    type="radio"
+                    className="h-4 w-4 border-gray-300 text-indigo-600"
+                    ref={hipaaRef}
+                    required
+                  />
+                  <label htmlFor="hipaa" className="ml-3">
+                    Agree
+                  </label>
                 </div>
-              </fieldset>
-            </div>
-            <div className="bg-gray-50 px-4 py-3 text-right sm:px-6">
-              <button
-                type="submit"
-                className="inline-flex justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-primary-color focus:ring-offset-2"
-              >
-                Sign Up
-              </button>
-            </div>
+              </div>
+            </fieldset>
           </div>
-        )}
+          <div className="bg-gray-50 px-4 py-3 text-right sm:px-6">
+            <button
+              type="submit"
+              className="indigo-button"
+              onSubmit={(e) => handleSubmit(e)}
+            >
+              Sign Up
+            </button>
+          </div>
+        </div>
       </form>
     </div>
   );
