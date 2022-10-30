@@ -57,7 +57,7 @@ const Registration = () => {
       console.log(error);
       return;
     }
-    console.log(supabase.auth.getUser())
+    console.log(supabase.auth.user())
   };
 
   /**
