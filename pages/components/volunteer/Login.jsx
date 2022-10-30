@@ -1,7 +1,9 @@
 import { useState, useRef } from "react";
 import { AiFillEyeInvisible, AiFillEye } from "react-icons/ai";
+import { supabase } from "../../supabaseClient";
 
-const Login = () => {
+const Login = (props) => {
+  // const redirect = props.redirect;
   const [show, setShow] = useState(false);
   const emailRef = useRef("");
   const passwordRef = useRef("");
@@ -9,6 +11,13 @@ const Login = () => {
   const toggle = () => {
     setShow(!show);
   };
+
+  const login = async () => {
+    const { data, error } = await supabase.auth.signInWithPassword({
+      email: emailRef.current.value,
+      password: passwordRef.current.value,
+    })
+  }
 
   return (
     <div className="flex min-h-full items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
@@ -62,15 +71,10 @@ const Login = () => {
           </div>
 
           <div>
-            {/* <a
-              href="/api/auth/login"
-              className="flex w-full justify-center rounded-xl border-transparent bg-primary-color py-2 px-4 text-sm font-medium text-white hover:bg-primary-color focus:outline-none focus:ring-2 focus:bg-primary-color focus:ring-offset-2"
-            >
-              Log In
-            </a> */}
             <button
               type="submit"
               className="group relative flex w-full justify-center rounded-xl border-transparent bg-primary-color py-2 px-4 text-sm font-medium text-white hover:bg-primary-color focus:outline-none focus:ring-2 focus:bg-primary-color focus:ring-offset-2"
+              onSubmit={login}
             >
               Log in
             </button>

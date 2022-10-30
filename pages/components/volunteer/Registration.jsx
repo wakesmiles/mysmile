@@ -1,8 +1,7 @@
 import { useState, useRef } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-
-
+import { supabase } from "../../supabaseClient";
 
 const Registration = () => {
   const fnameRef = useRef("");
@@ -34,9 +33,49 @@ const Registration = () => {
 
   const Option = (props) => <option>{props.label}</option>;
 
-  const handleSubmit = (e) => {
-    return;
+  const signUp = async (e, history) => {
+    e.preventDefault();
+    const { data, error } = await supabase.auth.signUp({
+      email: emailRef.current.value,
+      password: passwordRef.current.value,
+      options: {
+        data: {
+          first_name: fnameRef.current.value,
+          last_name: lnameRef.current.value,
+          dob: dobRef.current.value,
+          role: 'pre-dental',
+          phone: phoneRef.current.value,
+          address: addressRef.current.value,
+          city: cityRef.current.value,
+          state: stateRef.current.value,
+          zip: zipRef.current.value,
+          orientation: false,
+        }
+      }
+    })
+    if (error) {
+      console.log(error);
+      return;
+    }
+    console.log(supabase.auth.getUser())
   };
+
+  /**
+   * options: {
+        data: {
+          first_name: fnameRef.current.value.toString(),
+          last_name: lnameRef.current.value.toString(),
+          dob: dobRef.current.value.toString(),
+          role: 'pre-dental',
+          phone: phoneRef.current.value.toString(),
+          address: addressRef.current.value.toString(),
+          city: cityRef.current.value.toString(),
+          state: stateRef.current.value.toString(),
+          zip: zipRef.current.value.toString(),
+          orientation: false,
+        }
+      }
+   */
 
   return (
     <div className="grid place-items-center p-8">
@@ -294,7 +333,7 @@ const Registration = () => {
             <button
               type="submit"
               className="indigo-button"
-              onSubmit={(e) => handleSubmit(e)}
+              onClick={(e) => signUp(e)}
             >
               Sign Up
             </button>
