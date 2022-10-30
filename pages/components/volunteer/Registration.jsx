@@ -1,4 +1,8 @@
 import { useState, useRef } from "react";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+
+
 
 const Registration = () => {
   const fnameRef = useRef("");
@@ -6,12 +10,19 @@ const Registration = () => {
   const emailRef = useRef("");
   const passwordRef = useRef("");
   const phoneRef = useRef("");
+  const dobRef = useRef("");
   const addressRef = useRef("");
   const cityRef = useRef("");
   const stateRef = useRef("");
   const zipRef = useRef("");
   const waiverRef = useRef(false);
   const hipaaRef = useRef(false);
+
+  // Limit DOB input field to guarantee volunteers are 18+
+  let maxDob = new Date();
+  maxDob.setFullYear(maxDob.getFullYear()-18);
+  maxDob = maxDob.toLocaleString('en-US');
+  maxDob = maxDob.slice(6, 10) + "-" + maxDob.slice(0, 2) + "-" + maxDob.slice(3, 5);
 
   const states = [
     "AL", "AK", "AZ", "AR", "CA", "CO", "CT", "DE", "DC", "FL", "GA", 
@@ -78,7 +89,7 @@ const Registration = () => {
 
               <div className="col-span-6">
                 <label htmlFor="password" className="registration-label">
-                  Password (at least 6 chars)
+                  Password
                 </label>
                 <input
                   ref={passwordRef}
@@ -86,13 +97,14 @@ const Registration = () => {
                   type="text"
                   className="registration-input"
                   minLength="6"
+                  placeholder="******"
                   required
                 />
               </div>
 
-              <div className="col-span-6">
+              <div className="col-span-3">
                 <label htmlFor="phone-number" className="registration-label">
-                  Phone (###-###-####)
+                  Phone
                 </label>
                 <input
                   ref={phoneRef}
@@ -100,7 +112,23 @@ const Registration = () => {
                   name="phone-number"
                   autoComplete="on"
                   className="registration-input"
+                  placeholder="###-###-####"
                   pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
+                  required
+                />
+              </div>
+
+              <div className="col-span-3">
+                <label htmlFor="dob" className="registration-label">
+                  Date of Birth (must be 18+)
+                </label>
+                <input
+                  ref={dobRef}
+                  type="date"
+                  name="dob"
+                  className="registration-input"
+                  max={maxDob}
+                  defaultValue={maxDob}
                   required
                 />
               </div>
@@ -160,6 +188,7 @@ const Registration = () => {
                   name="zip-code"
                   autoComplete="on"
                   className="registration-input"
+                  placeholder="#####"
                   pattern="[0-9]{5}"
                   required
                 />
@@ -196,7 +225,6 @@ const Registration = () => {
               <div className="mt-4 space-y-4">
                 <div className="flex items-center">
                   <input
-                    id="exposure-waiver"
                     name="exposure-waiver"
                     type="radio"
                     className="h-4 w-4 border-gray-300 text-indigo-600"
@@ -249,7 +277,6 @@ const Registration = () => {
               <div className="mt-4 space-y-4">
                 <div className="flex items-center">
                   <input
-                    id="hipaa"
                     name="hipaa"
                     type="radio"
                     className="h-4 w-4 border-gray-300 text-indigo-600"

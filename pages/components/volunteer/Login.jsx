@@ -27,9 +27,9 @@ const Login = () => {
                 name="email"
                 type="email"
                 autoComplete="email"
-                required
                 className="login-input"
                 placeholder="johndoe@gmail.com"
+                required
               />
             </div>
             <br />
@@ -40,9 +40,9 @@ const Login = () => {
                 name="password"
                 type={show ? "text" : "password"}
                 autoComplete="current-password"
-                required
                 className="login-input"
                 placeholder="***********"
+                required
               />
               {show ? (
                 <AiFillEye className="password-toggle" onClick={toggle} />
