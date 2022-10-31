@@ -10,11 +10,21 @@ function MyApp({ Component, pageProps }) {
 
   return (
     // <UserProvider>
-      <div className="h-screen flex flex-col justify-items-center ">
+      <div className="h-screen flex flex-col justify-items-center ">  
         <Registration />
       </div>
     // </UserProvider>
   )
+
+/*
+return (
+  // <UserProvider>
+    <div className="h-screen flex flex-col justify-items-center ">  
+      <ProfilePage />
+    </div>
+  // </UserProvider>
+)
+*/
 }
 
 export default MyApp
