@@ -2,22 +2,18 @@ import { useState, useRef } from "react";
 import { AiFillEyeInvisible, AiFillEye } from "react-icons/ai";
 import { supabase } from "../../supabaseClient";
 
-const Login = (props) => {
-  // const redirect = props.redirect;
+const Login = () => {
   const [show, setShow] = useState(false);
   const emailRef = useRef("");
   const passwordRef = useRef("");
 
-  const toggle = () => {
-    setShow(!show);
-  };
-
+  // TODO: test full login feature
   const login = async () => {
     const { data, error } = await supabase.auth.signInWithPassword({
       email: emailRef.current.value,
       password: passwordRef.current.value,
-    })
-  }
+    });
+  };
 
   return (
     <div className="flex min-h-full items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
@@ -54,11 +50,14 @@ const Login = (props) => {
                 required
               />
               {show ? (
-                <AiFillEye className="password-toggle" onClick={toggle} />
+                <AiFillEye
+                  className="password-toggle"
+                  onClick={() => setShow(!show)}
+                />
               ) : (
                 <AiFillEyeInvisible
                   className="password-toggle"
-                  onClick={toggle}
+                  onClick={() => setShow(!show)}
                 />
               )}
             </div>

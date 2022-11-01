@@ -1,26 +1,25 @@
-import { useState, useRef } from "react";
-import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
+import { useRef } from "react";
 import { supabase } from "../../supabaseClient";
 
 const Registration = () => {
+  // Form input fields
   const fnameRef = useRef("");
   const lnameRef = useRef("");
   const emailRef = useRef("");
   const passwordRef = useRef("");
-  const phoneRef = useRef("");
-  const dobRef = useRef("");
+  const phoneRef = useRef(""); // Keep as string for formatting
+  const dobRef = useRef(""); // Keep as string for formatting
   const addressRef = useRef("");
   const cityRef = useRef("");
   const stateRef = useRef("");
-  const zipRef = useRef("");
+  const zipRef = useRef(""); // Keep as string so that zipcodes with leading zeros are valid
   const waiverRef = useRef(false);
   const hipaaRef = useRef(false);
 
-  // Limit DOB input field to guarantee volunteers are 18+
+  // Limit Date of Birth (DOB) input field to guarantee volunteers are 18+
   let maxDob = new Date();
-  maxDob.setFullYear(maxDob.getFullYear()-18);
-  maxDob = maxDob.toLocaleString('en-US');
+  maxDob.setFullYear(maxDob.getFullYear() - 18);
+  maxDob = maxDob.toLocaleString("en-US");
   maxDob = maxDob.slice(6, 10) + "-" + maxDob.slice(0, 2) + "-" + maxDob.slice(3, 5);
 
   const states = [
@@ -29,10 +28,11 @@ const Registration = () => {
     "MI", "MN", "MS", "MO", "MT", "NE", "NV", "NH", "NJ", "NM", "NY", 
     "NC", "ND", "OH", "OK", "OR", "PA", "RI", "SC", "SD", "TN", "TX", 
     "UT", "VT", "VA", "WA", "WV", "WI", "WY"
-  ];
-
+  ]
+    
   const Option = (props) => <option>{props.label}</option>;
 
+  // DEBUG: Pass in metadata to create full record of new auth user
   const signUp = async (e, history) => {
     e.preventDefault();
     const { data, error } = await supabase.auth.signUp({
@@ -43,39 +43,22 @@ const Registration = () => {
           first_name: fnameRef.current.value,
           last_name: lnameRef.current.value,
           dob: dobRef.current.value,
-          role: 'pre-dental',
+          role: "pre-dental",
           phone: phoneRef.current.value,
           address: addressRef.current.value,
           city: cityRef.current.value,
           state: stateRef.current.value,
           zip: zipRef.current.value,
           orientation: false,
-        }
-      }
-    })
+        },
+      },
+    });
     if (error) {
       console.log(error);
       return;
     }
-    console.log(supabase.auth.user())
+    console.log(supabase.auth.user());
   };
-
-  /**
-   * options: {
-        data: {
-          first_name: fnameRef.current.value.toString(),
-          last_name: lnameRef.current.value.toString(),
-          dob: dobRef.current.value.toString(),
-          role: 'pre-dental',
-          phone: phoneRef.current.value.toString(),
-          address: addressRef.current.value.toString(),
-          city: cityRef.current.value.toString(),
-          state: stateRef.current.value.toString(),
-          zip: zipRef.current.value.toString(),
-          orientation: false,
-        }
-      }
-   */
 
   return (
     <div className="grid place-items-center p-8">
