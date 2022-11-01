@@ -1,17 +1,26 @@
-import { useState, useRef } from "react";
+import { useRef } from "react";
+import { supabase } from "../../supabaseClient.js";
 
 const Registration = () => {
+  // Form input fields
   const fnameRef = useRef("");
   const lnameRef = useRef("");
   const emailRef = useRef("");
   const passwordRef = useRef("");
-  const phoneRef = useRef("");
+  const phoneRef = useRef(""); // Keep as string for formatting
+  const dobRef = useRef(""); // Keep as string for formatting
   const addressRef = useRef("");
   const cityRef = useRef("");
   const stateRef = useRef("");
-  const zipRef = useRef("");
+  const zipRef = useRef(""); // Keep as string so that zipcodes with leading zeros are valid
   const waiverRef = useRef(false);
   const hipaaRef = useRef(false);
+
+  // Limit Date of Birth (DOB) input field to guarantee volunteers are 18+
+  let maxDob = new Date();
+  maxDob.setFullYear(maxDob.getFullYear() - 18);
+  maxDob = maxDob.toLocaleString("en-US");
+  maxDob = maxDob.slice(6, 10) + "-" + maxDob.slice(0, 2) + "-" + maxDob.slice(3, 5);
 
   const states = [
     "AL", "AK", "AZ", "AR", "CA", "CO", "CT", "DE", "DC", "FL", "GA", 
@@ -19,14 +28,39 @@ const Registration = () => {
     "MI", "MN", "MS", "MO", "MT", "NE", "NV", "NH", "NJ", "NM", "NY", 
     "NC", "ND", "OH", "OK", "OR", "PA", "RI", "SC", "SD", "TN", "TX", 
     "UT", "VT", "VA", "WA", "WV", "WI", "WY"
-  ];
-
+  ]
+    
   const Option = (props) => <option>{props.label}</option>;
 
-  const handleSubmit = (e) => {
-    return;
+  // DEBUG: Pass in metadata to create full record of new auth user
+  const signUp = async (e, history) => {
+    e.preventDefault();
+    const { data, error } = await supabase.auth.signUp({
+      email: emailRef.current.value,
+      password: passwordRef.current.value,
+      options: {
+        data: {
+          first_name: fnameRef.current.value,
+          last_name: lnameRef.current.value,
+          dob: dobRef.current.value,
+          role: "pre-dental",
+          phone: phoneRef.current.value,
+          address: addressRef.current.value,
+          city: cityRef.current.value,
+          state: stateRef.current.value,
+          zip: zipRef.current.value,
+          orientation: false,
+        },
+      },
+    });
+    if (error) {
+      console.log(error);
+      return;
+    }
+    console.log(supabase.auth.user());
   };
 
+  // CLEAN: login & registration classes are quite similar, can probably simplify class names
   return (
     <div className="grid place-items-center p-8">
       <form method="POST">
@@ -78,7 +112,7 @@ const Registration = () => {
 
               <div className="col-span-6">
                 <label htmlFor="password" className="registration-label">
-                  Password (at least 6 chars)
+                  Password
                 </label>
                 <input
                   ref={passwordRef}
@@ -86,13 +120,14 @@ const Registration = () => {
                   type="text"
                   className="registration-input"
                   minLength="6"
+                  placeholder="******"
                   required
                 />
               </div>
 
-              <div className="col-span-6">
+              <div className="col-span-3">
                 <label htmlFor="phone-number" className="registration-label">
-                  Phone (###-###-####)
+                  Phone
                 </label>
                 <input
                   ref={phoneRef}
@@ -100,7 +135,23 @@ const Registration = () => {
                   name="phone-number"
                   autoComplete="on"
                   className="registration-input"
+                  placeholder="###-###-####"
                   pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
+                  required
+                />
+              </div>
+
+              <div className="col-span-3">
+                <label htmlFor="dob" className="registration-label">
+                  Date of Birth (must be 18+)
+                </label>
+                <input
+                  ref={dobRef}
+                  type="date"
+                  name="dob"
+                  className="registration-input"
+                  max={maxDob}
+                  defaultValue={maxDob}
                   required
                 />
               </div>
@@ -160,6 +211,7 @@ const Registration = () => {
                   name="zip-code"
                   autoComplete="on"
                   className="registration-input"
+                  placeholder="#####"
                   pattern="[0-9]{5}"
                   required
                 />
@@ -196,7 +248,6 @@ const Registration = () => {
               <div className="mt-4 space-y-4">
                 <div className="flex items-center">
                   <input
-                    id="exposure-waiver"
                     name="exposure-waiver"
                     type="radio"
                     className="h-4 w-4 border-gray-300 text-indigo-600"
@@ -249,7 +300,6 @@ const Registration = () => {
               <div className="mt-4 space-y-4">
                 <div className="flex items-center">
                   <input
-                    id="hipaa"
                     name="hipaa"
                     type="radio"
                     className="h-4 w-4 border-gray-300 text-indigo-600"
@@ -267,7 +317,7 @@ const Registration = () => {
             <button
               type="submit"
               className="indigo-button"
-              onSubmit={(e) => handleSubmit(e)}
+              onClick={(e) => signUp(e)}
             >
               Sign Up
             </button>

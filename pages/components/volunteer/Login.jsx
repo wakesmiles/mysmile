@@ -1,88 +1,98 @@
 import { useState, useRef } from "react";
 import { AiFillEyeInvisible, AiFillEye } from "react-icons/ai";
+import { supabase } from "../../supabaseClient";
+import Image from "next/image";
 
 const Login = () => {
   const [show, setShow] = useState(false);
   const emailRef = useRef("");
   const passwordRef = useRef("");
 
-  const toggle = () => {
-    setShow(!show);
+  // TODO: test full login feature
+  const login = async () => {
+    const { data, error } = await supabase.auth.signInWithPassword({
+      email: emailRef.current.value,
+      password: passwordRef.current.value,
+    });
   };
 
+  // CLEAN: login & registration classes are quite similar, can probably simplify class names
   return (
     <div className="flex min-h-full items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
-      <div className="w-full max-w-md space-y-8">
-        <div>
-          <h2 className="text-center text-3xl tracking-tight text-gray-900">
-            {"["}WAKE SMILES{"]"}
-          </h2>
+      <div className="registration-container p-10 space-y-4">
+        <div className="flex flex-row justify-center">
+          <Image src={"/ws_logo.png"} width={50} height={50} />
+          <div className="flex flex-col justify-center">
+            <span className="ml-3 font-serif text-5xl text-primary-color">
+              Wake Side
+            </span>
+          </div>
         </div>
-        <form className="mt-8 space-y-3" method="POST">
-          <div className="rounded-md">
+
+        <form className="space-y-3" method="POST">
+          <div className="rounded-md mb-3 space-y-3">
             <div>
-              <label className="mb-2">Email</label>
+              <label className="login-label">Email</label>
               <input
                 ref={emailRef}
                 name="email"
                 type="email"
                 autoComplete="email"
-                required
                 className="login-input"
-                placeholder="johndoe@gmail.com"
+                required
               />
             </div>
-            <br />
             <div>
-              <label className="mb-2">Password</label>
+              <label className="login-label">Password</label>
               <input
                 ref={passwordRef}
                 name="password"
                 type={show ? "text" : "password"}
                 autoComplete="current-password"
-                required
                 className="login-input"
-                placeholder="***********"
+                required
               />
               {show ? (
-                <AiFillEye className="password-toggle" onClick={toggle} />
+                <AiFillEye
+                  className="password-toggle"
+                  onClick={() => setShow(!show)}
+                />
               ) : (
                 <AiFillEyeInvisible
                   className="password-toggle"
-                  onClick={toggle}
+                  onClick={() => setShow(!show)}
                 />
               )}
             </div>
           </div>
 
-          <div className="flex justify-center">
-            <a href="#" className="font-medium text-primary-color text-sm">
-              Forgot password?
-            </a>
-          </div>
-
           <div>
-            {/* <a
-              href="/api/auth/login"
-              className="flex w-full justify-center rounded-xl border-transparent bg-primary-color py-2 px-4 text-sm font-medium text-white hover:bg-primary-color focus:outline-none focus:ring-2 focus:bg-primary-color focus:ring-offset-2"
-            >
-              Log In
-            </a> */}
             <button
               type="submit"
-              className="group relative flex w-full justify-center rounded-xl border-transparent bg-primary-color py-2 px-4 text-sm font-medium text-white hover:bg-primary-color focus:outline-none focus:ring-2 focus:bg-primary-color focus:ring-offset-2"
+              className="indigo-button w-full"
+              onSubmit={login}
             >
-              Log in
+              Log In
             </button>
-            <p className="mt-2 text-center text-sm text-gray-600">
-              Don't have an account?{" "}
-              <a
-                href="#"
-                className="font-medium text-primary-color hover:text-primary-color"
-              >
-                Sign up
-              </a>
-            </p>
+            <div className="flex flex-row justify-between mt-2 text-sm font-medium text-primary-color">
+              <p>
+                <a
+                  href="#"
+                  className="hover:text-indigo-600 hover:underline hover:underline-offset-4"
+                >
+                  Reset Password
+                </a>
+              </p>
+              <br />
+              <p>
+                <a
+                  href="#"
+                  className="hover:text-indigo-600 hover:underline hover:underline-offset-4"
+                >
+                  Create New Account
+                </a>
+              </p>
+            </div>
           </div>
         </form>
       </div>
