@@ -11,6 +11,7 @@ function MyApp({ Component, pageProps }) {
     // <UserProvider>
       <div className="h-screen flex flex-col justify-items-center ">
         <Login/>
+        <Registration/>
         {/* <BrowserRouter>
           <Switch>
             <Route path="/" component={Login}/>

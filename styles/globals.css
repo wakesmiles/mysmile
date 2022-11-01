@@ -37,8 +37,11 @@ a {
   .login-input, .registration-input {
     @apply shadow-sm text-sm;
   }
-  .registration-label {
+  .login-label, .registration-label {
     @apply text-sm;
+  }
+  .login-container, .registration-container {
+    @apply rounded-md;
   }
 }
 
@@ -60,16 +63,20 @@ a {
 }
 
 .login-input {
-  @apply w-full rounded-xl border border-gray-300 text-gray-900 placeholder-gray-500;
+  @apply w-full rounded-xl border border-gray-300;
 }
 
 .login-input:focus {
   @apply z-10 border-primary-color outline-none ring-primary-color;
 }
 
+.login-container {
+  @apply overflow-hidden shadow;
+}
+
 /**Volunteer Registration*******************/
 .registration-container {
-  @apply overflow-hidden shadow sm:rounded-md;
+  @apply overflow-hidden shadow;
   width: 550px;
 }
 
@@ -77,11 +84,11 @@ a {
   @apply contents text-base font-bold text-primary-color;
 }
 
-.registration-label {
+.login-label, .registration-label {
   @apply block font-medium text-gray-700;
 }
 
-.registration-input {
+.login-input, .registration-input {
   @apply mt-1 block w-full rounded-md border-gray-300;
 }
 

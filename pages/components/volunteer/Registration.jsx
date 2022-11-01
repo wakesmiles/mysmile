@@ -1,5 +1,5 @@
 import { useRef } from "react";
-import { supabase } from "../../supabaseClient";
+import { supabase } from "../../supabaseClient.js";
 
 const Registration = () => {
   // Form input fields
@@ -60,6 +60,7 @@ const Registration = () => {
     console.log(supabase.auth.user());
   };
 
+  // CLEAN: login & registration classes are quite similar, can probably simplify class names
   return (
     <div className="grid place-items-center p-8">
       <form method="POST">
