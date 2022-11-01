@@ -1,4 +1,3 @@
-import { BrowserRouter, Route, Redirect, Switch } from "react-router-dom";
 import '../styles/globals.css';
 // import { UserProvider } from '@auth0/nextjs-auth0';
 // import { Login, Registration, VDashboard, ProfilePage } from './components/volunteer';
@@ -11,7 +10,7 @@ function MyApp({ Component, pageProps }) {
   return (
     // <UserProvider>
       <div className="h-screen flex flex-col justify-items-center ">
-        <Registration/>
+        <Login/>
         {/* <BrowserRouter>
           <Switch>
             <Route path="/" component={Login}/>
