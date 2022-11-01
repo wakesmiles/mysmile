@@ -4,6 +4,7 @@
 
 :root {
   --primary-color: #681296;
+  --secondary-color: #9654ba;
 }
 
 html,
@@ -43,9 +44,16 @@ a {
   .login-container, .registration-container {
     @apply rounded-md;
   }
+  .profile-row {
+    @apply grid grid-cols-3 gap-4 px-6;
+  }
 }
 
-.indigo-button {
+.indigo-button-sm {
+  @apply inline-flex justify-center rounded-md border-transparent bg-indigo-600 py-1 px-3 text-sm font-medium text-white shadow-sm;
+}
+
+.indigo-button-lg, .indigo-button {
   @apply inline-flex justify-center rounded-md border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white shadow-sm;
 }
 
@@ -85,7 +93,7 @@ a {
 }
 
 .login-label, .registration-label {
-  @apply block font-medium text-gray-700;
+  @apply block font-medium text-gray-700 text-left;
 }
 
 .login-input, .registration-input {
@@ -95,3 +103,18 @@ a {
 .registration-input:focus {
   @apply border-primary-color ring-primary-color;
 }
+
+/**Volunteer Profile*************************/
+.profile-row {
+  @apply px-4 py-3 text-sm text-gray-900;
+}
+
+.profile-input-label {
+  @apply block text-sm text-gray-700 text-left;
+}
+
+.profile-input {
+  @apply mt-1 block w-full h-auto text-sm rounded-md border-gray-300;
+}
+
+

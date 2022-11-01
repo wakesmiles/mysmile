@@ -1,9 +1,10 @@
 import '../styles/globals.css';
-// import { UserProvider } from '@auth0/nextjs-auth0';
-// import { Login, Registration, VDashboard, ProfilePage } from './components/volunteer';
 import Registration from './components/volunteer/Registration';
 import Login from './components/volunteer/Login';
 import VDashboard from './components/volunteer/VDashboard';
+import Profile from './components/volunteer/Profile';
+import Upload from './components/volunteer/Upload';
+
 
 function MyApp({ Component, pageProps }) {
 
