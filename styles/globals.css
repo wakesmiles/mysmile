@@ -85,7 +85,7 @@ a {
 }
 
 .registration-label {
-  @apply block font-medium text-gray-700;
+  @apply block font-medium text-gray-700 text-left;
 }
 
 .registration-input {
@@ -99,6 +99,14 @@ a {
 /**Volunteer Profile*************************/
 .profile-row {
   @apply px-4 py-3 text-sm text-gray-900;
+}
+
+.profile-input-label {
+  @apply block text-sm text-gray-700 text-left;
+}
+
+.profile-input {
+  @apply mt-1 block w-full h-auto text-sm rounded-md border-gray-300;
 }
 
 
