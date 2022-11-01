@@ -40,9 +40,16 @@ a {
   .registration-label {
     @apply text-sm;
   }
+  .profile-row {
+    @apply grid grid-cols-3 gap-4 px-6;
+  }
 }
 
-.indigo-button {
+.indigo-button-sm {
+  @apply inline-flex justify-center rounded-md border-transparent bg-indigo-600 py-1 px-3 text-sm font-medium text-white shadow-sm;
+}
+
+.indigo-button-lg, .indigo-button {
   @apply inline-flex justify-center rounded-md border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white shadow-sm;
 }
 
@@ -88,3 +95,10 @@ a {
 .registration-input:focus {
   @apply border-primary-color ring-primary-color;
 }
+
+/**Volunteer Profile*************************/
+.profile-row {
+  @apply px-4 py-3 text-sm text-gray-900;
+}
+
+
