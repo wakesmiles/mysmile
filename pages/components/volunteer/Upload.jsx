@@ -8,11 +8,11 @@ const Upload = () => {
           <form>
             <label className="flex flex-col justify-center w-full h-96 px-4 transition bg-white border-2 border-gray-300 border-dashed rounded-md appearance-none cursor-pointer hover:border-gray-400 focus:outline-none">
               <div className="flex flex-col items-center space-x-2 w-full">
-                <SlCloudUpload className="text-indigo-600 w-20 h-20" />
+                <SlCloudUpload className="text-primary-color w-20 h-20" />
                 <br />
                 <div className="font-medium relative text-black w-full flex justify-center space-x-1">
                   <p>Drag & drop files to attach or </p>
-                  <span className="text-indigo-700 underline flex">browse</span>
+                  <span className="text-primary-color underline flex">browse</span>
                 </div>
                 <br />
                 <div className="text-xs flex relative justify-center text-gray-600 w-full">
@@ -22,7 +22,7 @@ const Upload = () => {
               <input type="file" name="file_upload" className="hidden" />
             </label>
             <br />
-            <button className="bg-indigo-500 hover:bg-indigo-600 text-white font-bold py-2 px-4 w-full rounded">
+            <button className="bg-secondary-color hover:bg-primary-color text-white font-bold py-2 px-4 w-full rounded">
               UPLOAD FILES
             </button>
           </form>
