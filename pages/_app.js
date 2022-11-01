@@ -3,6 +3,7 @@ import '../styles/globals.css';
 import Login from './components/volunteer/Login.jsx';
 import Registration from './components/volunteer/Registration';
 import Profile from './components/volunteer/Profile';
+import Upload from './components/volunteer/Upload.jsx';
 
 
 function MyApp({ Component, pageProps }) {
