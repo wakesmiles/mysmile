@@ -19,7 +19,7 @@ const Registration = () => {
   // Limit Date of Birth (DOB) input field to guarantee volunteers are 18+
   let maxDob = new Date();
   maxDob.setFullYear(maxDob.getFullYear() - 18);
-  maxDob = maxDob.toLocaleString("en-US");
+  maxDob = maxDob.toLocaleString("en-US", {year: "numeric", month: "2-digit", day: "2-digit"});
   maxDob = maxDob.slice(6, 10) + "-" + maxDob.slice(0, 2) + "-" + maxDob.slice(3, 5);
 
   const states = [
