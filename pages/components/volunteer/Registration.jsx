@@ -32,10 +32,11 @@ const Registration = () => {
     
   const Option = (props) => <option>{props.label}</option>;
 
-  // DEBUG: Pass in metadata to create full record of new auth user
-  const signUp = async (e, history) => {
+  const signUp = async (e) => {
     e.preventDefault();
-    const { data, error } = await supabase.auth.signUp({
+
+    // Create new record in auth.users internal schema
+    await supabase.auth.signUp({
       email: emailRef.current.value,
       password: passwordRef.current.value,
       options: {
@@ -50,14 +51,34 @@ const Registration = () => {
           state: stateRef.current.value,
           zip: zipRef.current.value,
           orientation: false,
-        },
-      },
-    });
-    if (error) {
-      console.log(error);
-      return;
-    }
-    console.log(supabase.auth.user());
+        }
+      }
+
+    // Create new record in public 'profiles' table using metadata
+    }).then(async (data, error) => {
+      if (data) {
+        const user = data.data.user;
+
+        await supabase.from('profiles').insert({
+          id: user.id,
+          first_name: user.user_metadata.first_name,
+          last_name: user.user_metadata.last_name,
+          dob: user.user_metadata.dob,
+          role: user.user_metadata.role,
+          email: user.email,
+          phone: user.user_metadata.phone,
+          address: user.user_metadata.address,
+          city: user.user_metadata.city,
+          state: user.user_metadata.state,
+          zip: user.user_metadata.zip,
+          orientation: user.user_metadata.orientation,
+
+        })
+      } else if (error) {
+        console.log(error);
+      }
+    })
+    // console.log(supabase.auth.user());
   };
 
   // CLEAN: login & registration classes are quite similar, can probably simplify class names
