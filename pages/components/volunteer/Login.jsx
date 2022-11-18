@@ -9,11 +9,21 @@ const Login = () => {
   const passwordRef = useRef("");
 
   // TODO: test full login feature
-  const login = async () => {
-    const { data, error } = await supabase.auth.signInWithPassword({
+  const login = async (e) => {
+    e.preventDefault();
+
+    await supabase.auth.signInWithPassword({
       email: emailRef.current.value,
       password: passwordRef.current.value,
-    });
+    }).then((data, error) => {
+      if (data) {
+        console.log('LOGIN DATA');
+        console.log(data);
+      } else if (error) {
+        console.log('LOGIN ERROR')
+        console.log(error);
+      }
+    })
   };
 
   // CLEAN: login & registration classes are quite similar, can probably simplify class names
@@ -68,9 +78,9 @@ const Login = () => {
 
           <div>
             <button
-              type="submit"
+              // type="submit"
               className="indigo-button w-full"
-              onSubmit={login}
+              onSubmit={(e) => login(e)}
             >
               Log In
             </button>
