@@ -1,7 +1,29 @@
 import { useState, useRef } from "react";
 import { FiEdit, FiSave } from "react-icons/fi";
+import Navbar from "./navbar.jsx";
 
 const Profile = () => {
+
+  // useEffect(() => {
+  //   // declare the async data fetching function
+  //   const fetchData = async () => {
+  //     const data = await fetch('https://yourapi.com');
+  //     // convert data to json
+  //     const json = await data.json();
+  //     return json;
+  //   }
+  
+  //   // call the function
+  //   const result = fetchData()
+  //     // make sure to catch any error
+  //     .catch(console.error);;
+  
+  //   // don't do this, it won't work as you expect!
+  //   setData(result);
+  // }, [])
+
+
+
   // Read-only fields, will query from DB
   const fname = "John";
   const lname = "Smith";
@@ -106,10 +128,10 @@ const Profile = () => {
   };
 
   return (
-    <div
-      className="overflow-hidden bg-white shadow sm:rounded-lg"
-      style={{ width: "700px" }}
-    >
+    <div className="flex flex-row">
+      <Navbar/>
+    <div className="container p-10">
+    <div className="shadow sm:rounded-lg w-4/5">
       <div className="px-4 py-5 sm:px-6">
         <h2 className="text-lg font-medium leading-6 text-gray-900">Profile</h2>
       </div>
@@ -282,6 +304,8 @@ const Profile = () => {
       ) : (
         <></>
       )}
+    </div>
+    </div>
     </div>
   );
 };
