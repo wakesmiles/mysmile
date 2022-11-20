@@ -1,3 +1,10 @@
+import React, { useEffect, useState, useRef, useContext } from "react";
+import { supabase } from "./supabaseClient"
+
+import ReactDOM from "react-dom";
+import NoWorkResult from "postcss/lib/no-work-result"
+//const AuthContext = React.createContext()
+const [displayedShifts, setDisplayedShifts] = useState()
 const Record = (props) => {
 
     /**
@@ -17,7 +24,55 @@ const Record = (props) => {
   );
 };
 
+  /**if orientation false {
+      const {data, error} = await supabase.rpc('getavailableoshifts) 
+    }
+       else {
+      const {data, error} = await supabase.rpc('getavailablevshifts) 
+    }
+    */
+
 const Shifts = () => {
+  const[oCheck, setOCheck] = useState(false)
+  const[user, setUser] = useState('')
+
+  useEffect(() => {
+    //this useEffect statement takes current user and checks whether they have attended Orientation.
+    setUser(supabase.auth.getUser())
+    const { data, error} = async() => await supabase
+    .from('profiles')
+    .select('orientation')
+    .eq('id', user.id)
+    .single()
+
+    .catch(console.error) 
+    if (data) {
+      setOCheck(data.orientation)
+    }
+  })
+  useEffect(() => { 
+    //this useEffect statement takes the orientation check and returns the corresponding table
+    let today = new Date().toISOString().slice(0, 10)
+    if (oCheck == false) {
+      
+      const availableShifts = async() => await supabase
+      .from('shifts')
+      .select('*')
+      .eq('shift_type', 'orientation')
+      .where(shift_date > today)
+      .and('remaining_slots > 0')
+    } else {
+      const availableShifts = async() => await supabase
+      .from('shifts')
+      .select('*')
+      //following line is commented out (but this would limit people who have already attended orientation from filling that slot up again)
+      //.eq('shift_type', 'volunteer')
+      .where(shift_date > today)
+      .and('remaining_slots > 0')
+    }
+
+  })
+  
 
     /**
      * TODO:
