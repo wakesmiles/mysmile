@@ -49,7 +49,10 @@ a {
   }
 }
 
-.container {
+.red-button-sm {
+  @apply inline-flex justify-center rounded-md border-transparent bg-red-500 py-1 px-3 text-sm font-medium text-white shadow-sm;
+}
+  .container {
   @apply w-full h-screen flex flex-row justify-center justify-items-center align-middle overflow-hidden bg-white;
 }
 
