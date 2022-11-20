@@ -1,8 +1,7 @@
 import React, { useEffect, useState, useRef, useContext } from "react";
 import { supabase } from "./supabaseClient"
 
-import ReactDOM from "react-dom";
-import NoWorkResult from "postcss/lib/no-work-result"
+
 const [displayedShifts, setDisplayedShifts] = useState()
 const[user, setUser] = useState('')
 const Shifts = () => {
@@ -45,14 +44,14 @@ const Shifts = () => {
     }
     setDisplayedShifts(availableShifts)
   })
-
+  
   const Record = (props) => {
   
     /**
      * TODO:
      * Modify so that a Record takes in parameters (in props object)
      */
-    
+
   return (
     <tr className="grid grid-cols-4 gap-4 px-6 mb-1">
       <td>01/01/2022</td>
@@ -103,8 +102,6 @@ const Shifts = () => {
                     <th className="font-medium"></th>
                 </tr>
             </thead>
-
-            
             <tbody>
                 <Record className="bg-gray-50" />
                 <Record className="bg-white" />
