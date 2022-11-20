@@ -1,131 +1,145 @@
-import { useState, useRef } from "react";
-import { FiEdit, FiSave } from "react-icons/fi";
+import { useRouter } from "next/router";
+import { useState, useEffect, useRef, useReducer } from "react";
+import { FiEdit } from "react-icons/fi";
 import Navbar from "./navbar.jsx";
+import { supabase } from './supabaseClient';
+import Link from 'next/link'
+
+function fetchResource() {
+  const [data, setData] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  async function getData() {
+    try {
+      setLoading(true);
+      await supabase.auth.getUser().then(async (data, error) => {
+        if (data) {
+          const id = data.data.user.id;
+
+          // Query again from profiles DB for current user info
+          await supabase.from('profiles').select().eq('id', id).then((profile, err) => {
+            if (profile) {
+              return profile.data[0]
+            }
+          }).then((user) => {
+            setData(user);
+          })
+        }
+      })
+    } catch (e) {
+      console.log('in catch block e')
+      console.log(e);
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  useEffect(() => {
+    getData();
+  }, []);
+
+  return [data, loading]
+}
 
 const Profile = () => {
+  const router = useRouter()
+  const [data, loading] = fetchResource();
 
-  // useEffect(() => {
-  //   // declare the async data fetching function
-  //   const fetchData = async () => {
-  //     const data = await fetch('https://yourapi.com');
-  //     // convert data to json
-  //     const json = await data.json();
-  //     return json;
-  //   }
+  if (loading) return <p>Loading...</p>
   
-  //   // call the function
-  //   const result = fetchData()
-  //     // make sure to catch any error
-  //     .catch(console.error);;
-  
-  //   // don't do this, it won't work as you expect!
-  //   setData(result);
-  // }, [])
+  if (!data) return (
+    <div>
+      <p>No profile data.</p>
+      <div className="text-primary-color font-medium hover:underline hover:underline-offset-4">
+        <Link href="/login">
+          Click here to sign in or make an account.
+        </Link>
+      </div>
+    </div>
+  )
 
-
-
-  // Read-only fields, will query from DB
-  const fname = "John";
-  const lname = "Smith";
-  const dob = "01/01/2001";
-  const role = "pre-dental";
-  const email = "johnsmith@email.com";
-  const orientation = false;
-
-  // Editable field display values, will query from DB from initial values
-  const [phone, setPhone] = useState("111-222-3333");
-  const [street, setStreet] = useState("101 Street");
-  const [city, setCity] = useState("Chapel Hill");
-  const [state, setState] = useState("NC");
-  const [zip, setZip] = useState("27516");
-
-  // Editable field input refs
-  const [phoneInput, setPhoneInput] = useState(phone);
-  const [streetInput, setStreetInput] = useState(street);
-  const [cityInput, setCityInput] = useState(city);
-  const [stateInput, setStateInput] = useState(state);
-  const [zipInput, setZipInput] = useState(zip);
+  // Editable values
+  // const [phone, setPhone] = useState("asdf");
+  // const [street, setStreet] = useState("asdf");
+  // const [city, setCity] = useState("asdf");
+  // const [state, setState] = useState("asdf");
+  // const [zip, setZip] = useState("asdf");
 
   // Selection of US states for dropdown
-  const states = [
-    "AL",
-    "AK",
-    "AZ",
-    "AR",
-    "CA",
-    "CO",
-    "CT",
-    "DE",
-    "DC",
-    "FL",
-    "GA",
-    "HI",
-    "ID",
-    "IL",
-    "IN",
-    "IA",
-    "KS",
-    "KY",
-    "LA",
-    "ME",
-    "MD",
-    "MA",
-    "MI",
-    "MN",
-    "MS",
-    "MO",
-    "MT",
-    "NE",
-    "NV",
-    "NH",
-    "NJ",
-    "NM",
-    "NY",
-    "NC",
-    "ND",
-    "OH",
-    "OK",
-    "OR",
-    "PA",
-    "RI",
-    "SC",
-    "SD",
-    "TN",
-    "TX",
-    "UT",
-    "VT",
-    "VA",
-    "WA",
-    "WV",
-    "WI",
-    "WY",
-  ];
+  // const states = [
+  //   "AL",
+  //   "AK",
+  //   "AZ",
+  //   "AR",
+  //   "CA",
+  //   "CO",
+  //   "CT",
+  //   "DE",
+  //   "DC",
+  //   "FL",
+  //   "GA",
+  //   "HI",
+  //   "ID",
+  //   "IL",
+  //   "IN",
+  //   "IA",
+  //   "KS",
+  //   "KY",
+  //   "LA",
+  //   "ME",
+  //   "MD",
+  //   "MA",
+  //   "MI",
+  //   "MN",
+  //   "MS",
+  //   "MO",
+  //   "MT",
+  //   "NE",
+  //   "NV",
+  //   "NH",
+  //   "NJ",
+  //   "NM",
+  //   "NY",
+  //   "NC",
+  //   "ND",
+  //   "OH",
+  //   "OK",
+  //   "OR",
+  //   "PA",
+  //   "RI",
+  //   "SC",
+  //   "SD",
+  //   "TN",
+  //   "TX",
+  //   "UT",
+  //   "VT",
+  //   "VA",
+  //   "WA",
+  //   "WV",
+  //   "WI",
+  //   "WY",
+  // ];
 
-  const Option = (props) => <option>{props.label}</option>;
+  // const Option = (props) => <option>{props.label}</option>;
 
   // Modal display variables
-  const [open, setOpen] = useState(false);
-  const cancelButtonRef = useRef(null);
+  // const [open, setOpen] = useState(false);
+  // const cancelButtonRef = useRef(null);
 
   // Save modal form changes to DB and update UI
-  const save = (e) => {
-    e.preventDefault();
+  // const save = (e) => {
+  //   e.preventDefault();
 
-    // TODO: Check for valid inputs
+  //   // TODO: Check for valid inputs
 
-    // TODO: Update DB
+  //   // TODO: Update DB
 
-    // TODO: Make variable dependent on DB success
-    const success = true;
-    if (success) {
-      setPhone(phoneInput || phone);
-      setStreet(streetInput || street);
-      setCity(cityInput || city);
-      setState(stateInput || state);
-      setZip(zipInput || zip);
-      setOpen(false);
-    }
-  };
+  //   // TODO: Make variable dependent on DB success
+  //   const success = true;
+  //   if (success) {
+  //     console.log('aha')
+  //   }
+  // };
 
   return (
     <div className="flex flex-row">
@@ -140,33 +154,33 @@ const Profile = () => {
           <div className="profile-row bg-gray-50">
             <dt className="font-medium">Full Name</dt>
             <dd className="mt-1 sm:col-span-2 sm:mt-0">
-              {fname + " " + lname}
+              {data.first_name + " " + data.last_name}
             </dd>
           </div>
           <div className="profile-row bg-white">
             <dt className="font-medium">Date of Birth</dt>
-            <dd className="mt-1 sm:col-span-2 sm:mt-0">{dob}</dd>
+            <dd className="mt-1 sm:col-span-2 sm:mt-0">{data.dob}</dd>
           </div>
           <div className="profile-row bg-gray-50">
             <dt className="font-medium">Role</dt>
-            <dd className="mt-1 sm:col-span-2 sm:mt-0">{role}</dd>
+            <dd className="mt-1 sm:col-span-2 sm:mt-0">{data.role}</dd>
           </div>
           <div className="profile-row bg-white">
             <dt className="font-medium flex flex-start">
               <p className="mr-2">Contact Info</p>
-              <button
+              {/* <button
                 className="w-auto text-indigo-600"
                 onClick={() => setOpen(true)}
               >
                 <FiEdit />
-              </button>
+              </button> */}
             </dt>
-            <dd className="mt-1 sm:col-span-2 sm:mt-0">{email}</dd>
+            <dd className="mt-1 sm:col-span-2 sm:mt-0">{data.email}</dd>
             <dt></dt>
-            <dd className="mt-1 sm:col-span-2 sm:mt-0">{phone}</dd>
+            <dd className="mt-1 sm:col-span-2 sm:mt-0">{data.phone}</dd>
             <dt></dt>
             <dd className="mt-1 sm:col-span-2 sm:mt-0">
-              {street + ", " + city + ", " + state + " " + zip}
+              {data.address + ", " + data.city + ", " + data.state + " " + data.zip}
             </dd>
           </div>
           <div className="profile-row bg-gray-50">
@@ -174,7 +188,7 @@ const Profile = () => {
             <dd className="mt-1 sm:col-span-2 sm:mt-0">
               <input
                 type="checkbox"
-                checked={orientation}
+                checked={data.orientation}
                 disabled={true}
                 className="border-2 border-primary-color rounded-sm checked:bg-primary-color pointer-events-none"
               />
@@ -182,7 +196,7 @@ const Profile = () => {
           </div>
         </dl>
       </div>
-      {open ? (
+      {/* {open ? (
         <div className="fixed inset-0 z-10 overflow-y-auto">
           <div className="flex min-h-full z-10 items-end justify-center p-4 text-center sm:items-center sm:p-0">
             <form className="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg">
@@ -210,7 +224,7 @@ const Profile = () => {
                         className="profile-input"
                         pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
                         defaultValue={phone}
-                        onChange={(e) => setPhoneInput(e.value)}
+                        onChange={(e) => setPhone(e.value)}
                         required
                       />
                     </div>
@@ -225,7 +239,7 @@ const Profile = () => {
                         autoComplete="on"
                         className="profile-input"
                         defaultValue={street}
-                        onChange={(e) => setStreetInput(e.value)}
+                        onChange={(e) => setStreet(e.value)}
                         required
                       />
                     </div>
@@ -240,7 +254,7 @@ const Profile = () => {
                         autoComplete="on"
                         className="profile-input"
                         defaultValue={city}
-                        onChange={(e) => setCityInput(e.value)}
+                        onChange={(e) => setCity(e.value)}
                         required
                       />
                     </div>
@@ -254,7 +268,7 @@ const Profile = () => {
                         autoComplete="on"
                         className="profile-input"
                         defaultValue={state}
-                        onChange={(e) => setStateInput(e.value)}
+                        onChange={(e) => setState(e.value)}
                         required
                       >
                         {states.map((v, i) => (
@@ -274,7 +288,7 @@ const Profile = () => {
                         className="profile-input"
                         pattern="[0-9]{5}"
                         defaultValue={zip}
-                        onChange={(e) => setZipInput(e.value)}
+                        onChange={(e) => setZip(e.value)}
                         required
                       />
                     </div>
@@ -303,7 +317,7 @@ const Profile = () => {
         </div>
       ) : (
         <></>
-      )}
+      )} */}
     </div>
     </div>
     </div>
