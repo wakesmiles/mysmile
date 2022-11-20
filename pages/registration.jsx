@@ -1,8 +1,11 @@
 import { useRef } from "react";
 import { supabase } from "./supabaseClient.js";
 import Link from "next/link";
+import { useRouter } from "next/router";
 
 const Registration = () => {
+  const router = useRouter();
+
   // Form input fields
   const fnameRef = useRef("");
   const lnameRef = useRef("");
@@ -86,6 +89,7 @@ const Registration = () => {
 
   const signUp = async (e) => {
     e.preventDefault();
+    let success = false;
 
     // Create new record in auth.users internal schema
     await supabase.auth
@@ -109,35 +113,36 @@ const Registration = () => {
 
         // Create new record in public 'profiles' table using metadata
       })
-      .then(async (data, error) => {
-        if (data) {
-          const user = data.data.user;
+      .then(async (data) => {
+        const user = data.data.user;
 
-          await supabase.from("profiles").insert({
-            id: user.id,
-            first_name: user.user_metadata.first_name,
-            last_name: user.user_metadata.last_name,
-            dob: user.user_metadata.dob,
-            role: user.user_metadata.role,
-            email: user.email,
-            phone: user.user_metadata.phone,
-            address: user.user_metadata.address,
-            city: user.user_metadata.city,
-            state: user.user_metadata.state,
-            zip: user.user_metadata.zip,
-            orientation: user.user_metadata.orientation,
-          });
-        } else if (error) {
-          console.log(error);
-        }
+        await supabase.from("profiles").insert({
+          id: user.id,
+          first_name: user.user_metadata.first_name,
+          last_name: user.user_metadata.last_name,
+          dob: user.user_metadata.dob,
+          role: user.user_metadata.role,
+          email: user.email,
+          phone: user.user_metadata.phone,
+          address: user.user_metadata.address,
+          city: user.user_metadata.city,
+          state: user.user_metadata.state,
+          zip: user.user_metadata.zip,
+          orientation: user.user_metadata.orientation,
+        }).then(() => success = true)
       });
+
+      if (success) {
+        router.push('/profile')
+      }
     // console.log(supabase.auth.user());
   };
+
 
   // CLEAN: login & registration classes are quite similar, can probably simplify class names
   return (
     <div className="grid place-items-center p-8">
-      <form method="POST">
+      <form method="POST" onSubmit={(e) => signUp(e)}>
         <div className="registration-container">
           <div className="bg-white px-4 py-5 sm:p-6">
             <legend className="registration-header">Basic Information</legend>
@@ -395,7 +400,6 @@ const Registration = () => {
               <button
                 type="submit"
                 className="indigo-button"
-                onClick={(e) => signUp(e)}
               >
                 Sign Up
               </button>
