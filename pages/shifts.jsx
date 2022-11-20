@@ -3,38 +3,11 @@ import { supabase } from "./supabaseClient"
 
 import ReactDOM from "react-dom";
 import NoWorkResult from "postcss/lib/no-work-result"
-//const AuthContext = React.createContext()
 const [displayedShifts, setDisplayedShifts] = useState()
-const Record = (props) => {
-
-    /**
-     * TODO:
-     * Modify so that a Record takes in parameters (in props object)
-     */
-
-  return (
-    <tr className="grid grid-cols-4 gap-4 px-6 mb-1">
-      <td>01/01/2022</td>
-      <td>5:00 pm</td>
-      <td>6:00 pm</td>
-      <td>
-        <button className="indigo-button-sm">Sign Up</button>
-      </td>
-    </tr>
-  );
-};
-
-  /**if orientation false {
-      const {data, error} = await supabase.rpc('getavailableoshifts) 
-    }
-       else {
-      const {data, error} = await supabase.rpc('getavailablevshifts) 
-    }
-    */
-
+const[user, setUser] = useState('')
 const Shifts = () => {
   const[oCheck, setOCheck] = useState(false)
-  const[user, setUser] = useState('')
+
 
   useEffect(() => {
     //this useEffect statement takes current user and checks whether they have attended Orientation.
@@ -70,9 +43,27 @@ const Shifts = () => {
       .where(shift_date > today)
       .and('remaining_slots > 0')
     }
-
+    setDisplayedShifts(availableShifts)
   })
+
+  const Record = (props) => {
   
+    /**
+     * TODO:
+     * Modify so that a Record takes in parameters (in props object)
+     */
+    
+  return (
+    <tr className="grid grid-cols-4 gap-4 px-6 mb-1">
+      <td>01/01/2022</td>
+      <td>5:00 pm</td>
+      <td>6:00 pm</td>
+      <td>
+        <button className="indigo-button-sm">Sign Up</button>
+      </td>
+    </tr>
+  );
+};  
 
     /**
      * TODO:
@@ -112,6 +103,8 @@ const Shifts = () => {
                     <th className="font-medium"></th>
                 </tr>
             </thead>
+
+            
             <tbody>
                 <Record className="bg-gray-50" />
                 <Record className="bg-white" />
