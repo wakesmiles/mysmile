@@ -2,12 +2,12 @@ import React, { useEffect, useState, useRef, useContext } from "react";
 import { supabase } from "./supabaseClient"
 
 
-const [displayedShifts, setDisplayedShifts] = useState()
-const[user, setUser] = useState('')
+  var displayShifts
+
 const Shifts = () => {
   const[oCheck, setOCheck] = useState(false)
-
-
+  const[user, setUser] = useState('')
+  const[availableShifts, setAvailableShifts] = useState('')
   useEffect(() => {
     //this useEffect statement takes current user and checks whether they have attended Orientation.
     setUser(supabase.auth.getUser())
@@ -27,31 +27,59 @@ const Shifts = () => {
     let today = new Date().toISOString().slice(0, 10)
     if (oCheck == false) {
       
-      const availableShifts = async() => await supabase
+      const available = async() => await supabase
       .from('shifts')
-      .select('*')
+      .select('shift_type, shift_date, start_time, end_time')
+      .gt('shift_date', today)
+      .gt('remaining_slots', 0)
       .eq('shift_type', 'orientation')
-      .where(shift_date > today)
-      .and('remaining_slots > 0')
+
+      setAvailableShifts(available)
     } else {
-      const availableShifts = async() => await supabase
+      const available = async() => await supabase
       .from('shifts')
-      .select('*')
-      //following line is commented out (but this would limit people who have already attended orientation from filling that slot up again)
-      //.eq('shift_type', 'volunteer')
-      .where(shift_date > today)
-      .and('remaining_slots > 0')
+      .select('shift_type, shift_date, start_time, end_time')
+      .gt('shift_date', today)
+      .gt('remaining_slots', 0)
+      setAvailableShifts(available)
     }
-    setDisplayedShifts(availableShifts)
+    displayShifts = availableShifts
   })
   
   const Record = (props) => {
-  
+    
+      const [shiftType, setShiftType] = useState('None');
+      const [shiftDate, setShiftDate] = useState('');
+      const [shiftStart, setShiftStart] = useState('');
+      const [shiftEnd, setShiftEnd] = useState('');
+      var i = 0;
+useEffect(() => 
+      {if (i < availableShifts.length) {
+          setShiftType(entry[0])
+          setShiftDate(entry[1])
+          setShiftStart(entry[2])
+          setShiftEnd(entry[3])
+          i++
+          return (
+            <tr className="grid grid-cols-4 gap-4 px-6 mb-1">
+              <td><var>shiftDate</var></td>
+              <td><var>shiftStart</var></td>
+              <td><var>shiftEnd</var></td>
+              <td>
+                <button className="indigo-button-sm">Sign Up</button>
+              </td>
+            </tr>
+          );
+      }
+      return;
+    }, []
+    )
+    
     /**
      * TODO:
      * Modify so that a Record takes in parameters (in props object)
      */
-
+/** 
   return (
     <tr className="grid grid-cols-4 gap-4 px-6 mb-1">
       <td>01/01/2022</td>
@@ -62,6 +90,7 @@ const Shifts = () => {
       </td>
     </tr>
   );
+  */
 };  
 
     /**
