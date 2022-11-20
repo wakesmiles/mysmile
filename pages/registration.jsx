@@ -133,7 +133,7 @@ const Registration = () => {
       });
 
       if (success) {
-        router.push('/profile')
+        router.push('/dashboard')
       }
     // console.log(supabase.auth.user());
   };
