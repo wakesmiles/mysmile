@@ -1,32 +1,58 @@
 import { SlCloudUpload } from "react-icons/sl";
 import { useEffect, useState } from 'react'
-import { supabase } from "../../supabaseClient";
+import { useSupabaseClient } from '@supabase/auth-helpers-react'
 
-const uploadAvatar = async (event) => {
+export default function Upload({uid, url, onUpload}) {
+const supabase = useSupabaseClient()
+const [fileUrl, setFileUrl] = useState(null)
+const [uploading, setUploading] = useState(false)
+
+useEffect(() => {
+      if (url) downloadFile(url)
+    }, [url])
+
+async function downloadFile(path)  {
   try {
+    const { data, error } = await supabase.storage.from('test').download(path)
+    if (error) {
+    throw error
+    }
+    const url = URL.createObjectURL(data)
+    setFileUrl(url)
+    } catch (error) {
+    console.log('Error downloading file: ', error)
+    }
+}
 
-    if (!event.target.files || event.target.files.length === 0) {
-      throw new Error('You must select an image to upload.')
+const uploadFile = async (event) => {
+  try { 
+    setUploading(true) 
+
+    if(!event.target.files || event.target.files.length == 0) {
+      throw new Error("You must select a file")
     }
 
     const file = event.target.files[0]
     const fileExt = file.name.split('.').pop()
-    const fileName = `${Math.random()}.${fileExt}`
+    const fileName = `${uid}.${fileExt}`
     const filePath = `${fileName}`
 
-    let { error: uploadError } = await supabase.storage.from('test').upload(filePath, file)
+    let { error: uploadError } = await supabase.storage
+        .from('avatars')
+        .upload(filePath, file, { upsert: true })
 
-    if (uploadError) {
+    if(uploadError) {
       throw uploadError
     }
 
     onUpload(filePath)
   } catch (error) {
-    alert(error.message)
-  } 
-}
+    alert("Error uploading file")
+  } finally {
+    setUploading(false)
+  }
+} 
 
-const Upload = () => {
   return (
     <div className="flex min-h-full items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
       <div className="w-full max-w-md space-y-8">
@@ -45,18 +71,16 @@ const Upload = () => {
                   PDF format only
                 </div>
               </div>
-              <input type="file" id="single" accept="pdf/*" onChange={uploadAvatar} name="file_upload" className="hidden" />
+              <input type="file" id="single" name="file_upload" className="hidden" />
             </label>
             <br />
-            <button className="bg-secondary-color hover:bg-primary-color text-white font-bold py-2 px-4 w-full rounded">
-              UPLOAD FILES
+            <button onClick={uploadFile} disabled={uploading} className="bg-secondary-color hover:bg-primary-color text-white font-bold py-2 px-4 w-full rounded">
+            {uploading ? 'Uploading ...' : 'Upload'}
             </button>
           </form>
         </div>
-        <p className="font-large">RECENTS</p>
       </div>
     </div>
   );
 };
 
-export default Upload;
