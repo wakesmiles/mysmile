@@ -5,18 +5,22 @@ import Navbar from "./navbar.jsx";
 import { supabase } from './supabaseClient';
 import Link from 'next/link'
 
+/**
+ * Method for initially fetching user info upon render from client-side
+ * Should change when converting all interactions with DB to API routes
+ */
 function fetchResource() {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
 
+  // Attempt to retrieve current user and get their information from "profiles" table based on ID
   async function getData() {
     try {
       setLoading(true);
+
       await supabase.auth.getUser().then(async (data, error) => {
         if (data) {
           const id = data.data.user.id;
-
-          // Query again from profiles DB for current user info
           await supabase.from('profiles').select().eq('id', id).then((profile, err) => {
             if (profile) {
               return profile.data[0]
@@ -27,8 +31,6 @@ function fetchResource() {
         }
       })
     } catch (e) {
-      console.log('in catch block e')
-      console.log(e);
     } finally {
       setLoading(false);
     }
@@ -38,15 +40,29 @@ function fetchResource() {
     getData();
   }, []);
 
-  return [data, loading]
+  return [data, setData, loading, setLoading]
 }
 
 const Profile = () => {
   const router = useRouter()
-  const [data, loading] = fetchResource();
 
+  // Modal display variables
+  const [open, setOpen] = useState(false);
+  const cancelButtonRef = useRef(null);
+
+  // Editable fields for user
+  const phone = useRef();
+  const address = useRef();
+  const city = useRef();
+  const state = useRef();
+  const zip = useRef();
+  
+  const [data, setData, loading, setLoading] = fetchResource();
+
+  // UI for load state
   if (loading) return <p>Loading...</p>
   
+  // UI for unauthenticated user
   if (!data) return (
     <div>
       <p>No profile data.</p>
@@ -58,88 +74,97 @@ const Profile = () => {
     </div>
   )
 
-  // Editable values
-  // const [phone, setPhone] = useState("asdf");
-  // const [street, setStreet] = useState("asdf");
-  // const [city, setCity] = useState("asdf");
-  // const [state, setState] = useState("asdf");
-  // const [zip, setZip] = useState("asdf");
+  // Dropdown data
+  const states = [
+    "AL",
+    "AK",
+    "AZ",
+    "AR",
+    "CA",
+    "CO",
+    "CT",
+    "DE",
+    "DC",
+    "FL",
+    "GA",
+    "HI",
+    "ID",
+    "IL",
+    "IN",
+    "IA",
+    "KS",
+    "KY",
+    "LA",
+    "ME",
+    "MD",
+    "MA",
+    "MI",
+    "MN",
+    "MS",
+    "MO",
+    "MT",
+    "NE",
+    "NV",
+    "NH",
+    "NJ",
+    "NM",
+    "NY",
+    "NC",
+    "ND",
+    "OH",
+    "OK",
+    "OR",
+    "PA",
+    "RI",
+    "SC",
+    "SD",
+    "TN",
+    "TX",
+    "UT",
+    "VT",
+    "VA",
+    "WA",
+    "WV",
+    "WI",
+    "WY",
+  ];
 
-  // Selection of US states for dropdown
-  // const states = [
-  //   "AL",
-  //   "AK",
-  //   "AZ",
-  //   "AR",
-  //   "CA",
-  //   "CO",
-  //   "CT",
-  //   "DE",
-  //   "DC",
-  //   "FL",
-  //   "GA",
-  //   "HI",
-  //   "ID",
-  //   "IL",
-  //   "IN",
-  //   "IA",
-  //   "KS",
-  //   "KY",
-  //   "LA",
-  //   "ME",
-  //   "MD",
-  //   "MA",
-  //   "MI",
-  //   "MN",
-  //   "MS",
-  //   "MO",
-  //   "MT",
-  //   "NE",
-  //   "NV",
-  //   "NH",
-  //   "NJ",
-  //   "NM",
-  //   "NY",
-  //   "NC",
-  //   "ND",
-  //   "OH",
-  //   "OK",
-  //   "OR",
-  //   "PA",
-  //   "RI",
-  //   "SC",
-  //   "SD",
-  //   "TN",
-  //   "TX",
-  //   "UT",
-  //   "VT",
-  //   "VA",
-  //   "WA",
-  //   "WV",
-  //   "WI",
-  //   "WY",
-  // ];
-
-  // const Option = (props) => <option>{props.label}</option>;
-
-  // Modal display variables
-  // const [open, setOpen] = useState(false);
-  // const cancelButtonRef = useRef(null);
+  const Option = (props) => <option>{props.label}</option>;
 
   // Save modal form changes to DB and update UI
-  // const save = (e) => {
-  //   e.preventDefault();
+  const save = async (e) => {
+    e.preventDefault();
+    let success = false;
 
-  //   // TODO: Check for valid inputs
+    const { error } = await supabase.from('profiles').update({ 
+      phone: phone.current.value,
+      address: address.current.value,
+      city: city.current.value,
+      state: state.current.value,
+      zip: zip.current.value,
+    }).eq('id', data.id).then(() => success = true);
 
-  //   // TODO: Update DB
+    if (success) {
+      console.log('aha')
+      refetch();
+      setOpen(false);
+    } else {
+      console.log(error);
+    }
+  };
 
-  //   // TODO: Make variable dependent on DB success
-  //   const success = true;
-  //   if (success) {
-  //     console.log('aha')
-  //   }
-  // };
+  // Re-fetch/render from database for the same user after update
+  const refetch = async () => {
+    await supabase.from('profiles').select().eq('id', data.id).then((profile, err) => {
+      if (profile) {
+        return profile.data[0]
+      } else {
+        console.log(err);
+      }
+    }).then((user) => {
+      setData(user);
+    })
+  }
 
   return (
     <div className="flex flex-row">
@@ -158,7 +183,7 @@ const Profile = () => {
             </dd>
           </div>
           <div className="profile-row bg-white">
-            <dt className="font-medium">Date of Birth</dt>
+            <dt className="font-medium">Date of Birth {"(YYYY-MM-DD)"}</dt>
             <dd className="mt-1 sm:col-span-2 sm:mt-0">{data.dob}</dd>
           </div>
           <div className="profile-row bg-gray-50">
@@ -168,12 +193,12 @@ const Profile = () => {
           <div className="profile-row bg-white">
             <dt className="font-medium flex flex-start">
               <p className="mr-2">Contact Info</p>
-              {/* <button
+              <button
                 className="w-auto text-indigo-600"
                 onClick={() => setOpen(true)}
               >
                 <FiEdit />
-              </button> */}
+              </button>
             </dt>
             <dd className="mt-1 sm:col-span-2 sm:mt-0">{data.email}</dd>
             <dt></dt>
@@ -196,10 +221,10 @@ const Profile = () => {
           </div>
         </dl>
       </div>
-      {/* {open ? (
+      {open ? (
         <div className="fixed inset-0 z-10 overflow-y-auto">
           <div className="flex min-h-full z-10 items-end justify-center p-4 text-center sm:items-center sm:p-0">
-            <form className="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg">
+            <form method="PUT" onSubmit={(e) => save(e)} className="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg">
               <div className="bg-white px-4 pt-5 pb-4 sm:p-8">
                 <div className="mt-3 text-center sm:mt-0 sm:ml-0 sm:text-left">
                   <h3 className="text-lg font-medium leading-6 text-gray-900">
@@ -218,13 +243,13 @@ const Profile = () => {
                         Phone (###-###-####)
                       </label>
                       <input
+                        ref={phone}
                         type="tel"
                         name="phone-number"
                         autoComplete="on"
                         className="profile-input"
                         pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
-                        defaultValue={phone}
-                        onChange={(e) => setPhone(e.value)}
+                        defaultValue={data.phone}
                         required
                       />
                     </div>
@@ -234,12 +259,12 @@ const Profile = () => {
                         Street Address
                       </label>
                       <input
+                        ref={address}
                         type="text"
                         name="street"
                         autoComplete="on"
                         className="profile-input"
-                        defaultValue={street}
-                        onChange={(e) => setStreet(e.value)}
+                        defaultValue={data.address}
                         required
                       />
                     </div>
@@ -249,12 +274,12 @@ const Profile = () => {
                         City
                       </label>
                       <input
+                        ref={city}
                         type="text"
                         name="city"
                         autoComplete="on"
                         className="profile-input"
-                        defaultValue={city}
-                        onChange={(e) => setCity(e.value)}
+                        defaultValue={data.city}
                         required
                       />
                     </div>
@@ -264,11 +289,11 @@ const Profile = () => {
                         State / Province
                       </label>
                       <select
+                        ref={state}
                         name="state"
                         autoComplete="on"
                         className="profile-input"
-                        defaultValue={state}
-                        onChange={(e) => setState(e.value)}
+                        defaultValue={data.state}
                         required
                       >
                         {states.map((v, i) => (
@@ -282,13 +307,13 @@ const Profile = () => {
                         ZIP Code (#####)
                       </label>
                       <input
+                        ref={zip}
                         type="text"
                         name="zip-code"
                         autoComplete="on"
                         className="profile-input"
                         pattern="[0-9]{5}"
-                        defaultValue={zip}
-                        onChange={(e) => setZip(e.value)}
+                        defaultValue={data.zip}
                         required
                       />
                     </div>
@@ -297,9 +322,8 @@ const Profile = () => {
               </div>
               <div className="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
                 <button
-                  type="button"
+                  type="submit"
                   className="inline-flex w-full justify-center rounded-md border border-transparent bg-red-600 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 sm:ml-3 sm:w-auto sm:text-sm"
-                  onClick={(e) => save(e)}
                 >
                   Save Changes
                 </button>
@@ -317,7 +341,7 @@ const Profile = () => {
         </div>
       ) : (
         <></>
-      )} */}
+      )}
     </div>
     </div>
     </div>
