@@ -1,86 +1,72 @@
+const Row = () => {
+  return (
+    <tr className="bg-white border-b dark:bg-gray-100 dark:border-gray-700">
+      <td className="py-2 px-6">01/01/2023</td>
+      <td className="py-2 px-6">1:30 PM</td>
+      <td className="py-2 px-6">5:00 PM</td>
+      <td className="py-2 px-6">
+        <button className="red-button-sm">
+            V
+        </button>
+      </td>
+      <td className="py-2 px-6">
+        <button className="red-button-sm">
+            V
+        </button>
+      </td>
+      <td className="py-2 px-6">
+        <button className="red-button-sm">
+            X
+        </button>
+      </td>
+    </tr>
+  );
+};
+
 const VolunteerDashboard = () => {
   return (
-  
-<div className="overflow-x-auto relative shadow-md sm:rounded-lg flex justify-center py-36 px-4">
-    <table className="w-fit text-sm text-left text-gray-500 dark:text-gray-400 ">
-        <caption className="p-5 text-2xl font-semibold text-left text-primary-color bg-white dark:text-primary-color dark:bg-gray-100">
-            Upcoming Shifts
-        </caption>
-        <thead className="text-xs text-white uppercase bg-primary-color dark:bg-primary-color dark:text-white">
+    <div className="overflow-hidden bg-white shadow sm:rounded-lg"
+        style={{width: "700px"}}>
+      <div className="px-4 py-5 sm:px-6">
+        <h2 className="text-lg font-medium leading-6 text-gray-900">
+          Upcoming Shifts
+        </h2>
+      </div>
+      <div className="border-t p-4">
+        <div className="border sm:rounded-lg">
+        <table className="mt-5 w-full text-sm text-left text-gray-500">
+          <thead className="text-gray-800 border-b bg-white">
             <tr>
-                <th scope="col" className="py-3 px-6">
-                    Date
-                </th>
-                <th scope="col" className="py-3 px-6">
-                    Time
-                </th>
-                <th scope="col" className="py-3 px-6">
-                    Category
-                </th>
-                <th scope="col" className="py-3 px-6">
-                    Actions
-                </th>
-                <th scope="col" className="py-3 px-6">
-                    <span className="sr-only">Edit</span>
-                </th>
+              <th scope="col" className="py-2 px-6 text-base font-medium">
+                Date
+              </th>
+              <th scope="col" className="py-2 px-6 text-base font-medium">
+                From
+              </th>
+              <th scope="col" className="py-2 px-6 text-base font-medium">
+                To
+              </th>
+              <th scope="col" className="py-2 px-6 text-base font-medium">
+                Clock In
+              </th>
+              <th scope="col" className="py-2 px-6 text-base font-medium">
+                Clock Out
+              </th>
+              <th scope="col" className="py-2 px-6 text-base font-medium">
+              </th>
             </tr>
-        </thead>
-        <tbody>
-            <tr className="bg-white border-b dark:bg-gray-100 dark:border-gray-700">
-                <th scope="row" className="py-4 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-black">
-                    01/01/2023
-                </th>
-                <td className="py-4 px-6 dark:text-black">
-                    1:30 PM
-                </td>
-                <td className="py-4 px-6 dark:text-black">
-                    Front Desk
-                </td>
-                <td className="py-4 px-6 text-right">
-                    <a href="#" className="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
-                </td>
-                <td className="py-4 px-6 text-right">
-                    <a href="#" className="font-medium text-red-600 dark:text-red-500 hover:underline">Delete</a>
-                </td>
-            </tr>
-            <tr className="bg-white border-b dark:bg-gray-100 dark:border-gray-700">
-                <th scope="row" className="py-4 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-black">
-                    01/02/2023
-                </th>
-                <td className="py-4 px-6 dark:text-black">
-                    1:30 PM
-                </td>
-                <td className="py-4 px-6 dark:text-black">
-                    Front Desk
-                </td>
-                <td className="py-4 px-6 text-right">
-                    <a href="#" className="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
-                </td>
-                <td className="py-4 px-6 text-right">
-                    <a href="#" className="font-medium text-red-600 dark:text-red-500 hover:underline">Delete</a>
-                </td>
-            </tr>
-            <tr className="bg-white dark:bg-gray-100">
-                <th scope="row" className="py-4 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-black">
-                    01/03/2023
-                </th>
-                <td className="py-4 px-6 dark:text-black">
-                    1:30 PM
-                </td>
-                <td className="py-4 px-6 dark:text-black">
-                    Front Desk
-                </td>
-                <td className="py-4 px-6 text-right">
-                    <a href="#" className="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
-                </td>
-                <td className="py-4 px-6 text-right">
-                    <a href="#" className="font-medium text-red-600 dark:text-red-500 hover:underline">Delete</a>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-</div>
- );
+          </thead>
+          <tbody>
+            <Row />
+            <Row />
+            <Row />
+            <Row />
+          </tbody>
+        </table>
+        </div>
+      </div>
+    </div>
+  );
 };
 
 export default VolunteerDashboard;
