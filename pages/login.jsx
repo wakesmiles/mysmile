@@ -1,22 +1,40 @@
 import { useState, useRef } from "react";
 import { AiFillEyeInvisible, AiFillEye } from "react-icons/ai";
-import { supabase } from "../../supabaseClient";
+import { supabase } from "./supabaseClient";
 import Image from "next/image";
+import Link from "next/link";
+import { useRouter } from "next/router";
 
 const Login = () => {
   const [show, setShow] = useState(false);
+  const router = useRouter();
+
   const emailRef = useRef("");
   const passwordRef = useRef("");
 
-  // TODO: test full login feature
-  const login = async () => {
-    const { data, error } = await supabase.auth.signInWithPassword({
-      email: emailRef.current.value,
-      password: passwordRef.current.value,
-    });
+  // TODO: discard console log statements, adjust route to dashboard
+  const login = async (e) => {
+    e.preventDefault();
+
+    await supabase.auth
+      .signInWithPassword({
+        email: emailRef.current.value,
+        password: passwordRef.current.value,
+      })
+      .then((data, error) => {
+        if (data) {
+          console.log("LOGIN DATA");
+          console.log(data);
+          router.push("/profile");
+        } else if (error) {
+          console.log("LOGIN ERROR");
+          console.log(error);
+        }
+      });
   };
 
   // CLEAN: login & registration classes are quite similar, can probably simplify class names
+  // TODO: implement reset password
   return (
     <div className="flex min-h-full items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
       <div className="registration-container p-10 space-y-4">
@@ -68,30 +86,25 @@ const Login = () => {
 
           <div>
             <button
-              type="submit"
+              // type="submit"
               className="indigo-button w-full"
-              onSubmit={login}
+              onClick={(e) => login(e)}
             >
               Log In
             </button>
             <div className="flex flex-row justify-between mt-2 text-sm font-medium text-primary-color">
-              <p>
+              <div>
                 <a
                   href="#"
                   className="hover:text-indigo-600 hover:underline hover:underline-offset-4"
                 >
                   Reset Password
                 </a>
-              </p>
+              </div>
               <br />
-              <p>
-                <a
-                  href="#"
-                  className="hover:text-indigo-600 hover:underline hover:underline-offset-4"
-                >
-                  Create New Account
-                </a>
-              </p>
+              <div className="hover:text-indigo-600 hover:underline hover:underline-offset-4">
+                <Link href="/registration">Create New Account</Link>
+              </div>
             </div>
           </div>
         </form>

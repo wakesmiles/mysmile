@@ -1,7 +1,28 @@
 import { useState, useRef } from "react";
 import { FiEdit, FiSave } from "react-icons/fi";
+import Navbar from "./navbar.jsx";
 
 const Profile = () => {
+
+  // useEffect(() => {
+  //   // declare the async data fetching function
+  //   const fetchData = async () => {
+  //     const data = await fetch('https://yourapi.com');
+  //     // convert data to json
+  //     const json = await data.json();
+  //     return json;
+  //   }
+  
+  //   // call the function
+  //   const result = fetchData()
+  //     // make sure to catch any error
+  //     .catch(console.error);;
+  
+  //   // don't do this, it won't work as you expect!
+  //   setData(result);
+  // }, [])
+
+
 
   // Read-only fields, will query from DB
   const fname = "John";
@@ -27,12 +48,58 @@ const Profile = () => {
 
   // Selection of US states for dropdown
   const states = [
-    "AL", "AK", "AZ", "AR", "CA", "CO", "CT", "DE", "DC", "FL", "GA", 
-    "HI", "ID", "IL", "IN", "IA", "KS", "KY", "LA", "ME", "MD", "MA", 
-    "MI", "MN", "MS", "MO", "MT", "NE", "NV", "NH", "NJ", "NM", "NY", 
-    "NC", "ND", "OH", "OK", "OR", "PA", "RI", "SC", "SD", "TN", "TX", 
-    "UT", "VT", "VA", "WA", "WV", "WI", "WY"
-  ]
+    "AL",
+    "AK",
+    "AZ",
+    "AR",
+    "CA",
+    "CO",
+    "CT",
+    "DE",
+    "DC",
+    "FL",
+    "GA",
+    "HI",
+    "ID",
+    "IL",
+    "IN",
+    "IA",
+    "KS",
+    "KY",
+    "LA",
+    "ME",
+    "MD",
+    "MA",
+    "MI",
+    "MN",
+    "MS",
+    "MO",
+    "MT",
+    "NE",
+    "NV",
+    "NH",
+    "NJ",
+    "NM",
+    "NY",
+    "NC",
+    "ND",
+    "OH",
+    "OK",
+    "OR",
+    "PA",
+    "RI",
+    "SC",
+    "SD",
+    "TN",
+    "TX",
+    "UT",
+    "VT",
+    "VA",
+    "WA",
+    "WV",
+    "WI",
+    "WY",
+  ];
 
   const Option = (props) => <option>{props.label}</option>;
 
@@ -51,20 +118,20 @@ const Profile = () => {
     // TODO: Make variable dependent on DB success
     const success = true;
     if (success) {
-      setPhone(phoneInput || phone)
-      setStreet(streetInput || street)
-      setCity(cityInput || city)
-      setState(stateInput || state)
-      setZip(zipInput || zip)
-      setOpen(false)
+      setPhone(phoneInput || phone);
+      setStreet(streetInput || street);
+      setCity(cityInput || city);
+      setState(stateInput || state);
+      setZip(zipInput || zip);
+      setOpen(false);
     }
-  }
+  };
 
   return (
-    <div
-      className="overflow-hidden bg-white shadow sm:rounded-lg"
-      style={{ width: "700px" }}
-    >
+    <div className="flex flex-row">
+      <Navbar/>
+    <div className="container p-10">
+    <div className="shadow sm:rounded-lg w-4/5">
       <div className="px-4 py-5 sm:px-6">
         <h2 className="text-lg font-medium leading-6 text-gray-900">Profile</h2>
       </div>
@@ -87,15 +154,16 @@ const Profile = () => {
           <div className="profile-row bg-white">
             <dt className="font-medium flex flex-start">
               <p className="mr-2">Contact Info</p>
-              <button className="w-auto text-indigo-600" onClick={() => (setOpen(true))}>
+              <button
+                className="w-auto text-indigo-600"
+                onClick={() => setOpen(true)}
+              >
                 <FiEdit />
               </button>
             </dt>
             <dd className="mt-1 sm:col-span-2 sm:mt-0">{email}</dd>
             <dt></dt>
-            <dd className="mt-1 sm:col-span-2 sm:mt-0">
-              {phone}
-            </dd>
+            <dd className="mt-1 sm:col-span-2 sm:mt-0">{phone}</dd>
             <dt></dt>
             <dd className="mt-1 sm:col-span-2 sm:mt-0">
               {street + ", " + city + ", " + state + " " + zip}
@@ -126,7 +194,7 @@ const Profile = () => {
                   <p className="text-sm italic my-2">
                     Email address is a unique identifier and cannot be edited.
                   </p>
-                  <hr/>
+                  <hr />
                   <div className="grid grid-cols-3 gap-3 mt-4">
                     <div className="col-span-3">
                       <label
@@ -148,10 +216,7 @@ const Profile = () => {
                     </div>
 
                     <div className="col-span-3">
-                      <label
-                        htmlFor="street"
-                        className="profile-input-label"
-                      >
+                      <label htmlFor="street" className="profile-input-label">
                         Street Address
                       </label>
                       <input
@@ -199,10 +264,7 @@ const Profile = () => {
                     </div>
 
                     <div className="col-span-1">
-                      <label
-                        htmlFor="zip-code"
-                        className="profile-input-label"
-                      >
+                      <label htmlFor="zip-code" className="profile-input-label">
                         ZIP Code (#####)
                       </label>
                       <input
@@ -242,6 +304,8 @@ const Profile = () => {
       ) : (
         <></>
       )}
+    </div>
+    </div>
     </div>
   );
 };
