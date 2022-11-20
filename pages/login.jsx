@@ -94,12 +94,12 @@ const Login = () => {
             </button>
             <div className="flex flex-row justify-between mt-2 text-sm font-medium text-primary-color">
               <div>
-                <a
+                {/* <a
                   href="#"
                   className="hover:text-indigo-600 hover:underline hover:underline-offset-4"
                 >
                   Reset Password
-                </a>
+                </a> */}
               </div>
               <br />
               <div className="hover:text-indigo-600 hover:underline hover:underline-offset-4">

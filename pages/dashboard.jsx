@@ -1,7 +1,8 @@
 import { AiFillClockCircle } from "react-icons/ai";
 import { useState, useRef } from "react";
+import Navbar from './navbar';
 
-const VolunteerDashboard = () => {
+const Dashboard = () => {
   /**
    * TODO: Fetcha signups data
    * Filter by user id
@@ -48,21 +49,21 @@ const VolunteerDashboard = () => {
         <td className="py-2 px-6">01/01/2023</td>
         <td className="py-2 px-6">1:30 PM</td>
         <td className="py-2 px-6">5:00 PM</td>
+        <td className="py-2 px-6">
+          <div className="flex justify-center">
+            <button className="text-indigo-600 text-lg hover:text-indigo-800">
+              <AiFillClockCircle size={25} />
+            </button>
+          </div>
+        </td>
+        <td className="py-2 px-6">
+          <div className="flex justify-center">
+            <button className="text-indigo-600 text-lg hover:text-indigo-800">
+              <AiFillClockCircle size={25} />
+            </button>
+          </div>
+        </td>
         <td className="py-2 px-3">
-          <div className="flex justify-center">
-            <button className="text-indigo-600 text-lg hover:text-indigo-800">
-              <AiFillClockCircle size={25} />
-            </button>
-          </div>
-        </td>
-        <td className="py-2 px-4">
-          <div className="flex justify-center">
-            <button className="text-indigo-600 text-lg hover:text-indigo-800">
-              <AiFillClockCircle size={25} />
-            </button>
-          </div>
-        </td>
-        <td className="py-2 px-4">
           <div className="flex justify-center">
             <button className="red-button-sm" onClick={() => setOpen(true)}>
               X
@@ -113,61 +114,63 @@ const VolunteerDashboard = () => {
   };
 
   return (
-    <div
-      className="overflow-scroll bg-white shadow sm:rounded-lg"
-      style={{ width: "700px" }}
-    >
-      <div className="px-4 py-5 sm:px-6">
-        <h2 className="text-lg font-medium leading-6 text-gray-900">
-          Upcoming Shifts
-        </h2>
-      </div>
-      <div className="border-t p-4">
-        <div className="border shadow-sm sm:rounded-lg p-1 bg-white">
-          <table className="mt-5 w-full text-sm text-gray-700">
-            <thead className="text-gray-900 border-b bg-white">
-              <tr>
-                <th
-                  scope="col"
-                  className="py-2 px-6 text-base text-left font-medium"
-                >
-                  Date
-                </th>
-                <th
-                  scope="col"
-                  className="py-2 px-6 text-base text-left font-medium"
-                >
-                  From
-                </th>
-                <th
-                  scope="col"
-                  className="py-2 px-6 text-base text-left font-medium"
-                >
-                  To
-                </th>
-                <th scope="col" className="py-2 px-3 text-base font-medium">
-                  Clock In
-                </th>
-                <th scope="col" className="py-2 px-3 text-base font-medium">
-                  Clock Out
-                </th>
-                <th
-                  scope="col"
-                  className="py-2 px-3 text-base font-medium"
-                ></th>
-              </tr>
-            </thead>
-            <tbody>
-              <Row />
-              <Row />
-              <Row />
-              <Row />
-            </tbody>
-          </table>
+    <div className="flex flex-row">
+      <Navbar />
+      <div className="container p-10">
+        <div className="shadow sm:rounded-lg w-4/5">
+          <div className="px-4 py-5 sm:px-6">
+            <h2 className="text-lg font-medium leading-6 text-gray-900">
+              Upcoming Shifts
+            </h2>
+          </div>
+          <div className="border-t p-4">
+            <div className="border shadow-sm sm:rounded-lg p-1 bg-white">
+              <table className="mt-5 w-full text-sm text-gray-700">
+                <thead className="text-gray-900 border-b bg-white">
+                  <tr>
+                    <th
+                      scope="col"
+                      className="py-2 px-6 text-base text-left font-medium"
+                    >
+                      Date
+                    </th>
+                    <th
+                      scope="col"
+                      className="py-2 px-6 text-base text-left font-medium"
+                    >
+                      From
+                    </th>
+                    <th
+                      scope="col"
+                      className="py-2 px-6 text-base text-left font-medium"
+                    >
+                      To
+                    </th>
+                    <th scope="col" className="py-2 px-6 text-base font-medium">
+                      Clock In
+                    </th>
+                    <th scope="col" className="py-2 px-6 text-base font-medium">
+                      Clock Out
+                    </th>
+                    <th
+                      scope="col"
+                      className="py-2 px-3 text-base font-medium"
+                    ></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <Row />
+                  <Row />
+                  <Row />
+                  <Row />
+                </tbody>
+              </table>
+            </div>
+          </div>
         </div>
       </div>
     </div>
   );
 };
 
-export default VolunteerDashboard;
+export default Dashboard;
