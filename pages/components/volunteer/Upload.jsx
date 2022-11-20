@@ -38,7 +38,7 @@ const uploadFile = async (event) => {
     const filePath = `${fileName}`
 
     let { error: uploadError } = await supabase.storage
-        .from('avatars')
+        .from('test')
         .upload(filePath, file, { upsert: true })
 
     if(uploadError) {
