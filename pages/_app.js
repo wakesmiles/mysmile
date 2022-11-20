@@ -4,7 +4,6 @@ import Login from './components/volunteer/Login';
 import VDashboard from './components/volunteer/VDashboard';
 import Profile from './components/volunteer/Profile';
 import Upload from './components/volunteer/Upload';
-import Avatar from './components/volunteer/Avatar';
 
 
 function MyApp({ Component, pageProps }) {
@@ -12,7 +11,7 @@ function MyApp({ Component, pageProps }) {
   return (
     // <UserProvider>
       <div className="h-screen flex flex-col justify-items-center ">
-        <Upload/>
+        <VDashboard/>
         {/* <BrowserRouter>x
           <Switch>
             <Route path="/" component={Login}/>
