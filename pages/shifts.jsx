@@ -1,7 +1,11 @@
-import React, { useEffect, useState, useRef, useContext } from "react";
+import React, { useEffect, useState, useRef, useContext, useReducer } from "react";
 import { supabase } from "./supabaseClient"
-
-
+import { useRouter } from "next/router";
+import { FiEdit } from "react-icons/fi";
+import Navbar from "./navbar.jsx";
+import Link from 'next/link'
+{
+/**
   var displayShifts
 
 const Shifts = () => {
@@ -91,7 +95,7 @@ useEffect(() =>
     </tr>
   );
   */
-};  
+  
 
     /**
      * TODO:
@@ -107,7 +111,109 @@ useEffect(() =>
      * 
      * Ensure that volunteers somehow CAN'T sign up for the same shift multiple times
      */
+}
+var orientationFlag = false;
 
+
+/**
+ * Method for initially fetching shift information upon render from client-side
+ * Should change when converting all interactions with DB to API routes
+ */
+function fetchResource() {
+  const [data, setData] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  // Attempt to retrieve current user and get their information from "profiles" table based on ID
+  async function getData() {
+    try {
+      setLoading(true);
+
+      await supabase.auth.getUser().then(async (data, error) => {
+        if (data) {
+          const id = data.data.user.id;
+          const orientation = data.data.user.orientation;
+          orientationFlag = orientation;
+          await supabase.from('profiles').select().eq('id', id).then((profile, err) => {
+            if (profile) {
+              return profile.data[0]
+            }
+          }).then((user) => {
+            setData(user);
+          })
+        }
+      })
+    } catch (e) {
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  useEffect(() => {
+    getData();
+  }, []);
+
+  return [data, setData, loading, setLoading]
+}
+
+const findShiftType = () => {
+  const router = useRouter()
+
+  // Modal display variables
+  const [open, setOpen] = useState(false);
+
+
+    
+  const [data, setData, loading, setLoading] = fetchResource();
+
+  // UI for load state
+  if (loading) return <p>Loading...</p>
+  
+  // UI for unauthenticated user
+  if (!data) return (
+    <div>
+      <p>No profile data.</p>
+      <div className="text-primary-color font-medium hover:underline hover:underline-offset-4">
+        <Link href="/login">
+          Click here to sign in or make an account.
+        </Link>
+      </div>
+    </div>
+  )
+
+ 
+  const Option = (props) => <option>{props.label}</option>;
+
+
+  const checkOrientation = async (e) => {
+    e.preventDefault();
+    let success = false;
+
+    const { error } = await supabase.from('profiles').eq('id', data.id).then(() => success = true);
+
+    if (success) {
+      console.log('aha')
+      orientationFlag = data.orientation
+      refetch();
+      setOpen(false);
+    } else {
+      console.log(error);
+    }
+  };
+
+  // Re-fetch/render from database for the same user after update
+  const refetch = async () => {
+    await supabase.from('profiles').select().eq('id', data.id).then((profile, err) => {
+      if (profile) {
+        return profile.data[0]
+      } else {
+        console.log(err);
+      }
+    }).then((user) => {
+      setData(user);
+    })
+  }
+
+  
   return (
     <div
       className="overflow-hidden bg-white shadow sm:rounded-lg"
