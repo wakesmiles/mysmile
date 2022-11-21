@@ -2,7 +2,7 @@ import React, { useEffect, useState, useRef, useContext, useReducer } from "reac
 import { supabase } from "./supabaseClient"
 import { useRouter } from "next/router";
 import { FiEdit } from "react-icons/fi";
-import Navbar from "./navbar.jsx";
+
 import Link from 'next/link'
 {
 /**
@@ -76,8 +76,7 @@ useEffect(() =>
           );
       }
       return;
-    }, []
-    )
+  }, [])
     
     /**
      * TODO:
@@ -212,8 +211,60 @@ const findShiftType = () => {
       setData(user);
     })
   }
+}
+const displayShifts = () => {
+    
+  if (orientationFlag) {
+    return vShifts
+  } else {
+    return oShifts
+  }
+}
+const vShifts = async () => {
+  await supabase.from('shifts').select()
+  .gt('shift_date', today)
+  .gt('remaining_slots', 0)
+  .eq('shift_type', 'volunteer')
+}
+const oShifts = async () => {
+  await supabase.from('shifts').select()
+  .gt('shift_date', today)
+  .gt('remaining_slots', 0)
+  .eq('shift_type', 'orientation')
+} 
 
-  
+const Attempt = (props) => {
+  return (
+    <tr className="grid grid-cols-4 gap-4 px-6 mb-1">
+          <td>{props.shiftDate}</td>
+          <td>{props.start}</td>
+          <td>{props.end}</td>
+          <td>
+            <button className="indigo-button-sm">Sign Up</button>
+          </td>
+        </tr>
+  )
+}
+const Record = (props) => {
+  {
+      return (
+        <tr className="grid grid-cols-4 gap-4 px-6 mb-1">
+          <td>06/08/2022</td>
+          <td>1:00 PM</td>
+          <td>3:00 PM</td>
+          <td>
+            <button className="indigo-button-sm">Sign Up</button>
+          </td>
+        </tr>
+      );
+  }
+}
+const Shifts = () => {
+  var shiftType = (orientationFlag ? 'Volunteer Shifts' : 'Orientation Shifts')
+  const outputTable = displayShifts
+  for (output in outputTable) {
+    
+  }
   return (
     <div
       className="overflow-hidden bg-white shadow sm:rounded-lg"
@@ -224,10 +275,14 @@ const findShiftType = () => {
           Upcoming Shifts
         </h2>
       </div>
+
       <div className="border-t border-gray-200 ml-5">
+      
         <h3 className="text-primary-color italic font-bold mt-5">
-            Orientation Shifts
+        {shiftType}
         </h3>
+
+
         <table className="orientation-shifts mb-4 w-full">
             <thead>
                 <tr className="grid grid-cols-4 gap-4 px-6 text-left">
@@ -243,31 +298,12 @@ const findShiftType = () => {
                 <Record className="bg-gray-50" />
                 <Record className="bg-white" />
                 <Record className="bg-gray-50" />
+                 root.render()
             </tbody>
         </table>
-        <h3 className="text-primary-color italic font-bold mt-5">
-            Volunteer Shifts
-        </h3>
-        <table className="volunteer-shifts mb-4 w-full">
-            <thead>
-                <tr className="grid grid-cols-4 gap-4 px-6 text-left">
-                    <th className="font-medium">Date</th>
-                    <th className="font-medium">Start Time</th>
-                    <th className="font-medium">End Time</th>
-                    <th className="font-medium"></th>
-                </tr>
-            </thead>
-            <tbody>
-                <Record className="bg-gray-50" />
-                <Record className="bg-white" />
-                <Record className="bg-gray-50" />
-                <Record className="bg-white" />
-                <Record className="bg-gray-50" />
-            </tbody>
-        </table>
+
       </div>
     </div>
   );
-};
-
+  }
 export default Shifts;
