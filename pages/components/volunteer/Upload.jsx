@@ -1,16 +1,18 @@
 import { SlCloudUpload } from "react-icons/sl";
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { supabase } from "../../supabaseClient";
+
 
 const Upload = () => {
   const [file, setFile] = useState(null)
   const [fileUrl, setFileUrl] = useState("")
 
+
   const uploader = async (e) => {
     e.preventDefault()
 
     if (file) {
-      const {data, error} = await supabase.storage.from("test").upload(`${Date.now()}_${file.name}`, file)
+      const {data, error} = await supabase.storage.from("test").upload(`${file.name}`, file)
 
       if(error) {
         alert("Error uploading file")
