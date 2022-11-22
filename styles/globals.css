@@ -47,6 +47,9 @@ a {
   .profile-row {
     @apply grid grid-cols-3 gap-4 px-6;
   }
+  .shift-row {
+    @apply grid grid-cols-4 gap-4 px-6;
+  }
 }
 
 .red-button-sm {
@@ -124,4 +127,8 @@ a {
   @apply mt-1 block w-full h-auto text-sm rounded-md border-gray-300;
 }
 
+/************************************************/
+.shift-row {
+  @apply px-4 py-3 text-sm text-gray-900
+}
 
