@@ -1,57 +1,28 @@
 import { SlCloudUpload } from "react-icons/sl";
 import { useEffect, useState } from 'react'
-import { useSupabaseClient } from '@supabase/auth-helpers-react'
+import { supabase } from "../../supabaseClient";
 
-export default function Upload({uid, url, onUpload}) {
-const supabase = useSupabaseClient()
-const [fileUrl, setFileUrl] = useState(null)
-const [uploading, setUploading] = useState(false)
+const Upload = () => {
+  const [file, setFile] = useState(null)
+  const [fileUrl, setFileUrl] = useState("")
 
-useEffect(() => {
-      if (url) downloadFile(url)
-    }, [url])
+  const uploader = async (e) => {
+    e.preventDefault()
 
-async function downloadFile(path)  {
-  try {
-    const { data, error } = await supabase.storage.from('test').download(path)
-    if (error) {
-    throw error
+    if (file) {
+      const {data, error} = await supabase.storage.from("test").upload(`${Date.now()}_${file.name}`, file)
+
+      if(error) {
+        alert("Error uploading file")
+      }
+
+      if(data) {
+        setFileUrl(data.Key)
+        fileUrl = data.Key
+        alert("File upload successful")
+      }
     }
-    const url = URL.createObjectURL(data)
-    setFileUrl(url)
-    } catch (error) {
-    console.log('Error downloading file: ', error)
-    }
-}
-
-const uploadFile = async (event) => {
-  try { 
-    setUploading(true) 
-
-    if(!event.target.files || event.target.files.length == 0) {
-      throw new Error("You must select a file")
-    }
-
-    const file = event.target.files[0]
-    const fileExt = file.name.split('.').pop()
-    const fileName = `${uid}.${fileExt}`
-    const filePath = `${fileName}`
-
-    let { error: uploadError } = await supabase.storage
-        .from('test')
-        .upload(filePath, file, { upsert: true })
-
-    if(uploadError) {
-      throw uploadError
-    }
-
-    onUpload(filePath)
-  } catch (error) {
-    alert("Error uploading file")
-  } finally {
-    setUploading(false)
   }
-} 
 
   return (
     <div className="flex min-h-full items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
@@ -71,11 +42,11 @@ const uploadFile = async (event) => {
                   PDF format only
                 </div>
               </div>
-              <input type="file" id="single" name="file_upload" className="hidden" />
+              <input type="file" id="single" name="file_upload" className="hidden" onChange={e => setFile(e.target.files[0])}/>
             </label>
             <br />
-            <button onClick={uploadFile} disabled={uploading} className="bg-secondary-color hover:bg-primary-color text-white font-bold py-2 px-4 w-full rounded">
-            {uploading ? 'Uploading ...' : 'Upload'}
+            <button onClick={uploader} className="bg-secondary-color hover:bg-primary-color text-white font-bold py-2 px-4 w-full rounded">
+            UPLOAD FILES
             </button>
           </form>
         </div>
@@ -84,3 +55,4 @@ const uploadFile = async (event) => {
   );
 };
 
+export default Upload;
