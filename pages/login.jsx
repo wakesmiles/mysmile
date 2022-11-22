@@ -15,6 +15,7 @@ const Login = () => {
   // TODO: discard console log statements, adjust route to dashboard
   const login = async (e) => {
     e.preventDefault();
+    let success = false;
 
     await supabase.auth
       .signInWithPassword({
@@ -25,12 +26,16 @@ const Login = () => {
         if (data) {
           console.log("LOGIN DATA");
           console.log(data);
-          router.push("/profile");
+          success = true;
         } else if (error) {
           console.log("LOGIN ERROR");
           console.log(error);
         }
       });
+      
+      if (success) {
+        router.push('/dashboard')
+      }
   };
 
   // CLEAN: login & registration classes are quite similar, can probably simplify class names
@@ -47,7 +52,7 @@ const Login = () => {
           </div>
         </div>
 
-        <form className="space-y-3" method="POST">
+        <form className="space-y-3" method="POST" onSubmit={(e) => login(e)}>
           <div className="rounded-md mb-3 space-y-3">
             <div>
               <label className="login-label">Email</label>
@@ -86,20 +91,19 @@ const Login = () => {
 
           <div>
             <button
-              // type="submit"
+              type="submit"
               className="indigo-button w-full"
-              onClick={(e) => login(e)}
             >
               Log In
             </button>
             <div className="flex flex-row justify-between mt-2 text-sm font-medium text-primary-color">
               <div>
-                <a
+                {/* <a
                   href="#"
                   className="hover:text-indigo-600 hover:underline hover:underline-offset-4"
                 >
                   Reset Password
-                </a>
+                </a> */}
               </div>
               <br />
               <div className="hover:text-indigo-600 hover:underline hover:underline-offset-4">

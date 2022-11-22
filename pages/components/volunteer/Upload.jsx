@@ -1,4 +1,30 @@
 import { SlCloudUpload } from "react-icons/sl";
+import { useEffect, useState } from 'react'
+import { supabase } from "../../supabaseClient";
+
+const uploadAvatar = async (event) => {
+  try {
+
+    if (!event.target.files || event.target.files.length === 0) {
+      throw new Error('You must select an image to upload.')
+    }
+
+    const file = event.target.files[0]
+    const fileExt = file.name.split('.').pop()
+    const fileName = `${Math.random()}.${fileExt}`
+    const filePath = `${fileName}`
+
+    let { error: uploadError } = await supabase.storage.from('test').upload(filePath, file)
+
+    if (uploadError) {
+      throw uploadError
+    }
+
+    onUpload(filePath)
+  } catch (error) {
+    alert(error.message)
+  } 
+}
 
 const Upload = () => {
   return (
@@ -19,7 +45,7 @@ const Upload = () => {
                   PDF format only
                 </div>
               </div>
-              <input type="file" name="file_upload" className="hidden" />
+              <input type="file" id="single" accept="pdf/*" onChange={uploadAvatar} name="file_upload" className="hidden" />
             </label>
             <br />
             <button className="bg-secondary-color hover:bg-primary-color text-white font-bold py-2 px-4 w-full rounded">
@@ -27,6 +53,7 @@ const Upload = () => {
             </button>
           </form>
         </div>
+        <p className="font-large">RECENTS</p>
       </div>
     </div>
   );
