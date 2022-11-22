@@ -162,33 +162,32 @@ const queryShifts = async () => {
   ];
 
   if (orientationFlag) {
-      let today = new Date().toISOString().slice(0, 10);
+    let today = new Date().toISOString().slice(0, 10);
 
-      const { data, error } = await supabase
-        .from("shifts")
-        .select("shift_type, shift_date, start_time, end_time")
-        .gt("shift_date", today)
-        .gt("remaining_slots", 0)
-        .eq("shift_type", "volunteer");
-      console.log("i");
+    const { data, error } = await supabase
+      .from("shifts")
+      .select("shift_type, shift_date, start_time, end_time")
+      .gt("shift_date", today)
+      .gt("remaining_slots", 0)
+      .eq("shift_type", "volunteer");
+    console.log("i");
 
-      dataShifts = data;
-    
+    dataShifts = data;
   } else {
-      let today = new Date().toISOString().slice(0, 10);
-      console.log("e");
+    let today = new Date().toISOString().slice(0, 10);
+    console.log("e");
 
-      const { data, error } = await supabase
-        .from("shifts")
-        .select("shift_type, shift_date, start_time, end_time")
-        .gt("shift_date", today)
-        .gt("remaining_slots", 0)
-        .eq("shift_type", "orientation");  
-        dataShifts = data;
-      }
-  
+    const { data, error } = await supabase
+      .from("shifts")
+      .select("shift_type, shift_date, start_time, end_time")
+      .gt("shift_date", today)
+      .gt("remaining_slots", 0)
+      .eq("shift_type", "orientation");
+    dataShifts = data;
+  }
+
   //test here console
-  //console.log(dataShifts[1].end_time);  
+  //console.log(dataShifts[1].end_time);
   return dataShifts;
 };
 
@@ -238,17 +237,26 @@ const Record = (props) => {
 async function PrintShiftsAsync() {
   console.log("printshifts");
 
-  const outputTable = await queryShifts()
-  console.log(outputTable[0])
-  const sD = outputTable[0].start_date
-  const st = outputTable[0].start_time
-  const nd = outputTable[0].end_time
-  return <Single_shift shiftDate={sD} start={st} end={nd} />;
+  const outputTable = await queryShifts();
+  outputTable.sort((a, b) => (a.shift_date > b.shift_date) ? 1 : -1);
+  const out = [];
+  for (let i = 0; i < outputTable.length; i++) {
+    const sD = outputTable[i].shift_date;
+    const st = outputTable[i].start_time;
+    const nd = outputTable[i].end_time;
+
+    out.push(<Single_shift shiftDate={sD} start={st} end={nd} />);
+  }
+  
+  return out;
 }
 function PrintShifts() {
-  var temp
-  PrintShiftsAsync().then(out => temp)
-  return temp
+  const [data, setData] = useState("");
+  useEffect(() => {
+    PrintShiftsAsync().then((out) => setData(out));
+  });
+
+  return data;
 }
 const Shifts = () => {
   var shiftType = orientationFlag ? "Volunteer Shifts" : "Orientation Shifts";
