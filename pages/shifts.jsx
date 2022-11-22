@@ -10,8 +10,9 @@ import { useRouter } from "next/router";
 import { FiEdit } from "react-icons/fi";
 
 import Link from "next/link";
+import { waitUntilSymbol } from "next/dist/server/web/spec-extension/fetch-event";
 {
-/** 
+  /** 
     /**
      * TODO:
      * Modify so that a Record takes in parameters (in props object)
@@ -49,22 +50,22 @@ var orientationFlag = false;
  * Method for initially fetching shift information upon render from client-side
  * Should change when converting all interactions with DB to API routes
  */
+/**
+  async function testThing() {
+  let today = new Date().toISOString().slice(0, 10);
+  const { data, error } = await supabase
+    .from("shifts")
+    .select("id, shift_type, shift_date, start_time, end_time")
+    .gt("shift_date", today)
+    .gt("remaining_slots", 0)
+    .eq("shift_type", "volunteer");
+  console.log(data);
+  console.log(data[0].end_time);
+  //console.log(error);
+}
 
- async function testThing() {
-    let today = new Date().toISOString().slice(0, 10);
-     const { data, error } = await supabase
-     .from("shifts")
-     .select("id, shift_type, shift_date, start_time, end_time")
-     .gt("shift_date", today)
-     .gt("remaining_slots", 0)
-     .eq("shift_type", "volunteer");
-     console.log(data)
-     console.log(error)
-     
- }
- 
-testThing()
-
+testThing();
+*/
 function fetchResource() {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -148,37 +149,63 @@ const findShiftType = () => {
       console.log(error);
     }
   };
-}
-  //^^ Re-fetch/render from database for the same user after update
-const displayShifts = () => {
-  const [dataShifts, setDataShifts] = useState([{'id': 0, 'shift_type': "none",'shift_date': "2022/10/4",'start_time': "20:00:00", 'end_time': "21:00:00"}]);
+};
+//^^ Re-fetch/render from database for the same user after update
+const queryShifts = async () => {
+  var dataShifts = [
+    {
+      shift_type: " ",
+      shift_date: " ",
+      start_time: " ",
+      end_time: " ",
+    },
+  ];
+
   if (orientationFlag) {
-    setDataShifts(vShifts);
+      let today = new Date().toISOString().slice(0, 10);
+
+      const { data, error } = await supabase
+        .from("shifts")
+        .select("shift_type, shift_date, start_time, end_time")
+        .gt("shift_date", today)
+        .gt("remaining_slots", 0)
+        .eq("shift_type", "volunteer");
+      console.log("i");
+
+      dataShifts = data;
+    
   } else {
-    setDataShifts(oShifts);
-  }
-  return [dataShifts, setDataShifts];
+      let today = new Date().toISOString().slice(0, 10);
+      console.log("e");
+
+      const { data, error } = await supabase
+        .from("shifts")
+        .select("shift_type, shift_date, start_time, end_time")
+        .gt("shift_date", today)
+        .gt("remaining_slots", 0)
+        .eq("shift_type", "orientation");  
+        dataShifts = data;
+      }
+  
+  //test here console
+  //console.log(dataShifts[1].end_time);  
+  return dataShifts;
 };
 
-const vShifts = async () => {
-  let today = new Date().toISOString().slice(0, 10);
-  await supabase
-    .from("shifts")
-    .select("shift_type, shift_date, start_time, end_time")
-    .gt("shift_date", today)
-    .gt("remaining_slots", 0)
-    .eq("shift_type", "volunteer");
-};
+/**
 const oShifts = async () => {
   let today = new Date().toISOString().slice(0, 10);
-  await supabase
+  //console.log('o')
+  const {data, error} = await supabase
     .from("shifts")
     .select("shift_type, shift_date, start_time, end_time")
     .gt("shift_date", today)
     .gt("remaining_slots", 0)
     .eq("shift_type", "orientation");
+    setDataShifts(data)
+    console.log(data[0].end_time)
 };
-
+*/
 const Single_shift = (props) => {
   {
     return (
@@ -208,12 +235,20 @@ const Record = (props) => {
   }
 };
 //As soon as this function can pass in a queried value, this code should work (will need to check queries still)
+async function PrintShiftsAsync() {
+  console.log("printshifts");
+
+  const outputTable = await queryShifts()
+  console.log(outputTable[0])
+  const sD = outputTable[0].start_date
+  const st = outputTable[0].start_time
+  const nd = outputTable[0].end_time
+  return <Single_shift shiftDate={sD} start={st} end={nd} />;
+}
 function PrintShifts() {
-  //const outputTable = useState(() => displayShifts());
-  const sD = 1//(outputTable.start_date)
-  const st = 1//(outputTable.start_time)
-  const nd = 1//(outputTable.end_time)
-  return (<Single_shift shiftDate= {sD}  start= {st} end= {nd} />);
+  var temp
+  PrintShiftsAsync().then(out => temp)
+  return temp
 }
 const Shifts = () => {
   var shiftType = orientationFlag ? "Volunteer Shifts" : "Orientation Shifts";
