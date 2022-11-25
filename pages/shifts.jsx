@@ -21,7 +21,7 @@ const Shifts = () => {
   const [user, setUser] = useState(null);
   const [shifts, setShifts] = useState([]);
   const [shiftType, setShiftType] = useState("");
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   // Client-side data fetching for initial render
   async function getData() {
@@ -104,7 +104,10 @@ const Shifts = () => {
 
   // Hook + Supabase subscription for refreshing data upon initial render and upon "shifts" table change
   useEffect(() => {
-    getData(); // Doesn't initially set user in pre-fetching
+    getData().then(() => {
+      setLoading(false);
+    })
+
     const subscription = supabase
       .channel("shift-changes")
       .on(
@@ -121,6 +124,15 @@ const Shifts = () => {
     };
   }, []);
 
+
+  // Empty UI for Loading State
+  if (loading) {
+    return (
+      <div className="flex w-screen h-screen justify-center items-center">
+      </div>
+    )
+  }
+
   // UI for unauthenticated user
   if (!user) {
     return (
@@ -131,7 +143,6 @@ const Shifts = () => {
             <Link href="/login">Click here to sign in or make an account.</Link>
           </div>
         </div>
-        
       </div>
     );
   }
