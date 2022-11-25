@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import { supabase } from "./supabaseClient";
-import Link from "next/link";
 import Navbar from "./navbar";
+import Rerouting from './components/volunteer/rerouting';
+import Loading from './components/volunteer/loading';
 
 const Shifts = () => {
   // Modal variables
@@ -117,28 +118,12 @@ const Shifts = () => {
 
   // Empty UI for Loading State
   if (loading) {
-    return (
-      <div className="flex flex-row">
-        <Navbar />
-        <div className="container p-10">
-          <div className="shadow sm:rounded-lg w-4/5"></div>
-        </div>
-      </div>
-    );
+    return <Loading/>
   }
 
   // UI for unauthenticated user
   if (!user) {
-    return (
-      <div className="flex w-screen h-screen justify-center items-center">
-        <div className="flex flex-col text-center">
-          <p>No user data... invalid/expired session or restricted access.</p>
-          <div className="text-primary-color font-medium hover:underline hover:underline-offset-4">
-            <Link href="/login">Click here to sign in or make an account.</Link>
-          </div>
-        </div>
-      </div>
-    );
+    return <Rerouting/>
   }
 
   // Format from military time to 12-hour with "AM" or "PM" specifications

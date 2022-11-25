@@ -3,7 +3,9 @@ import { useState, useEffect, useRef, useReducer } from "react";
 import { FiEdit } from "react-icons/fi";
 import Navbar from "./navbar.jsx";
 import { supabase } from './supabaseClient';
-import Link from 'next/link'
+import Rerouting from './components/volunteer/rerouting';
+import Loading from './components/volunteer/loading';
+
 
 /**
  * Method for initially fetching user info upon render from client-side
@@ -59,20 +61,15 @@ const Profile = () => {
   
   const [data, setData, loading, setLoading] = fetchResource();
 
-  // UI for load state
-  if (loading) return <p>Loading...</p>
-  
+  // Empty UI for Loading State
+  if (loading) {
+    return <Loading/>
+  }
+
   // UI for unauthenticated user
-  if (!data) return (
-    <div>
-      <p>No profile data.</p>
-      <div className="text-primary-color font-medium hover:underline hover:underline-offset-4">
-        <Link href="/login">
-          Click here to sign in or make an account.
-        </Link>
-      </div>
-    </div>
-  )
+  if (!data) {
+    return <Rerouting/>
+  }
 
   // Dropdown data
   const states = [

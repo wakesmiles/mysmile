@@ -12,7 +12,7 @@ const Login = () => {
   const emailRef = useRef("");
   const passwordRef = useRef("");
 
-  // TODO: discard console log statements, adjust route to dashboard
+  // TODO: discard console log statements
   const login = async (e) => {
     e.preventDefault();
     let success = false;
