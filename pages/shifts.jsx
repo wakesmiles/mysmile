@@ -2,34 +2,30 @@ import { useEffect, useState } from "react";
 import { supabase } from "./supabaseClient";
 import Link from "next/link";
 import Navbar from "./navbar";
-// import Record from './components/volunteer/Record';
 
 /**
  * TODO:
- * Query database for current available shifts
- * - Filter based on upcoming shifts, and those with remaining_slots > 0
- * - Run separate queries for orientation vs volunteer shift types
- * - If the "orientation" field in the "profiles" table for the volunteer is FALSE,
- *   DON'T query/display for volunteer shifts
+ * IF VOLUNTEER HAS ALREADY SIGNED UP FOR AN ORIENTATION SHIFT, DON'T DISPLAY ANYMORE
  *
- * When volunteer signs up,
- * - Decrease remaining_slots by 1 for the shift
- * - Add a new sign-up record to "sign-ups" table using shift information
- *
- * Ensure that volunteers somehow CAN'T sign up for the same shift multiple times
+ * If no shifts are queried or returned in any case, create blank UI
+ * - "No available shifts at the moment!"
+ * - "You're already signed up for an orientation shift! View upcoming shifts in your dashboard."
  */
 
 const Shifts = () => {
   // Modal variables
   const [open, setOpen] = useState(false);
   const [message, setMessage] = useState("");
+
+  // Data variables
   const [user, setUser] = useState(null);
   const [shifts, setShifts] = useState([]);
 
+  // Client-side data fetching for initial render
   async function getData() {
     try {
       // Retrieve current user
-      console.log('getting')
+      console.log("getting");
       await supabase.auth.getUser().then(async (data) => {
         if (data) {
           const id = data.data.user.id;
@@ -49,9 +45,9 @@ const Shifts = () => {
                   : "orientation";
 
                 const uid = user.data[0].id;
-                
+
+                // Query shift information
                 fetchShifts(uid, today, shiftType);
-                
               }
             });
         }
@@ -62,35 +58,49 @@ const Shifts = () => {
     }
   }
 
+  /** 
+   * Attempts to retrieve:
+   * upcoming shifts from current date and onwards,
+   * of the necessary shift type (either orientation or volunteer),
+   * with open slots left,
+   * that the user has not already signed up for,
+   * sorted by shift date and start time
+  */
   async function fetchShifts(uid, currentDate, shiftType) {
-    await supabase.from('signups').select('shift_id').eq('user_id', uid).then(async (res) => {
-      let assigned = "("
+    await supabase
+      .from("signups")
+      .select("shift_id")
+      .eq("user_id", uid)
+      .then(async (res) => {
+        let assigned = "(";
 
-      if (res.data) {
-        res.data.forEach((s) => assigned += s.shift_id + "," );
-        assigned = assigned.slice(0, -1) + ")"
-      } else {
-        assigned = "()"
-      }
+        if (res.data) {
+          res.data.forEach((s) => (assigned += s.shift_id + ","));
+          assigned = assigned.slice(0, -1) + ")";
+        } else {
+          assigned = "()";
+        }
 
-      await supabase
-        .from("shifts")
-        .select()
-        .eq("shift_type", shiftType)
-        .gte("shift_date", currentDate)
-        .filter('id', 'not.in', assigned)
-        .gt("remaining_slots", 0)
-        .order("shift_date")
-        .then((query) => {
-          if (query) {
-            setShifts(query.data);
-          }
-        });
-    })
+        await supabase
+          .from("shifts")
+          .select()
+          .eq("shift_type", shiftType)
+          .gte("shift_date", currentDate)
+          .filter("id", "not.in", assigned)
+          .gt("remaining_slots", 0)
+          .order("shift_date", "start_time")
+          .then((query) => {
+            if (query) {
+              setShifts(query.data);
+            }
+          });
+      });
   }
 
+  // Sets shiftType for UI display and repeated querying
   const shiftType = user.orientation ? "volunteer" : "orientation";
 
+  // Hook + Supabase subscription for refreshing data upon initial render and upon "shifts" table change
   useEffect(() => {
     getData();
     const subscription = supabase
@@ -99,7 +109,11 @@ const Shifts = () => {
         "postgres_changes",
         { event: "*", schema: "public", table: "shifts" },
         () => {
-          fetchShifts(user.id, new Date().toISOString().slice(0, 10), shiftType);
+          fetchShifts(
+            user.id,
+            new Date().toISOString().slice(0, 10),
+            shiftType
+          );
         }
       )
       .subscribe();
@@ -109,7 +123,6 @@ const Shifts = () => {
     };
   }, []);
 
-  
   // UI for unauthenticated user
   if (!user) {
     return (
@@ -120,14 +133,6 @@ const Shifts = () => {
         </div>
       </div>
     );
-  }
-
-  if (!shifts) {
-    return (
-      <div>
-        No information available at this time.
-      </div>
-    )
   }
 
   // Format from military time to 12-hour with "AM" or "PM" specifications
@@ -144,9 +149,7 @@ const Shifts = () => {
   };
 
   /**
-   * When volunteer signs up,
-   * - Decrease remaining_slots by 1 for the shift
-   * - Add a new sign-up record to "sign-ups" table using shift information
+   * Attempts to volunteer user for specific shift
    */
   const volunteer = async (e, s) => {
     e.preventDefault();
@@ -159,27 +162,34 @@ const Shifts = () => {
         })
         .eq("id", s.id)
         .then(async () => {
-          await supabase.from('signups').insert({
-            user_id: user.id,
-            first_name: user.first_name,
-            last_name: user.last_name,
-            email: user.email,
-            shift_id: s.id,
-            shift_date: s.shift_date,
-            shift_type: s.shift_type,
-            start_time: s.start_time,
-            end_time: s.end_time,
-          }).then(() => {
-            success = true;
-          })
+          await supabase
+            .from("signups")
+            .insert({
+              user_id: user.id,
+              first_name: user.first_name,
+              last_name: user.last_name,
+              email: user.email,
+              shift_id: s.id,
+              shift_date: s.shift_date,
+              shift_type: s.shift_type,
+              start_time: s.start_time,
+              end_time: s.end_time,
+            })
+            .then(() => {
+              success = true;
+            });
         });
     } catch (e) {
       console.log(e);
     } finally {
       if (success) {
-        setMessage("Success! You can view your upcoming volunteer assignments in the 'Assignments' tab.")
+        setMessage(
+          "Success! You can view your upcoming volunteer shifts in the Dashboard."
+        );
       } else {
-        setMessage("Attempt to sign-up was unsuccessful. Please reload the page and try again, or contact Wake Smiles administration.")
+        setMessage(
+          "Attempt to sign-up was unsuccessful. Please reload the page and try again, or contact Wake Smiles administration."
+        );
       }
       setOpen(true);
     }
@@ -213,7 +223,7 @@ const Shifts = () => {
               </tr>
             </thead>
             <tbody>
-              {shifts.map((s) => {
+              {shifts !== [] ? (shifts.map((s) => {
                 return (
                   <>
                     <tr key={s.id} className="grid grid-cols-4 gap-4 px-6 mb-1">
@@ -265,7 +275,11 @@ const Shifts = () => {
                     </tr>
                   </>
                 );
-              })}
+              })) : (
+                <tr>
+                  No available shifts at the moment! Check back in later.
+                </tr>
+              )}
             </tbody>
           </table>
         </div>
