@@ -47,7 +47,7 @@ const Login = () => {
           <Image src={"/ws_logo.png"} width={50} height={50} />
           <div className="flex flex-col justify-center">
             <span className="ml-3 font-serif text-5xl text-primary-color">
-              Wake Side
+              Smile Doc
             </span>
           </div>
         </div>

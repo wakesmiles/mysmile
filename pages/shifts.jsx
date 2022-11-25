@@ -21,12 +21,13 @@ const Shifts = () => {
   const [user, setUser] = useState(null);
   const [shifts, setShifts] = useState([]);
   const [shiftType, setShiftType] = useState("");
+  const [loading, setLoading] = useState(false);
 
   // Client-side data fetching for initial render
   async function getData() {
+    let success = false;
     try {
       // Retrieve current user
-      console.log("getting");
       await supabase.auth.getUser().then(async (data) => {
         if (data) {
           const id = data.data.user.id;
@@ -36,22 +37,20 @@ const Shifts = () => {
             .from("profiles")
             .select("id, first_name, last_name, email, orientation")
             .eq("id", id)
-            .then(async (user) => {
-              if (user) {
-                console.log('user');
-                console.log(user)
-                setUser(user.data[0]);
-
+            .then(async (res) => {
+              if (res.data[0]) {
                 const today = new Date().toISOString().slice(0, 10);
-                const sType = user.data[0].orientation
+                const sType = res.data[0].orientation
                   ? "volunteer"
                   : "orientation";
+                const uid = res.data[0].id;
 
-                const uid = user.data[0].id;
-                setShiftType(sType);
-
+                setUser(res.data[0]);
+                setShiftType(sType.charAt(0).toUpperCase() + sType.slice(1));
+                
                 // Query shift information
                 fetchShifts(uid, today, sType);
+                success = true;
               }
             });
         }
@@ -59,6 +58,8 @@ const Shifts = () => {
     } catch (e) {
       console.log("error fetching");
       console.log(e);
+    } finally {
+      return success;
     }
   }
 
@@ -103,19 +104,14 @@ const Shifts = () => {
 
   // Hook + Supabase subscription for refreshing data upon initial render and upon "shifts" table change
   useEffect(() => {
-    getData();
+    getData(); // Doesn't initially set user in pre-fetching
     const subscription = supabase
       .channel("shift-changes")
       .on(
         "postgres_changes",
         { event: "*", schema: "public", table: "shifts" },
         () => {
-          console.log('in subscription');
-          fetchShifts(
-            user.id,
-            new Date().toISOString().slice(0, 10),
-            (user.orientation ? "volunteer" : "orientation")
-          );
+          getData(); // Work-around to user auth in current state management
         }
       )
       .subscribe();
@@ -128,11 +124,14 @@ const Shifts = () => {
   // UI for unauthenticated user
   if (!user) {
     return (
-      <div>
-        <p>No user data.</p>
-        <div className="text-primary-color font-medium hover:underline hover:underline-offset-4">
-          <Link href="/login">Click here to sign in or make an account.</Link>
+      <div className="flex w-screen h-screen justify-center items-center">
+        <div className="flex flex-col text-center">
+          <p>No user data... invalid/expired session or restricted access.</p>
+          <div className="text-primary-color font-medium hover:underline hover:underline-offset-4">
+            <Link href="/login">Click here to sign in or make an account.</Link>
+          </div>
         </div>
+        
       </div>
     );
   }
@@ -156,6 +155,7 @@ const Shifts = () => {
   const volunteer = async (e, s) => {
     e.preventDefault();
     let success = false;
+    
     try {
       await supabase
         .from("shifts")
@@ -200,22 +200,16 @@ const Shifts = () => {
   return (
     <div className="flex flex-row">
       <Navbar />
-      <div
-        className="overflow-hidden bg-white shadow sm:rounded-lg"
-        style={{ width: "700px" }}
-      >
-        <div className="px-4 py-5 sm:px-6">
+      <div className="container p-10">
+    <div className="shadow sm:rounded-lg w-4/5">
+      <div className="px-4 py-5 sm:px-6">
           <h2 className="text-lg font-medium leading-6 text-gray-900">
-            Available Shifts
+            Available {shiftType} Shifts
           </h2>
         </div>
 
         <div className="border-t border-gray-200 ml-5">
-          <h3 className="text-primary-color italic font-bold mt-5">
-            {shiftType} shifts
-          </h3>
-
-          <table className="orientation-shifts mb-4 w-full">
+          <table className="orientation-shifts mt-5 mb-4 w-full">
             <thead>
               <tr className="grid grid-cols-4 gap-4 px-6 text-left">
                 <th className="font-medium">Date</th>
@@ -251,9 +245,7 @@ const Shifts = () => {
                                     <hr />
                                     <div className="mt-2">
                                       <p className="text-sm text-gray-500">
-                                        Sign-up was successful! You can check
-                                        out your scheduled assignments in the
-                                        "Sign-ups" tab.
+                                        {message}
                                       </p>
                                     </div>
                                   </div>
@@ -285,6 +277,7 @@ const Shifts = () => {
             </tbody>
           </table>
         </div>
+      </div>
       </div>
     </div>
   );
