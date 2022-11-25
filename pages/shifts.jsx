@@ -20,6 +20,7 @@ const Shifts = () => {
   // Data variables
   const [user, setUser] = useState(null);
   const [shifts, setShifts] = useState([]);
+  const [shiftType, setShiftType] = useState("");
 
   // Client-side data fetching for initial render
   async function getData() {
@@ -37,17 +38,20 @@ const Shifts = () => {
             .eq("id", id)
             .then(async (user) => {
               if (user) {
+                console.log('user');
+                console.log(user)
                 setUser(user.data[0]);
 
                 const today = new Date().toISOString().slice(0, 10);
-                const shiftType = user.orientation
+                const sType = user.data[0].orientation
                   ? "volunteer"
                   : "orientation";
 
                 const uid = user.data[0].id;
+                setShiftType(sType);
 
                 // Query shift information
-                fetchShifts(uid, today, shiftType);
+                fetchShifts(uid, today, sType);
               }
             });
         }
@@ -97,9 +101,6 @@ const Shifts = () => {
       });
   }
 
-  // Sets shiftType for UI display and repeated querying
-  const shiftType = user.orientation ? "volunteer" : "orientation";
-
   // Hook + Supabase subscription for refreshing data upon initial render and upon "shifts" table change
   useEffect(() => {
     getData();
@@ -109,10 +110,11 @@ const Shifts = () => {
         "postgres_changes",
         { event: "*", schema: "public", table: "shifts" },
         () => {
+          console.log('in subscription');
           fetchShifts(
             user.id,
             new Date().toISOString().slice(0, 10),
-            shiftType
+            (user.orientation ? "volunteer" : "orientation")
           );
         }
       )
