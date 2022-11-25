@@ -214,7 +214,7 @@ const Shifts = () => {
           </div>
 
           <div className="border-t border-gray-200 ml-5">
-            {false ? (
+            {shifts !== [] ? (
               <table className="orientation-shifts mt-5 mb-4 w-full">
                 <thead>
                   <tr className="grid grid-cols-4 gap-4 px-6 text-left">
