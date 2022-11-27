@@ -1,22 +1,26 @@
 import { useRef } from "react";
-import { supabase } from "./supabaseClient.js";
-import Link from "next/link";
 import { useRouter } from "next/router";
+import Link from "next/link";
+import states from "./components/states";
+import { supabase } from "./supabaseClient.js";
 
 const Registration = () => {
   const router = useRouter();
 
-  // Form input fields
+  /**
+   * Registration form input fields
+   * Keep phone #, DOB, and zip code as string for easier formatting and data validation
+   */
   const fnameRef = useRef("");
   const lnameRef = useRef("");
   const emailRef = useRef("");
   const passwordRef = useRef("");
-  const phoneRef = useRef(""); // Keep as string for formatting
-  const dobRef = useRef(""); // Keep as string for formatting
+  const phoneRef = useRef("");
+  const dobRef = useRef("");
   const addressRef = useRef("");
   const cityRef = useRef("");
   const stateRef = useRef("");
-  const zipRef = useRef(""); // Keep as string so that zipcodes with leading zeros are valid
+  const zipRef = useRef("");
   const waiverRef = useRef(false);
   const hipaaRef = useRef(false);
 
@@ -31,67 +35,13 @@ const Registration = () => {
   maxDob =
     maxDob.slice(6, 10) + "-" + maxDob.slice(0, 2) + "-" + maxDob.slice(3, 5);
 
-  const states = [
-    "AL",
-    "AK",
-    "AZ",
-    "AR",
-    "CA",
-    "CO",
-    "CT",
-    "DE",
-    "DC",
-    "FL",
-    "GA",
-    "HI",
-    "ID",
-    "IL",
-    "IN",
-    "IA",
-    "KS",
-    "KY",
-    "LA",
-    "ME",
-    "MD",
-    "MA",
-    "MI",
-    "MN",
-    "MS",
-    "MO",
-    "MT",
-    "NE",
-    "NV",
-    "NH",
-    "NJ",
-    "NM",
-    "NY",
-    "NC",
-    "ND",
-    "OH",
-    "OK",
-    "OR",
-    "PA",
-    "RI",
-    "SC",
-    "SD",
-    "TN",
-    "TX",
-    "UT",
-    "VT",
-    "VA",
-    "WA",
-    "WV",
-    "WI",
-    "WY",
-  ];
-
   const Option = (props) => <option>{props.label}</option>;
 
+  // Create new records in Supabase auth.users internal schema and public 'profiles' table
   const signUp = async (e) => {
     e.preventDefault();
     let success = false;
 
-    // Create new record in auth.users internal schema
     await supabase.auth
       .signUp({
         email: emailRef.current.value,
@@ -110,34 +60,34 @@ const Registration = () => {
             orientation: false,
           },
         },
-
-        // Create new record in public 'profiles' table using metadata
       })
       .then(async (data) => {
         const user = data.data.user;
 
-        await supabase.from("profiles").insert({
-          id: user.id,
-          first_name: user.user_metadata.first_name,
-          last_name: user.user_metadata.last_name,
-          dob: user.user_metadata.dob,
-          role: user.user_metadata.role,
-          email: user.email,
-          phone: user.user_metadata.phone,
-          address: user.user_metadata.address,
-          city: user.user_metadata.city,
-          state: user.user_metadata.state,
-          zip: user.user_metadata.zip,
-          orientation: user.user_metadata.orientation,
-        }).then(() => success = true)
+        await supabase
+          .from("profiles")
+          .insert({
+            id: user.id,
+            first_name: user.user_metadata.first_name,
+            last_name: user.user_metadata.last_name,
+            dob: user.user_metadata.dob,
+            role: user.user_metadata.role,
+            email: user.email,
+            phone: user.user_metadata.phone,
+            address: user.user_metadata.address,
+            city: user.user_metadata.city,
+            state: user.user_metadata.state,
+            zip: user.user_metadata.zip,
+            orientation: user.user_metadata.orientation,
+          })
+          .then(() => (success = true));
       });
 
-      if (success) {
-        router.push('/dashboard')
-      }
+    if (success) {
+      router.push("/dashboard");
+    }
     // console.log(supabase.auth.user());
   };
-
 
   // CLEAN: login & registration classes are quite similar, can probably simplify class names
   return (
@@ -397,10 +347,7 @@ const Registration = () => {
               <Link href="/">Back to Login</Link>
             </div>
             <div>
-              <button
-                type="submit"
-                className="indigo-button"
-              >
+              <button type="submit" className="indigo-button-lg">
                 Sign Up
               </button>
             </div>
