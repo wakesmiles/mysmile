@@ -3,6 +3,7 @@ import { FiEdit } from "react-icons/fi";
 import Navbar from "./components/navbar";
 import Loading from "./components/loading";
 import Rerouting from "./components/rerouting";
+import { formatDate } from './components/formatting';
 import states from "./components/states";
 import { supabase } from "./supabaseClient";
 
@@ -140,8 +141,8 @@ const Profile = () => {
                 </dd>
               </div>
               <div className="profile-row bg-white">
-                <dt className="font-medium">Date of Birth {"(YYYY-MM-DD)"}</dt>
-                <dd className="mt-1 sm:col-span-2 sm:mt-0">{data.dob}</dd>
+                <dt className="font-medium">Date of Birth</dt>
+                <dd className="mt-1 sm:col-span-2 sm:mt-0">{formatDate(data.dob)}</dd>
               </div>
               <div className="profile-row bg-gray-50">
                 <dt className="font-medium">Role</dt>

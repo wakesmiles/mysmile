@@ -5,6 +5,7 @@ import { MdDownload } from "react-icons/md";
 import Navbar from "./components/navbar";
 import Loading from "./components/loading";
 import Rerouting from "./components/rerouting";
+import { formatDate } from './components/formatting';
 import { supabase } from "./supabaseClient";
 import { saveAs } from 'file-saver';
 
@@ -160,11 +161,6 @@ const Upload = () => {
     }
   }
 
-  // Format from YYYY-MM-DD to MM/DD/YYYY
-  const formatDate = (date) => {
-    return date.slice(5, 7) + "/" + date.slice(8, 10) + "/" + date.slice(0, 4);
-  };
-
   return (
     <div className="flex flex-row">
       <Navbar />
@@ -212,7 +208,7 @@ const Upload = () => {
                         <td className="col-span-1">
                           {formatDate(f.created_at.slice(0, 10))}
                         </td>
-                        <td className="col-span-1 flex flex-row justify-end gap-2">
+                        <td className="col-span-1 flex flex-row justify-end gap-4">
                           <button
                             className="w-auto text-indigo-600"
                             onClick={(e) => downloadFile(e, f.name)}
