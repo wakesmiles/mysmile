@@ -7,6 +7,10 @@
   --secondary-color: #9654ba;
 }
 
+* {
+  box-sizing: border-box;
+}
+
 html,
 body {
   padding: 0;
@@ -20,8 +24,8 @@ a {
   text-decoration: none;
 }
 
-* {
-  box-sizing: border-box;
+h2 {
+  @apply text-lg font-medium leading-6 text-gray-900;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -74,6 +78,10 @@ a {
 
 .error {
   @apply text-red-500 italic;
+}
+
+.navbar-item {
+  @apply relative overflow-hidden text-white text-ellipsis whitespace-nowrap rounded;
 }
 
 /**Volunteer Login + Registration****************************************/
