@@ -1,11 +1,11 @@
+import { useEffect, useState } from "react";
 import { SlCloudUpload } from "react-icons/sl";
 import { FiTrash2 } from "react-icons/fi";
 import { MdDownload } from "react-icons/md";
-import { useEffect, useState } from "react";
+import Navbar from "./components/navbar";
+import Loading from "./components/loading";
+import Rerouting from "./components/rerouting";
 import { supabase } from "./supabaseClient";
-import Navbar from "./navbar";
-import Loading from "./components/volunteer/loading";
-import Rerouting from "./components/volunteer/rerouting";
 import { saveAs } from 'file-saver';
 
 /**
@@ -217,8 +217,7 @@ const Upload = () => {
                             className="w-auto text-indigo-600"
                             onClick={(e) => downloadFile(e, f.name)}
                           >
-                            download
-                            {/* <MdDownload className="w-full h-full" /> */}
+                            <MdDownload className="w-full h-full" />
                           </button>
                           <button
                             className="w-5 h-5 text-indigo-600"

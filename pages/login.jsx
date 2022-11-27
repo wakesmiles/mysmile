@@ -1,9 +1,9 @@
 import { useState, useRef } from "react";
 import { AiFillEyeInvisible, AiFillEye } from "react-icons/ai";
-import { supabase } from "./supabaseClient";
+import { useRouter } from "next/router";
 import Image from "next/image";
 import Link from "next/link";
-import { useRouter } from "next/router";
+import { supabase } from "./supabaseClient";
 
 const Login = () => {
   const [show, setShow] = useState(false);
@@ -12,30 +12,27 @@ const Login = () => {
   const emailRef = useRef("");
   const passwordRef = useRef("");
 
-  // TODO: discard console log statements
+  // Log into application with Supabase auth
   const login = async (e) => {
     e.preventDefault();
     let success = false;
 
-    await supabase.auth
-      .signInWithPassword({
-        email: emailRef.current.value,
-        password: passwordRef.current.value,
-      })
-      .then((data, error) => {
-        if (data) {
-          console.log("LOGIN DATA");
-          console.log(data);
-          success = true;
-        } else if (error) {
-          console.log("LOGIN ERROR");
-          console.log(error);
-        }
-      });
-      
-      if (success) {
-        router.push('/dashboard')
-      }
+    try {
+      await supabase.auth
+        .signInWithPassword({
+          email: emailRef.current.value,
+          password: passwordRef.current.value,
+        })
+        .then((data, err) => {
+          if (data) {
+            success = true;
+          }
+        });
+    } catch (err) {
+      alert(err.message);
+    } finally {
+      if (success) router.push("/dashboard");
+    }
   };
 
   // CLEAN: login & registration classes are quite similar, can probably simplify class names
@@ -90,22 +87,10 @@ const Login = () => {
           </div>
 
           <div>
-            <button
-              type="submit"
-              className="indigo-button w-full"
-            >
+            <button type="submit" className="indigo-button-lg w-full">
               Log In
             </button>
-            <div className="flex flex-row justify-between mt-2 text-sm font-medium text-primary-color">
-              <div>
-                {/* <a
-                  href="#"
-                  className="hover:text-indigo-600 hover:underline hover:underline-offset-4"
-                >
-                  Reset Password
-                </a> */}
-              </div>
-              <br />
+            <div className="flex flex-row justify-end mt-2 text-sm font-medium text-primary-color">
               <div className="hover:text-indigo-600 hover:underline hover:underline-offset-4">
                 <Link href="/registration">Create New Account</Link>
               </div>

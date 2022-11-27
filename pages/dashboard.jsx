@@ -1,6 +1,6 @@
-import { AiFillClockCircle } from "react-icons/ai";
 import { useState, useRef } from "react";
-import Navbar from './navbar';
+import { AiFillClockCircle } from "react-icons/ai";
+import Navbar from './components/navbar';
 
 const Dashboard = () => {
   /**

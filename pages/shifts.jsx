@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
+import Navbar from "./components/navbar";
+import Loading from './components/loading';
+import Rerouting from './components/rerouting';
 import { supabase } from "./supabaseClient";
-import Navbar from "./navbar";
-import Rerouting from './components/volunteer/rerouting';
-import Loading from './components/volunteer/loading';
 
 const Shifts = () => {
   // Modal variables
@@ -222,7 +222,7 @@ const Shifts = () => {
                           <td>{formatTime(s.end_time)}</td>
                           <td>
                             <button
-                              className="indigo-button-sm"
+                              className="'-sm"
                               onClick={(e) => volunteer(e, s)}
                             >
                               Sign Up
@@ -264,7 +264,6 @@ const Shifts = () => {
                       </>
                     );
                   })}
-                  ;
                 </tbody>
               </table>
             ) : (

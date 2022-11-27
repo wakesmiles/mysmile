@@ -1,19 +1,14 @@
-import { useRouter } from "next/router";
 import Link from "next/link";
-import { supabase } from "./supabaseClient";
+import { useRouter } from "next/router";
+import { supabase } from "../supabaseClient";
 
 const Navbar = () => {
   const router = useRouter();
 
-  const logout = async (e) => {
+  const logout = async () => {
     let success = false;
-    await supabase.auth.signOut().then(() => {
-      success = true;
-    });
-
-    if (success) {
-      router.push("/login");
-    }
+    await supabase.auth.signOut().then(() => success = true);
+    if (success) router.push("/login");
   };
 
   return (
@@ -52,7 +47,7 @@ const Navbar = () => {
           data-mdb-ripple="true"
           data-mdb-ripple-color="dark"
         >
-          <button onClick={(e) => logout(e)}>Logout</button>
+          <button onClick={logout}>Logout</button>
         </li>
       </ul>
     </div>
