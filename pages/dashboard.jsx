@@ -1,15 +1,29 @@
 import { AiFillClockCircle } from "react-icons/ai";
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
+import { supabase } from "./supabaseClient";
 import Navbar from './navbar';
 
 const Dashboard = () => {
-  /**
-   * TODO: Fetcha signups data
-   * Filter by user id
-   * Filter by shiftDate from today (inclusive) and onwards
-   */
+  const[shifts, setShifts] = useState(null)
 
-  const Row = (props) => {
+  useEffect(() => {
+    const getShifts = async() => {
+      const { data, error } = await supabase
+        .from('signups')
+        .select()
+
+        if(error) {
+          console.log(error)
+        }
+        if (data) {
+          setShifts(data)
+        }
+    }
+    getShifts()
+
+  }, [])
+    
+  const Row = ({ shift }) => {
     // Modal display variables
     const [open, setOpen] = useState(false);
     const cancelButtonRef = useRef(null);
@@ -19,7 +33,11 @@ const Dashboard = () => {
      * In the "shifts" table, add 1 to the "remaining_slots" field for this shift
      * In the "signups" table, delete this record
      */
-    const cancelShift = async () => {};
+    const cancelShift = async () => {
+      await supabase.from("signups").delete().eq("shift_id", shift.id)
+      slots = await supabase.from("shifts").select("remaining_slots").eq("shift_id", shift.id) + 1
+      await supabase.from("shifts").update({remaining_slots: {slots}}).eq("shift_id", shift.id)
+    };
 
     /**
      * TODO: Implement clocking in
@@ -31,7 +49,22 @@ const Dashboard = () => {
      *
      * Update from icon to displaying clock-in time in the date
      */
-    const clockIn = async () => {};
+    
+    const clockIn = async () => {
+      var today = new Date(),
+   
+      time = today.getHours() + ':' + today.getMinutes() + ':' + today.getSeconds();
+
+      const date = today.getFullYear() + "-" + (today.getMonth() + 1) + "-" + today.getDate()
+
+      if(date != shift.shift_date) {
+        alert("You can't clock in at this time")
+      } else if (shift.clock_in != null) {
+        alert("You have already clocked in for this shift")
+      } else {
+        await supabase.from("signups").update({clock_in: {time} })
+      }
+    };
 
     /**
      * TODO: Implement clocking out
@@ -42,23 +75,37 @@ const Dashboard = () => {
      *
      * Update from icon to displaying clock-out time in the date
      */
-    const clockOut = async () => {};
+    const clockOut = async () => {
+      var today = new Date(),
+   
+      time = today.getHours() + ':' + today.getMinutes() + ':' + today.getSeconds();
+
+      const date = today.getFullYear() + "-" + (today.getMonth() + 1) + "-" + today.getDate()
+
+      if(date != shift.shift_date) {
+        alert("You can't clock out at this time")
+      } else if (shift.clock_in != null) {
+        alert("You have already clocked out for this shift")
+      } else {
+        await supabase.from("signups").update({clock_out: {time} })
+      }
+    };
 
     return (
       <tr className="border-t bg-white">
-        <td className="py-2 px-6">01/01/2023</td>
-        <td className="py-2 px-6">1:30 PM</td>
-        <td className="py-2 px-6">5:00 PM</td>
+        <td className="py-2 px-6">{shift.shift_date}</td>
+        <td className="py-2 px-6">{shift.start_time}</td>
+        <td className="py-2 px-6">{shift.end_time}</td>
         <td className="py-2 px-6">
           <div className="flex justify-center">
-            <button className="text-indigo-600 text-lg hover:text-indigo-800">
+            <button onClick={() => clockIn()} className="text-indigo-600 text-lg hover:text-indigo-800">
               <AiFillClockCircle size={25} />
             </button>
           </div>
         </td>
         <td className="py-2 px-6">
           <div className="flex justify-center">
-            <button className="text-indigo-600 text-lg hover:text-indigo-800">
+            <button onClick={() => clockOut()} className="text-indigo-600 text-lg hover:text-indigo-800">
               <AiFillClockCircle size={25} />
             </button>
           </div>
@@ -90,7 +137,7 @@ const Dashboard = () => {
                   <button
                     type="button"
                     className="indigo-button-lg"
-                    onClick={(e) => cancelShift(e)}
+                    onClick={(e) => {cancelShift(e); () => setOpen(false)}}
                   >
                     Yes
                   </button>
@@ -158,11 +205,14 @@ const Dashboard = () => {
                     ></th>
                   </tr>
                 </thead>
-                <tbody>
-                  <Row />
-                  <Row />
-                  <Row />
-                  <Row />
+                <tbody id="shifts">
+                {shifts && (
+                  <>
+                    {shifts.map(shift => (
+                      <Row key = {shift.id} shift = {shift} />
+                    ))}
+                  </>
+                )}
                 </tbody>
               </table>
             </div>
