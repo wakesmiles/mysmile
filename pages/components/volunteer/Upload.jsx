@@ -1,4 +1,9 @@
 import { SlCloudUpload } from "react-icons/sl";
+<<<<<<< HEAD
+import { useState } from 'react'
+import { supabase } from "../../supabaseClient";
+
+=======
 import { useEffect, useState } from 'react'
 import { supabase } from "../../supabaseClient";
 
@@ -25,8 +30,31 @@ const uploadAvatar = async (event) => {
     alert(error.message)
   } 
 }
+>>>>>>> main
 
 const Upload = () => {
+  const [file, setFile] = useState(null)
+  const [fileUrl, setFileUrl] = useState("")
+
+
+  const uploader = async (e) => {
+    e.preventDefault()
+
+    if (file) {
+      const {data, error} = await supabase.storage.from("test").upload(`${file.name}`, file)
+
+      if(error) {
+        alert("Error uploading file")
+      }
+
+      if(data) {
+        setFileUrl(data.Key)
+        fileUrl = data.Key
+        alert("File upload successful")
+      }
+    }
+  }
+
   return (
     <div className="flex min-h-full items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
       <div className="w-full max-w-md space-y-8">
@@ -45,11 +73,15 @@ const Upload = () => {
                   PDF format only
                 </div>
               </div>
+<<<<<<< HEAD
+              <input type="file" id="single" name="file_upload" className="hidden" onChange={e => setFile(e.target.files[0])}/>
+=======
               <input type="file" id="single" accept="pdf/*" onChange={uploadAvatar} name="file_upload" className="hidden" />
+>>>>>>> main
             </label>
             <br />
-            <button className="bg-secondary-color hover:bg-primary-color text-white font-bold py-2 px-4 w-full rounded">
-              UPLOAD FILES
+            <button onClick={uploader} className="bg-secondary-color hover:bg-primary-color text-white font-bold py-2 px-4 w-full rounded">
+            UPLOAD FILES
             </button>
           </form>
         </div>
