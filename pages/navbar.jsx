@@ -45,7 +45,7 @@ const Navbar = () => {
           data-mdb-ripple="true"
           data-mdb-ripple-color="dark"
         >
-          <Link href="/upload">Upload</Link>
+          <Link href="/files">Files</Link>
         </li>
         <li
           className="relative overflow-hidden text-white text-ellipsis whitespace-nowrap rounded hover:text-bg-colortransition duration-300 ease-in-out"
