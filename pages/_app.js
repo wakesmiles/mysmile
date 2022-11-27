@@ -1,4 +1,5 @@
 import '../styles/globals.css';
+<<<<<<< HEAD
 import Registration from './components/volunteer/Registration';
 import Login from './components/volunteer/Login';
 import VDashboard from './components/volunteer/VDashboard';
@@ -6,11 +7,14 @@ import Profile from './components/volunteer/Profile';
 import Upload from './components/volunteer/Upload';
 import Avatar from './components/volunteer/Avatar';
 
+=======
+>>>>>>> main
 
 function MyApp({ Component, pageProps }) {
 
   return (
     // <UserProvider>
+<<<<<<< HEAD
       <div className="h-screen flex flex-col justify-items-center ">
         <Upload/>
         {/* <BrowserRouter>x
@@ -27,6 +31,10 @@ function MyApp({ Component, pageProps }) {
             <Route path="/profile" element={<ProfilePage />} />
           </Route>
         </Routes> */}
+=======
+      <div>
+        <Component {...pageProps}/>
+>>>>>>> main
       </div>
     // </UserProvider>
   )
