@@ -35,39 +35,40 @@ a {
 }
 
 @screen sm {
-  .login-input, .registration-input {
+  .auth-container {
+    @apply rounded-md;
+  }
+  .auth-input {
     @apply shadow-sm text-sm;
   }
-  .login-label, .registration-label {
+  .auth-label {
     @apply text-sm;
-  }
-  .login-container, .registration-container {
-    @apply rounded-md;
   }
   .profile-row {
     @apply grid grid-cols-3 gap-4 px-6;
-  }
-  .shift-row {
-    @apply grid grid-cols-4 gap-4 px-6;
   }
 }
 
 .red-button-sm {
   @apply inline-flex justify-center rounded-md border-transparent bg-red-500 py-1 px-3 text-sm font-medium text-white shadow-sm;
 }
-  .container {
+
+.container {
   @apply w-full h-screen flex flex-row justify-center justify-items-center align-middle overflow-hidden bg-white;
 }
 
-.indigo-button-sm {
+.indigo-button-sm, .indigo-button-lg {
   @apply inline-flex justify-center rounded-md border-transparent bg-indigo-600 py-1 px-3 text-sm font-medium text-white shadow-sm;
 }
 
-.indigo-button-lg, .indigo-button {
-  @apply inline-flex justify-center rounded-md border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white shadow-sm;
+.indigo-button-sm {
+  @apply py-1 px-3;
 }
 
-.indigo-button:disabled {
+.indigo-button-lg {
+  @apply py-2 px-4;
+}
+.indigo-button-sm:disabled, .indigo-button-lg:disabled {
   @apply bg-gray-500;
 }
 
@@ -75,43 +76,30 @@ a {
   @apply text-red-500 italic;
 }
 
-/**Volunteer Login****************************************/
-.password-toggle {
-  @apply relative bottom-7 float-right right-3;
+/**Volunteer Login + Registration****************************************/
+.auth-container {
+  @apply overflow-hidden shadow;
+  width: 550px;
 }
 
-.login-input {
-  @apply w-full rounded-xl border border-gray-300;
+.auth-input {
+  @apply mt-1 block w-full rounded-lg border-gray-300;
 }
 
-.login-input:focus {
+.auth-input:focus {
   @apply z-10 border-primary-color outline-none ring-primary-color;
 }
 
-.login-container {
-  @apply overflow-hidden shadow;
-}
-
-/**Volunteer Registration*******************/
-.registration-container {
-  @apply overflow-hidden shadow;
-  width: 550px;
+.auth-label {
+  @apply block font-medium text-gray-700 text-left;
 }
 
 .registration-header {
   @apply contents text-base font-bold text-primary-color;
 }
 
-.login-label, .registration-label {
-  @apply block font-medium text-gray-700 text-left;
-}
-
-.login-input, .registration-input {
-  @apply mt-1 block w-full rounded-md border-gray-300;
-}
-
-.registration-input:focus {
-  @apply border-primary-color ring-primary-color;
+.password-toggle {
+  @apply relative bottom-7 float-right right-3;
 }
 
 /**Volunteer Profile*************************/
@@ -125,10 +113,5 @@ a {
 
 .profile-input {
   @apply mt-1 block w-full h-auto text-sm rounded-md border-gray-300;
-}
-
-/************************************************/
-.shift-row {
-  @apply px-4 py-3 text-sm text-gray-900
 }
 

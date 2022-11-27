@@ -39,7 +39,7 @@ const Login = () => {
   // TODO: implement reset password
   return (
     <div className="flex min-h-full items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
-      <div className="registration-container p-10 space-y-4">
+      <div className="auth-container p-10 space-y-4">
         <div className="flex flex-row justify-center">
           <Image src={"/ws_logo.png"} width={50} height={50} />
           <div className="flex flex-col justify-center">
@@ -52,24 +52,24 @@ const Login = () => {
         <form className="space-y-3" method="POST" onSubmit={(e) => login(e)}>
           <div className="rounded-md mb-3 space-y-3">
             <div>
-              <label className="login-label">Email</label>
+              <label className="auth-label">Email</label>
               <input
                 ref={emailRef}
                 name="email"
                 type="email"
                 autoComplete="email"
-                className="login-input"
+                className="auth-input"
                 required
               />
             </div>
             <div>
-              <label className="login-label">Password</label>
+              <label className="auth-label">Password</label>
               <input
                 ref={passwordRef}
                 name="password"
                 type={show ? "text" : "password"}
                 autoComplete="current-password"
-                className="login-input"
+                className="auth-input"
                 required
               />
               {show ? (
