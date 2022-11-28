@@ -5,6 +5,7 @@ import { MdDownload } from "react-icons/md";
 import Navbar from "./components/navbar";
 import Loading from "./components/loading";
 import Rerouting from "./components/rerouting";
+import { formatDate } from './components/formatting';
 import { supabase } from "./supabaseClient";
 import { saveAs } from 'file-saver';
 
@@ -22,7 +23,6 @@ function fetchResource() {
   async function getData() {
     try {
       setLoading(true);
-
       await supabase.auth.getUser().then(async (data, err) => {
         if (data) {
           const id = data.data.user.id;
@@ -37,7 +37,6 @@ function fetchResource() {
             })
             .then(async (user) => {
               setUser(user);
-
               const folderPath =
                 user.first_name +
                 "_" +
@@ -108,12 +107,10 @@ const Upload = () => {
 
   const uploadFile = async (e) => {
     e.preventDefault();
-
     try {
       if (!e.target.files || e.target.files.length === 0) {
         throw new Error("You must select a PDF to upload.");
       }
-
       await supabase.storage
         .from("test")
         .upload(folder + "/" + e.target.files[0].name, e.target.files[0])
@@ -133,7 +130,6 @@ const Upload = () => {
 
   const deleteFile = async (e, name) => {
     e.preventDefault();
-
     try {
       await supabase.storage.from('test').remove([folder + "/" + name]).then(async () => refetch());
     } catch (e) {
@@ -144,7 +140,6 @@ const Upload = () => {
 
   const downloadFile = async (e, name) => {
     e.preventDefault();
-
     try {
       await supabase.storage.from('test').download(folder + "/" + name).then((data, error) => {
         if (data) {
@@ -160,18 +155,13 @@ const Upload = () => {
     }
   }
 
-  // Format from YYYY-MM-DD to MM/DD/YYYY
-  const formatDate = (date) => {
-    return date.slice(5, 7) + "/" + date.slice(8, 10) + "/" + date.slice(0, 4);
-  };
-
   return (
     <div className="flex flex-row">
       <Navbar />
       <div className="container p-10">
         <div className="shadow sm:rounded-lg w-4/5">
           <div className="px-4 py-5 sm:px-6">
-            <h2 className="text-lg font-medium leading-6 text-gray-900">
+            <h2>
               Files
             </h2>
           </div>
@@ -212,7 +202,7 @@ const Upload = () => {
                         <td className="col-span-1">
                           {formatDate(f.created_at.slice(0, 10))}
                         </td>
-                        <td className="col-span-1 flex flex-row justify-end gap-2">
+                        <td className="col-span-1 flex flex-row justify-end gap-4">
                           <button
                             className="w-auto text-indigo-600"
                             onClick={(e) => downloadFile(e, f.name)}

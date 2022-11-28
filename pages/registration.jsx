@@ -93,12 +93,12 @@ const Registration = () => {
   return (
     <div className="grid place-items-center p-8">
       <form method="POST" onSubmit={(e) => signUp(e)}>
-        <div className="registration-container">
+        <div className="auth-container">
           <div className="bg-white px-4 py-5 sm:p-6">
             <legend className="registration-header">Basic Information</legend>
             <div className="grid grid-cols-6 gap-3 mt-3">
               <div className="col-span-3">
-                <label htmlFor="first-name" className="registration-label">
+                <label htmlFor="first-name" className="auth-label">
                   First Name
                 </label>
                 <input
@@ -106,13 +106,13 @@ const Registration = () => {
                   name="first-name"
                   type="text"
                   autoComplete="on"
-                  className="registration-input"
+                  className="auth-input"
                   required
                 />
               </div>
 
               <div className="col-span-3">
-                <label htmlFor="last-name" className="registration-label">
+                <label htmlFor="last-name" className="auth-label">
                   Last Name
                 </label>
                 <input
@@ -120,13 +120,13 @@ const Registration = () => {
                   type="text"
                   name="last-name"
                   autoComplete="on"
-                  className="registration-input"
+                  className="auth-input"
                   required
                 />
               </div>
 
               <div className="col-span-6">
-                <label htmlFor="email-address" className="registration-label">
+                <label htmlFor="email-address" className="auth-label">
                   Email
                 </label>
                 <input
@@ -134,20 +134,20 @@ const Registration = () => {
                   type="email"
                   name="email-address"
                   autoComplete="on"
-                  className="registration-input"
+                  className="auth-input"
                   required
                 />
               </div>
 
               <div className="col-span-6">
-                <label htmlFor="password" className="registration-label">
+                <label htmlFor="password" className="auth-label">
                   Password
                 </label>
                 <input
                   ref={passwordRef}
                   name="password"
                   type="text"
-                  className="registration-input"
+                  className="auth-input"
                   minLength="6"
                   placeholder="******"
                   required
@@ -155,7 +155,7 @@ const Registration = () => {
               </div>
 
               <div className="col-span-3">
-                <label htmlFor="phone-number" className="registration-label">
+                <label htmlFor="phone-number" className="auth-label">
                   Phone
                 </label>
                 <input
@@ -163,7 +163,7 @@ const Registration = () => {
                   type="tel"
                   name="phone-number"
                   autoComplete="on"
-                  className="registration-input"
+                  className="auth-input"
                   placeholder="###-###-####"
                   pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
                   required
@@ -171,14 +171,14 @@ const Registration = () => {
               </div>
 
               <div className="col-span-3">
-                <label htmlFor="dob" className="registration-label">
+                <label htmlFor="dob" className="auth-label">
                   Date of Birth (must be 18+)
                 </label>
                 <input
                   ref={dobRef}
                   type="date"
                   name="dob"
-                  className="registration-input"
+                  className="auth-input"
                   max={maxDob}
                   defaultValue={maxDob}
                   required
@@ -186,7 +186,7 @@ const Registration = () => {
               </div>
 
               <div className="col-span-6">
-                <label htmlFor="street-address" className="registration-label">
+                <label htmlFor="street-address" className="auth-label">
                   Street Address
                 </label>
                 <input
@@ -194,13 +194,13 @@ const Registration = () => {
                   type="text"
                   name="street-address"
                   autoComplete="on"
-                  className="registration-input"
+                  className="auth-input"
                   required
                 />
               </div>
 
               <div className="col-span-2">
-                <label htmlFor="city" className="registration-label">
+                <label htmlFor="city" className="auth-label">
                   City
                 </label>
                 <input
@@ -208,20 +208,20 @@ const Registration = () => {
                   type="text"
                   name="city"
                   autoComplete="on"
-                  className="registration-input"
+                  className="auth-input"
                   required
                 />
               </div>
 
               <div className="col-span-2">
-                <label htmlFor="state" className="registration-label">
+                <label htmlFor="state" className="auth-label">
                   State / Province
                 </label>
                 <select
                   ref={stateRef}
                   name="state"
                   autoComplete="on"
-                  className="registration-input"
+                  className="auth-input"
                   required
                 >
                   {states.map((v, i) => (
@@ -231,7 +231,7 @@ const Registration = () => {
               </div>
 
               <div className="col-span-2">
-                <label htmlFor="zip-code" className="registration-label">
+                <label htmlFor="zip-code" className="auth-label">
                   ZIP Code (#####)
                 </label>
                 <input
@@ -239,7 +239,7 @@ const Registration = () => {
                   type="text"
                   name="zip-code"
                   autoComplete="on"
-                  className="registration-input"
+                  className="auth-input"
                   placeholder="#####"
                   pattern="[0-9]{5}"
                   required
