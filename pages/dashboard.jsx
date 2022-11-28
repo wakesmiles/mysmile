@@ -164,7 +164,7 @@ const Dashboard = () => {
     <div className="flex flex-row">
       <Navbar />
       <div className="container p-10">
-        <div className="shadow sm:rounded-lg w-4/5">
+        <div className="shadow sm:rounded-lg w-screen">
           <div className="px-4 py-5 sm:px-6">
             <h2 className="text-lg font-medium leading-6 text-gray-900">
               Upcoming Shifts
