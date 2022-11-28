@@ -38,7 +38,6 @@ function fetchResource() {
         }
       });
     } catch (err) {
-      alert(err.message);
     } finally {
       setLoading(false);
     }

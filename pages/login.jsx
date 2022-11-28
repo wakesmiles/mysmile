@@ -17,22 +17,19 @@ const Login = () => {
     e.preventDefault();
     let success = false;
 
-    try {
-      await supabase.auth
-        .signInWithPassword({
-          email: emailRef.current.value,
-          password: passwordRef.current.value,
-        })
-        .then((data, err) => {
-          if (data) {
-            success = true;
-          }
-        });
-    } catch (err) {
-      alert(err.message);
-    } finally {
-      if (success) router.push("/dashboard");
-    }
+    await supabase.auth
+      .signInWithPassword({
+        email: emailRef.current.value,
+        password: passwordRef.current.value,
+      })
+      .then(({ data, error }) => {
+        if (error) {
+          alert(error.message);
+        } else if (data) {
+          success = true;
+        }
+      });
+    if (success) router.push("/dashboard");
   };
 
   // CLEAN: login & registration classes are quite similar, can probably simplify class names
