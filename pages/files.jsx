@@ -197,7 +197,7 @@ const Upload = () => {
                 <thead className="mb-5 border-b border-gray-200">
                   <tr className="grid w-full grid-cols-5 text-left mb-2">
                     <th className="col-span-3 font-medium">Your Files</th>
-                    <th className="col-span-1 font-medium">Upload Date</th>
+                    <th className="col-span-1 font-medium">Date</th>
                     <th className="col-span-1 font-medium w-5"></th>
                   </tr>
                 </thead>
