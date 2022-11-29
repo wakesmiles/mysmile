@@ -6,7 +6,7 @@ export const formatDate = (date) => {
 // Format from military time HH:MM:SS to 12-hour HH:MM AM/PM
 export const formatTime = (time) => {
   let hour = parseInt(time.slice(0, 2));
-  let suffix = hour > 12 ? "PM" : "AM";
+  let suffix = hour >= 12 ? "pm" : "am";
   hour = String(hour > 12 ? hour - 12 : hour).padStart(2, "0");
   return hour + ":" + time.slice(3, 5) + " " + suffix;
 };
