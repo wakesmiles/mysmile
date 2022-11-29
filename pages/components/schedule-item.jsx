@@ -8,18 +8,20 @@ const ScheduleItem = (props) => {
   const [open, setOpen] = useState(false);
   const s = props.shift;
   const uid = props.uid;
-  const today = (new Date()).toISOString().slice(0, 10);
+  const today = new Date().toISOString().slice(0, 10);
   const refetch = props.refetch;
 
+  /**
+   * Delete the sign-up from the user's schedule
+   * Increase the shift's number of available slots by 1
+   */
   const cancelShift = async () => {
-    // Delete the volunteer sign-up from the user's schedule
     await supabase
       .from("signups")
       .delete()
       .eq("shift_id", s.shift_id)
       .eq("user_id", uid);
 
-    // Increase the shift's number of available slots by 1
     await supabase
       .from("shifts")
       .select("remaining_slots")
@@ -38,6 +40,9 @@ const ScheduleItem = (props) => {
     setOpen(false);
   };
 
+  /**
+   * Start the user's shift by clocking in
+   */
   const clockIn = async () => {
     const now = new Date();
     await supabase
@@ -47,10 +52,14 @@ const ScheduleItem = (props) => {
       })
       .eq("user_id", uid)
       .eq("shift_id", s.shift_id);
-    
+
     refetch(uid);
   };
 
+  /**
+   * End the user's shift by clocking out
+   * If the user completed an orientation shift, change their orientation attendance status
+   */
   const clockOut = async () => {
     const now = new Date();
     await supabase
@@ -61,7 +70,6 @@ const ScheduleItem = (props) => {
       .eq("user_id", uid)
       .eq("shift_id", s.shift_id);
 
-    // If volunteer completed an orientation shift, mark their orientation attendance
     if (s.shift_type === "orientation") {
       await supabase
         .from("profiles")
@@ -76,10 +84,13 @@ const ScheduleItem = (props) => {
 
   return (
     <tr className="border-t bg-white">
-      <td className="py-2 px-4 text-center">{formatDate(s.shift_date)}</td>
-      <td className="py-2 px-4 text-center">{formatTime(s.start_time)}</td>
-      <td className="py-2 px-4 text-center">{formatTime(s.end_time)}</td>
-      <td className="py-2 px-4 text-center">
+      <td className="py-2 px-1 text-center">
+        <span class={"w-2 h-2 inline-block rounded-full mr-2 " + (s.shift_type === "orientation" ? "bg-secondary-color" : "bg-indigo-400")}/>
+      </td>
+      <td className="py-2 px-3 text-center">{formatDate(s.shift_date)}</td>
+      <td className="py-2 px-3 text-center">{formatTime(s.start_time)}</td>
+      <td className="py-2 px-3 text-center">{formatTime(s.end_time)}</td>
+      <td className="py-2 px-3 text-center">
         {s.clock_in ? (
           formatTime(s.clock_in)
         ) : (
@@ -94,7 +105,7 @@ const ScheduleItem = (props) => {
           </div>
         )}
       </td>
-      <td className="py-2 px-4 text-center">
+      <td className="py-2 px-3 text-center">
         {s.clock_out ? (
           formatTime(s.clock_out)
         ) : (
