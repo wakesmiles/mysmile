@@ -94,6 +94,8 @@ const Dashboard = () => {
     const s = props.shift;
 
     // TODO: Account for errors
+    // TODO: Refetch table data
+    // TODO: Style modal, it's ugly
     const cancelShift = async () => {
       try {
         await supabase
@@ -191,7 +193,7 @@ const Dashboard = () => {
             <div className="flex justify-center">
               <button
                 className="text-indigo-600 text-lg hover:text-indigo-800"
-                onClick={() => clockIn()}
+                onClick={() => clockOut()}
               >
                 <AiFillClockCircle size={25} />
               </button>
@@ -257,7 +259,7 @@ const Dashboard = () => {
         <div className="shadow sm:rounded-lg w-screen">
           <div className="px-4 py-5 sm:px-6">
             <h2 className="text-lg font-medium leading-6 text-gray-900">
-              My Schedule
+              Upcoming Schedule
             </h2>
           </div>
           <div className="border-t p-4">
