@@ -123,3 +123,20 @@ h2 {
   @apply mt-1 block w-full h-auto text-sm rounded-md border-gray-300;
 }
 
+
+/**Volunteer Schedule*************************/
+.table-header {
+  @apply py-2 px-4 text-base text-center font-medium;
+}
+
+.clock-button {
+  @apply text-indigo-600;
+}
+
+.clock-button:hover {
+  @apply text-indigo-800;
+}
+
+.clock-button:disabled {
+  @apply text-gray-500;
+}

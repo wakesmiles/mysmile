@@ -196,7 +196,7 @@ const Upload = () => {
               <table className="orientation-shifts mt-5 w-full">
                 <thead className="mb-5 border-b border-gray-200">
                   <tr className="grid w-full grid-cols-5 text-left mb-2">
-                    <th className="col-span-3 font-medium">Your Files</th>
+                    <th className="col-span-3 font-medium">Uploaded</th>
                     <th className="col-span-1 font-medium">Date</th>
                     <th className="col-span-1 font-medium w-5"></th>
                   </tr>
@@ -212,7 +212,7 @@ const Upload = () => {
                           </td>
                           <td className="col-span-1 flex flex-row justify-end gap-4">
                             <button
-                              className="w-auto text-indigo-600"
+                              className="w-5 h-5 text-indigo-600"
                               onClick={(e) => downloadFile(e, f.name)}
                             >
                               <MdDownload className="w-full h-full" />
