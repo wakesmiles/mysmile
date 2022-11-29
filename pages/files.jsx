@@ -212,7 +212,7 @@ const Upload = () => {
                           </td>
                           <td className="col-span-1 flex flex-row justify-end gap-4">
                             <button
-                              className="w-auto text-indigo-600"
+                              className="w-5 h-5 text-indigo-600"
                               onClick={(e) => downloadFile(e, f.name)}
                             >
                               <MdDownload className="w-full h-full" />

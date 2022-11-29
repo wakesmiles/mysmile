@@ -70,7 +70,7 @@ const Registration = () => {
             id: user.id,
             first_name: user.user_metadata.first_name,
             last_name: user.user_metadata.last_name,
-            dob: user.user_metadata.dob,
+            dob: user.user_metadata.dob, // BUG CANNOT READ PROPERITES OF NULL ID -- upon click and select date from calendar
             role: user.user_metadata.role,
             email: user.email,
             phone: user.user_metadata.phone,

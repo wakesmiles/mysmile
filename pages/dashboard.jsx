@@ -31,22 +31,7 @@ const Dashboard = () => {
             })
             .then(async (profile) => {
               setUser(profile);
-
-              const today = new Date().toISOString().slice(0, 10);
-
-              // Query user shift schedule
-              await supabase
-                .from("signups")
-                .select(
-                  "shift_id, shift_type, shift_date, start_time, end_time, clock_in, clock_out, hours"
-                )
-                .eq("user_id", profile.id)
-                .gte("shift_date", today)
-                .then(async ({ data, error }) => {
-                  if (data) {
-                    setSchedule(data);
-                  }
-                });
+              fetchSchedule(profile.id);
             });
         }
       });
@@ -57,6 +42,22 @@ const Dashboard = () => {
     }
   }
 
+  async function fetchSchedule(uid) {
+    const today = new Date().toISOString().slice(0, 10);
+    await supabase
+      .from("signups")
+      .select(
+        "shift_id, shift_type, shift_date, start_time, end_time, clock_in, clock_out"
+      )
+      .eq("user_id", uid)
+      .gte("shift_date", today)
+      .then(async ({ data, error }) => {
+        if (data) {
+          setSchedule(data);
+        }
+      });
+  };
+
   // Hook + Supabase subscription for refreshing data upon initial render and upon "shifts" table change
   useEffect(() => {
     getData().then((user) => {
@@ -66,8 +67,8 @@ const Dashboard = () => {
           .on(
             "postgres_changes",
             { event: "*", schema: "public", table: "signups" },
-            (payload) => {
-              console.log(payload); // Work-around to user auth in current state management
+            () => {
+              fetchSchedule(user.id); // Work-around to user auth in current state management
             }
           )
           .subscribe();
@@ -93,54 +94,35 @@ const Dashboard = () => {
     const [open, setOpen] = useState(false);
     const s = props.shift;
 
-    // TODO: Account for errors
-    // TODO: Refetch table data
     // TODO: Style modal, it's ugly
     const cancelShift = async () => {
-      try {
-        await supabase
-          .from("signups")
-          .delete()
-          .eq("shift_id", s.shift_id)
-          .eq("user_id", user.id)
-          .then(async () => {
-            await supabase
-              .from("shifts")
-              .select("remaining_slots")
-              .eq("id", s.shift_id)
-              .then(({ data, error }) => {
-                if (data && data.length !== 0) {
-                  return data[0].remaining_slots + 1;
-                }
-              })
-              .then(async (slots) => {
-                console.log("slots: " + slots);
-                await supabase
-                  .from("shifts")
-                  .update({
-                    remaining_slots: slots,
-                  })
-                  .eq("id", s.shift_id);
-              });
-          });
-      } catch (err) {
-        console.log("error in cancellation");
-        console.log(err);
-      } finally {
-        setOpen(false);
-      }
+      await supabase
+        .from("signups")
+        .delete()
+        .eq("shift_id", s.shift_id)
+        .eq("user_id", user.id);
+
+      await supabase
+        .from("shifts")
+        .select("remaining_slots")
+        .eq("id", s.shift_id)
+        .then(({ data, error }) => {
+          if (data && data.length !== 0) return data[0].remaining_slots + 1;
+        })
+        .then(async (slots) => {
+          await supabase
+            .from("shifts")
+            .update({ remaining_slots: slots })
+            .eq("id", s.shift_id);
+        });
+
+      setOpen(false);
     };
 
     const clockIn = async () => {
       const today = new Date();
-      const currTime =
-        today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
-      const currDate =
-        today.getFullYear() +
-        "-" +
-        (today.getMonth() + 1) +
-        "-" +
-        today.getDate();
+      const currTime = `${today.getHours()}:${today.getMinutes()}:${today.getSeconds()}`;
+      const currDate = `${today.getFullYear()}-${today.getMonth()+1}-${today.getDate()}`;
 
       if (currDate !== s.shift_date) {
         alert("This shift isn't scheduled for today!");
@@ -149,13 +131,12 @@ const Dashboard = () => {
 
       await supabase.from("signups").update({
         clock_in: currTime,
-      });
+      }).eq("user_id", user.id).eq("shift_id", s.shift_id);
     };
 
     const clockOut = async () => {
       const today = new Date();
-      const currTime =
-        today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+      const currTime = `${today.getHours()}:${today.getMinutes()}:${today.getSeconds()}`;
 
       if (!s.clock_in) {
         alert("You haven't clocked in yet!");
@@ -164,7 +145,14 @@ const Dashboard = () => {
 
       await supabase.from("signups").update({
         clock_out: currTime,
-      });
+      }).eq("user_id", user.id).eq("shift_id", s.shift_id);
+
+      // If volunteer completed an orientation shift, mark their orientation attendance
+      if (s.shift_type === "orientation") {
+        await supabase.from("profiles").update({
+          orientation: true
+        }).eq("id", user.id);
+      }
     };
 
     return (
@@ -210,7 +198,7 @@ const Dashboard = () => {
             </button>
           </div>
         </td>
-        {open ? (
+        {open && (
           <div className="fixed inset-0 z-10 overflow-y-auto">
             <div className="flex min-h-full z-10 items-end justify-center p-4 text-center sm:items-center sm:p-0">
               <form className="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg">
@@ -220,8 +208,8 @@ const Dashboard = () => {
                       Cancel
                     </h3>
                   </div>
-                  <div>
-                    <p className="text-lg italic mt-2">
+                  <div className="mt-2">
+                    <p className="text-sm text-gray-500">
                       Are you sure you want to cancel your volunteer shift?
                     </p>
                   </div>
@@ -245,8 +233,6 @@ const Dashboard = () => {
               </form>
             </div>
           </div>
-        ) : (
-          <></>
         )}
       </tr>
     );
@@ -285,10 +271,16 @@ const Dashboard = () => {
                     >
                       To
                     </th>
-                    <th scope="col" className="py-2 px-4 text-center font-medium">
+                    <th
+                      scope="col"
+                      className="py-2 px-4 text-center font-medium"
+                    >
                       Clock In
                     </th>
-                    <th scope="col" className="py-2 px-4 text-center font-medium">
+                    <th
+                      scope="col"
+                      className="py-2 px-4 text-center font-medium"
+                    >
                       Clock Out
                     </th>
                     <th
@@ -299,11 +291,9 @@ const Dashboard = () => {
                 </thead>
                 <tbody id="shifts">
                   {schedule && (
-                    <>
-                      {schedule.map((s, i) => (
+                    schedule.map((s, i) => (
                         <Row key={i} shift={s} />
-                      ))}
-                    </>
+                    ))
                   )}
                 </tbody>
               </table>
