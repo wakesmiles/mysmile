@@ -29,7 +29,7 @@ const Login = () => {
           success = true;
         }
       });
-    if (success) router.push("/dashboard");
+    if (success) router.push("/schedule");
   };
 
   // CLEAN: login & registration classes are quite similar, can probably simplify class names

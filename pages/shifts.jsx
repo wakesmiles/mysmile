@@ -4,6 +4,7 @@ import Loading from "./components/loading";
 import Rerouting from "./components/rerouting";
 import { supabase } from "./supabaseClient";
 import { formatTime, formatDate } from "./components/formatting";
+import { AiOutlineConsoleSql } from "react-icons/ai";
 
 const Shifts = () => {
   // Modal variables
@@ -69,12 +70,12 @@ const Shifts = () => {
       .from("signups")
       .select("shift_id")
       .eq("user_id", uid)
-      .then(async (res) => {
+      .then(async ({ data, error }) => {
         let assigned = "(";
 
-        if (res.data) {
-          res.data.forEach((s) => (assigned += s.shift_id + ","));
-          assigned = assigned.slice(0, -1) + ")";
+        if (data && data.length > 0) {
+          data.forEach((s) => (assigned += s.shift_id + ","));
+          assigned += assigned.slice(0, -1) + ")";
         } else {
           assigned = "()";
         }
@@ -187,7 +188,7 @@ const Shifts = () => {
           </div>
 
           <div className="border-t border-gray-200 ml-5">
-            {shifts !== [] ? (
+            {(shifts && shifts.length > 0) ? (
               <table className="orientation-shifts mt-5 mb-4 w-full">
                 <thead>
                   <tr className="grid grid-cols-4 gap-4 px-6 text-left">
