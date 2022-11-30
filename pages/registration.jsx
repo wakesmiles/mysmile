@@ -70,7 +70,7 @@ const Registration = () => {
             id: user.id,
             first_name: user.user_metadata.first_name,
             last_name: user.user_metadata.last_name,
-            dob: user.user_metadata.dob, // BUG CANNOT READ PROPERITES OF NULL ID -- upon click and select date from calendar
+            dob: user.user_metadata.dob,
             role: user.user_metadata.role,
             email: user.email,
             phone: user.user_metadata.phone,
@@ -86,7 +86,6 @@ const Registration = () => {
     if (success) {
       router.push("/dashboard");
     }
-    // console.log(supabase.auth.user());
   };
 
   // CLEAN: login & registration classes are quite similar, can probably simplify class names
