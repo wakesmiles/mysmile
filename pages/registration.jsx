@@ -84,7 +84,7 @@ const Registration = () => {
       });
 
     if (success) {
-      router.push("/dashboard");
+      router.push("/schedule");
     }
     // console.log(supabase.auth.user());
   };
