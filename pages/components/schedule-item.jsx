@@ -26,7 +26,7 @@ const ScheduleItem = (props) => {
       .from("shifts")
       .select("remaining_slots")
       .eq("id", s.shift_id)
-      .then(({ data, error }) => {
+      .then(({ data, }) => {
         if (data && data.length !== 0) return data[0].remaining_slots + 1;
       })
       .then(async (slots) => {
@@ -85,7 +85,7 @@ const ScheduleItem = (props) => {
   return (
     <tr className="border-t bg-white">
       <td className="py-2 px-1 text-center">
-        <span class={"w-2 h-2 inline-block rounded-full mr-2 " + (s.shift_type === "orientation" ? "bg-secondary-color" : "bg-indigo-400")}/>
+        <span className={"w-2 h-2 inline-block rounded-full mr-2 " + (s.shift_type === "orientation" ? "bg-secondary-color" : "bg-indigo-400")}/>
       </td>
       <td className="py-2 px-3 text-center">{formatDate(s.shift_date)}</td>
       <td className="py-2 px-3 text-center">{formatTime(s.start_time)}</td>
