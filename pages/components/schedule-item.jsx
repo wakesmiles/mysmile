@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { formatDate, formatTime } from "./formatting";
+import { formatDate, formatTime } from "./date-time";
 import { FiTrash2 } from "react-icons/fi";
 import { AiFillClockCircle } from "react-icons/ai";
 import { supabase } from "../supabaseClient";

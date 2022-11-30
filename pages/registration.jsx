@@ -1,7 +1,7 @@
 import { useRef } from "react";
 import { useRouter } from "next/router";
 import Link from "next/link";
-import states from "./components/states";
+import states from "./components/state-abbrev";
 import { supabase } from "./supabaseClient.js";
 
 const Registration = () => {

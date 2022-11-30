@@ -1,10 +1,10 @@
 import { useState, useEffect, useRef } from "react";
 import { FiEdit } from "react-icons/fi";
 import Navbar from "./components/navbar";
-import Loading from "./components/loading";
-import Rerouting from "./components/rerouting";
-import { formatDate } from './components/formatting';
-import states from "./components/states";
+import Loading from "./components/load";
+import Rerouting from "./components/reroute";
+import { formatDate } from './components/date-time';
+import states from "./components/state-abbrev";
 import { supabase } from "./supabaseClient";
 
 /**

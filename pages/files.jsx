@@ -3,9 +3,9 @@ import { SlCloudUpload } from "react-icons/sl";
 import { FiTrash2 } from "react-icons/fi";
 import { MdDownload } from "react-icons/md";
 import Navbar from "./components/navbar";
-import Loading from "./components/loading";
-import Rerouting from "./components/rerouting";
-import { formatDate } from "./components/formatting";
+import Loading from "./components/load";
+import Rerouting from "./components/reroute";
+import { formatDate } from "./components/date-time";
 import { supabase } from "./supabaseClient";
 import { saveAs } from "file-saver";
 
