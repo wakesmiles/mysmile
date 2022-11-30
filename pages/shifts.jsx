@@ -84,7 +84,8 @@ const Shifts = () => {
           .gte("shift_date", date)
           .filter("id", "not.in", assigned)
           .gt("remaining_slots", 0)
-          .order("shift_date", "start_time")
+          .order("shift_date", true)
+          .order("start_time", true)
           .then(({ data, }) => {
             if (data) {
               const reduced = data.filter((v) => v.shift_date > date || (v.shift_date === date && v.end_time > time))

@@ -50,7 +50,8 @@ function fetchResource() {
         )
         .eq("user_id", uid)
         .gte("shift_date", date)
-        .order("shift_date", "start_time")
+        .order("shift_date", true)
+        .order("start_time", true)
         .then(async ({ data, }) => {
           if (data) {
             const reduced = data.filter((v) => v.shift_date > date || (v.shift_date === date && v.end_time > time))
