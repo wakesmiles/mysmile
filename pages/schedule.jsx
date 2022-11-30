@@ -4,6 +4,7 @@ import Navbar from "./components/navbar";
 import Loading from "./components/loading";
 import Rerouting from "./components/rerouting";
 import ScheduleItem from "./components/schedule-item";
+import { getNow } from './components/formatting';
 
 function fetchResource() {
   const [user, setUser] = useState(null);
@@ -40,18 +41,20 @@ function fetchResource() {
     }
 
     const fetchSchedule = async (uid) => {
-      const today = new Date().toISOString().slice(0, 10);
+      const [date, time] = getNow();
+      
       await supabase
         .from("signups")
         .select(
           "shift_id, shift_type, shift_date, start_time, end_time, clock_in, clock_out"
         )
         .eq("user_id", uid)
-        .gte("shift_date", today)
+        .gte("shift_date", date)
         .order("shift_date", "start_time")
-        .then(async ({ data, error }) => {
+        .then(async ({ data, }) => {
           if (data) {
-            setSchedule(data);
+            const reduced = data.filter((v) => v.shift_date > date || (v.shift_date === date && v.end_time > time))
+            setSchedule(reduced);
           }
         });
     }
@@ -92,13 +95,13 @@ const Schedule = () => {
           {(schedule && schedule.length > 0) ? (
             <>
             <div className="text-sm flex flex-row align-middle justify-center">
-              <div class="inline-flex items-center">
-                <span class="w-2 h-2 inline-block bg-secondary-color rounded-full mr-2"></span>
-                <span class="text-gray-900">Orientation</span>
+              <div className="inline-flex items-center">
+                <span className="w-2 h-2 inline-block bg-secondary-color rounded-full mr-2"></span>
+                <span className="text-gray-900">Orientation</span>
               </div>
-              <div class="inline-flex items-center ml-10">
-                <span class="w-2 h-2 inline-block bg-indigo-400 rounded-full mr-2"></span>
-                <span class="text-gray-900">Volunteer Shift</span>
+              <div className="inline-flex items-center ml-10">
+                <span className="w-2 h-2 inline-block bg-indigo-400 rounded-full mr-2"></span>
+                <span className="text-gray-900">Volunteer Shift</span>
               </div>
             </div>
           
