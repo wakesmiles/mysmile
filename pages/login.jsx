@@ -3,7 +3,7 @@ import { AiFillEyeInvisible, AiFillEye } from "react-icons/ai";
 import { useRouter } from "next/router";
 import Image from "next/image";
 import Link from "next/link";
-import { supabase } from "./supabaseClient";
+import { supabase } from "./utils/supabaseClient";
 
 const Login = () => {
   const [show, setShow] = useState(false);

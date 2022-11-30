@@ -2,8 +2,8 @@ import { useEffect, useState } from "react";
 import Navbar from "./components/navbar";
 import Loading from "./components/load";
 import Rerouting from "./components/reroute";
-import { supabase } from "./supabaseClient";
-import { formatTime, formatDate, getNow } from "./components/date-time";
+import { supabase } from "./utils/supabaseClient";
+import { formatTime, formatDate, getNow } from "./utils/date-time";
 
 const Shifts = () => {
   // Modal variables

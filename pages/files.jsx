@@ -5,8 +5,8 @@ import { MdDownload } from "react-icons/md";
 import Navbar from "./components/navbar";
 import Loading from "./components/load";
 import Rerouting from "./components/reroute";
-import { formatDate } from "./components/date-time";
-import { supabase } from "./supabaseClient";
+import { formatDate } from "./utils/date-time";
+import { supabase } from "./utils/supabaseClient";
 import { saveAs } from "file-saver";
 
 /**
