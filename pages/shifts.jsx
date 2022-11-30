@@ -3,8 +3,7 @@ import Navbar from "./components/navbar";
 import Loading from "./components/loading";
 import Rerouting from "./components/rerouting";
 import { supabase } from "./supabaseClient";
-import { formatTime, formatDate } from "./components/formatting";
-import { AiOutlineConsoleSql } from "react-icons/ai";
+import { formatTime, formatDate, getNow } from "./components/formatting";
 
 const Shifts = () => {
   // Modal variables
@@ -19,78 +18,77 @@ const Shifts = () => {
 
   // Client-side data fetching for initial render
   async function getData() {
-    let success = false;
     try {
-      // Retrieve current user
-      await supabase.auth.getUser().then(async (data) => {
-        if (data) {
-          const id = data.data.user.id;
+      await supabase.auth.getUser().then(async ({ data, error }) => {
+        if (error) {
+          return;
+        } else if (data) {
+          const id = data.user.id;
 
           // Get user information
           await supabase
             .from("profiles")
             .select("id, first_name, last_name, email, orientation")
             .eq("id", id)
-            .then(async (res) => {
-              if (res.data[0]) {
-                const today = new Date().toISOString().slice(0, 10);
-                const sType = res.data[0].orientation
+            .then(async ({ data, }) => {
+              if (data && data.length > 0) {
+                const sType = data[0].orientation
                   ? "volunteer"
                   : "orientation";
-                const uid = res.data[0].id;
+                const uid = data[0].id;
 
-                setUser(res.data[0]);
+                setUser(data[0]);
                 setShiftType(sType.charAt(0).toUpperCase() + sType.slice(1));
 
                 // Query shift information
-                fetchShifts(uid, today, sType);
-                success = true;
+                fetchShifts(uid, sType);
               }
             });
         }
       });
     } catch (e) {
-      console.log("error fetching");
       console.log(e);
-    } finally {
-      return success;
     }
   }
 
   /**
    * Attempts to retrieve:
-   * upcoming shifts from current date and onwards,
+   * upcoming shifts from current date-time and onwards,
    * of the necessary shift type (either orientation or volunteer),
    * with open slots left,
    * that the user has not already signed up for,
    * sorted by shift date and start time
    */
-  async function fetchShifts(uid, currentDate, shiftType) {
+  async function fetchShifts(uid, shiftType) {
     await supabase
       .from("signups")
       .select("shift_id")
       .eq("user_id", uid)
-      .then(async ({ data, error }) => {
+      .then(async ({ data, }) => {
         let assigned = "(";
 
         if (data && data.length > 0) {
           data.forEach((s) => (assigned += s.shift_id + ","));
-          assigned += assigned.slice(0, -1) + ")";
+          assigned = assigned.slice(0, -1);
+          assigned += ")";
         } else {
           assigned = "()";
         }
+
+        const [date, time] = getNow();
 
         await supabase
           .from("shifts")
           .select()
           .eq("shift_type", shiftType)
-          .gte("shift_date", currentDate)
+          .gte("shift_date", date)
           .filter("id", "not.in", assigned)
           .gt("remaining_slots", 0)
           .order("shift_date", "start_time")
-          .then((query) => {
-            if (query) {
-              setShifts(query.data);
+          .then(({ data, }) => {
+            if (data) {
+              const reduced = data.filter((v) => v.shift_date > date || (v.shift_date === date && v.end_time > time))
+              setShifts(reduced);
             }
           });
       });
@@ -161,7 +159,7 @@ const Shifts = () => {
             });
         });
     } catch (e) {
-      console.log(e);
+      return;
     } finally {
       if (success) {
         setMessage(
