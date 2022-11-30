@@ -7,7 +7,7 @@ export const formatDate = (date) => {
 export const formatTime = (time) => {
   let hour = parseInt(time.slice(0, 2));
   let suffix = hour >= 12 ? "pm" : "am";
-  hour = String(hour > 12 ? hour - 12 : hour).padStart(2, "0");
+  hour = String(hour > 12 ? hour - 12 : hour == 0 ? 12 : hour).padStart(2, "0");
   return `${hour}:${time.slice(3, 5)} ${suffix}`;
 };
 

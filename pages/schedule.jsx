@@ -121,7 +121,7 @@ const Schedule = () => {
         <div className="shadow sm:rounded-lg w-screen">
           <div className="px-4 py-5 sm:px-6">
             <h2 className="text-lg font-medium leading-6 text-gray-900">
-              Upcoming Schedule
+              {user.first_name}'s Schedule
             </h2>
           </div>
 
