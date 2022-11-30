@@ -182,15 +182,16 @@ const Shifts = () => {
             <h2>Available {shiftType} Shifts</h2>
           </div>
 
-          <div className="border-t border-gray-200 ml-5">
+          <div className="border-t border-gray-200 p-4">
             {shifts && shifts.length > 0 ? (
-              <table className="orientation-shifts mt-5 mb-4 w-full">
-                <thead>
-                  <tr className="grid grid-cols-4 gap-4 px-6 text-left">
-                    <th className="font-medium">Date</th>
-                    <th className="font-medium">Start Time</th>
-                    <th className="font-medium">End Time</th>
-                    <th className="font-medium"></th>
+              <div className="mt-6">
+              <table className="w-full text-sm text-gray-700">
+                <thead className="text-gray-900 bg-white">
+                  <tr className="text-left">
+                    <th scope="col" className="table-header">Date</th>
+                    <th scope="col" className="table-header">Start Time</th>
+                    <th scope="col" className="table-header">End Time</th>
+                    <th scope="col" className="table-header"></th>
                   </tr>
                 </thead>
                 <tbody>
@@ -198,12 +199,12 @@ const Shifts = () => {
                     return (
                       <tr
                         key={s.id}
-                        className="grid grid-cols-4 gap-4 px-6 mb-1"
+                        className="border-t bg-white text-sm"
                       >
-                        <td>{formatDate(s.shift_date)}</td>
-                        <td>{formatTime(s.start_time)}</td>
-                        <td>{formatTime(s.end_time)}</td>
-                        <td>
+                        <td className="py-2 px-3 text-center">{formatDate(s.shift_date)}</td>
+                        <td className="py-2 px-3 text-center">{formatTime(s.start_time)}</td>
+                        <td className="py-2 px-3 text-center">{formatTime(s.end_time)}</td>
+                        <td className="py-2 px-3 text-center">
                           <button
                             className="indigo-button-sm"
                             onClick={(e) => volunteer(e, s)}
@@ -216,6 +217,7 @@ const Shifts = () => {
                   })}
                 </tbody>
               </table>
+              </div>
             ) : (
               <div className="mt-5 w-full">
                 No available shifts at the moment! Check back in later.
