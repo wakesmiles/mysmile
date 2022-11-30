@@ -30,11 +30,9 @@ const Shifts = () => {
             .from("profiles")
             .select("id, first_name, last_name, email, orientation")
             .eq("id", id)
-            .then(async ({ data, }) => {
+            .then(async ({ data }) => {
               if (data && data.length > 0) {
-                const sType = data[0].orientation
-                  ? "volunteer"
-                  : "orientation";
+                const sType = data[0].orientation ? "volunteer" : "orientation";
                 const uid = data[0].id;
 
                 setUser(data[0]);
@@ -64,7 +62,7 @@ const Shifts = () => {
       .from("signups")
       .select("shift_id")
       .eq("user_id", uid)
-      .then(async ({ data, }) => {
+      .then(async ({ data }) => {
         let assigned = "(";
 
         if (data && data.length > 0) {
@@ -84,11 +82,15 @@ const Shifts = () => {
           .gte("shift_date", date)
           .filter("id", "not.in", assigned)
           .gt("remaining_slots", 0)
-          .order("shift_date", true)
-          .order("start_time", true)
-          .then(({ data, }) => {
+          .order("shift_date", { ascending: true })
+          .order("start_time", { ascending: true })
+          .then(({ data }) => {
             if (data) {
-              const reduced = data.filter((v) => v.shift_date > date || (v.shift_date === date && v.end_time > time))
+              const reduced = data.filter(
+                (v) =>
+                  v.shift_date > date ||
+                  (v.shift_date === date && v.end_time > time)
+              );
               setShifts(reduced);
             }
           });
@@ -150,10 +152,6 @@ const Shifts = () => {
               last_name: user.last_name,
               email: user.email,
               shift_id: s.id,
-              shift_date: s.shift_date,
-              shift_type: s.shift_type,
-              start_time: s.start_time,
-              end_time: s.end_time,
             })
             .then(() => {
               success = true;
@@ -181,13 +179,11 @@ const Shifts = () => {
       <div className="container p-10">
         <div className="shadow sm:rounded-lg w-4/5">
           <div className="px-4 py-5 sm:px-6">
-            <h2>
-              Available {shiftType} Shifts
-            </h2>
+            <h2>Available {shiftType} Shifts</h2>
           </div>
 
           <div className="border-t border-gray-200 ml-5">
-            {(shifts && shifts.length > 0) ? (
+            {shifts && shifts.length > 0 ? (
               <table className="orientation-shifts mt-5 mb-4 w-full">
                 <thead>
                   <tr className="grid grid-cols-4 gap-4 px-6 text-left">
