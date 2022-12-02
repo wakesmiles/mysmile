@@ -21,7 +21,7 @@ function compareShift(a, b) {
   }
 }
 
-function fetchResource() {
+function FetchResource() {
   const [user, setUser] = useState(null);
   const [schedule, setSchedule] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -102,7 +102,7 @@ function fetchResource() {
 }
 
 const Schedule = () => {
-  const [user, loading, schedule, fetchSchedule] = fetchResource();
+  const [user, loading, schedule, fetchSchedule] = FetchResource();
 
   // Empty UI for Loading State
   if (loading) {
@@ -121,7 +121,7 @@ const Schedule = () => {
         <div className="shadow sm:rounded-lg w-screen">
           <div className="px-4 py-5 sm:px-6">
             <h2 className="text-lg font-medium leading-6 text-gray-900">
-              {user.first_name}'s Schedule
+              {user.first_name}&apos;s Schedule
             </h2>
           </div>
 
@@ -178,7 +178,7 @@ const Schedule = () => {
             ) : (
               <div className="flex flex-row align-middle justify-center">
                 Your schedule is empty! Sign up for available shifts in the
-                "Shifts" tab.
+                &quot;Shifts&quot; tab.
               </div>
             )}
           </div>

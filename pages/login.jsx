@@ -38,7 +38,7 @@ const Login = () => {
     <div className="flex min-h-full items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
       <div className="auth-container p-10 space-y-4">
         <div className="flex flex-row justify-center">
-          <Image src={"/ws_logo.png"} width={50} height={50} />
+          <Image src={"/ws_logo.png"} alt={"wake_smiles_logo"} width={50} height={50} />
           <div className="flex flex-col justify-center">
             <span className="ml-3 font-serif text-5xl text-primary-color">
               MySmile

@@ -13,7 +13,7 @@ import { saveAs } from "file-saver";
  * Method for initially fetching user info upon render from client-side
  * Should change when converting all interactions with DB to API routes
  */
-function fetchResource() {
+function FetchResource() {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const [folder, setFolder] = useState("");
@@ -78,7 +78,7 @@ const Upload = () => {
   const [open, setOpen] = useState(false);
   const [message, setMessage] = useState("");
 
-  const [user, loading, folder, files, setFiles] = fetchResource();
+  const [user, loading, folder, files, setFiles] = FetchResource();
 
   // Empty UI for Loading State
   if (loading) {

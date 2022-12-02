@@ -162,7 +162,7 @@ const Shifts = () => {
     } finally {
       if (success) {
         setMessage(
-          "Success! You can view your upcoming volunteer shifts in the Dashboard."
+          "Success! You can view your upcoming volunteer shifts in your schedule."
         );
       } else {
         setMessage(

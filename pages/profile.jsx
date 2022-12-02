@@ -11,7 +11,7 @@ import { supabase } from "./utils/supabaseClient";
  * Method for initially fetching user info upon render from client-side
  * If converting all interactions with database to Next.js API routes, should change
  */
-function fetchResource() {
+function FetchResource() {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
 
@@ -62,7 +62,7 @@ const Profile = () => {
   const state = useRef();
   const zip = useRef();
 
-  const [data, setData, loading, setLoading] = fetchResource();
+  const [data, setData, loading, setLoading] = FetchResource();
 
   // Empty UI for Loading State
   if (loading) {
