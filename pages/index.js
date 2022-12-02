@@ -1,8 +1,7 @@
-import Head from 'next/head'
-import Login from './login';
+import Head from "next/head";
+import Login from "./login";
 
 export default function Home() {
-
   return (
     <div>
       <Head>
@@ -10,8 +9,8 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <div>
-        <Login/>
+        <Login />
       </div>
     </div>
-  )
+  );
 }
