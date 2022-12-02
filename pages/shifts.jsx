@@ -4,6 +4,7 @@ import Loading from "./components/load";
 import Rerouting from "./components/reroute";
 import { supabase } from "../utils/supabaseClient";
 import { formatTime, formatDate, getNow } from "../utils/date-time";
+import Head from "next/head";
 
 const Shifts = () => {
   // Modal variables
@@ -174,87 +175,102 @@ const Shifts = () => {
   };
 
   return (
-    <div className="flex flex-row">
-      <Navbar />
-      <div className="container p-10">
-        <div className="shadow sm:rounded-lg w-4/5">
-          <div className="px-4 py-5 sm:px-6">
-            <h2>Available {shiftType} Shifts</h2>
-          </div>
+    <div>
+      <Head>
+        <title>MySmiles</title>
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
+      <div className="flex flex-row">
+        <Navbar />
+        <div className="container p-10">
+          <div className="shadow sm:rounded-lg w-4/5">
+            <div className="px-4 py-5 sm:px-6">
+              <h2>Available {shiftType} Shifts</h2>
+            </div>
 
-          <div className="border-t border-gray-200 p-4">
-            {shifts && shifts.length > 0 ? (
-              <div className="mt-6">
-              <table className="w-full text-sm text-gray-700">
-                <thead className="text-gray-900 bg-white">
-                  <tr className="text-left">
-                    <th scope="col" className="table-header">Date</th>
-                    <th scope="col" className="table-header">Start Time</th>
-                    <th scope="col" className="table-header">End Time</th>
-                    <th scope="col" className="table-header"></th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {shifts.map((s) => {
-                    return (
-                      <tr
-                        key={s.id}
-                        className="border-t bg-white text-sm"
-                      >
-                        <td className="py-2 px-3 text-center">{formatDate(s.shift_date)}</td>
-                        <td className="py-2 px-3 text-center">{formatTime(s.start_time)}</td>
-                        <td className="py-2 px-3 text-center">{formatTime(s.end_time)}</td>
-                        <td className="py-2 px-3 text-center">
-                          <button
-                            className="indigo-button-sm"
-                            onClick={(e) => volunteer(e, s)}
-                          >
-                            Sign Up
-                          </button>
-                        </td>
+            <div className="border-t border-gray-200 p-4">
+              {shifts && shifts.length > 0 ? (
+                <div className="mt-6">
+                  <table className="w-full text-sm text-gray-700">
+                    <thead className="text-gray-900 bg-white">
+                      <tr className="text-left">
+                        <th scope="col" className="table-header">
+                          Date
+                        </th>
+                        <th scope="col" className="table-header">
+                          Start Time
+                        </th>
+                        <th scope="col" className="table-header">
+                          End Time
+                        </th>
+                        <th scope="col" className="table-header"></th>
                       </tr>
-                    );
-                  })}
-                </tbody>
-              </table>
-              </div>
-            ) : (
-              <div className="mt-5 w-full">
-                No available shifts at the moment! Check back in later.
-              </div>
-            )}
-          </div>
+                    </thead>
+                    <tbody>
+                      {shifts.map((s) => {
+                        return (
+                          <tr key={s.id} className="border-t bg-white text-sm">
+                            <td className="py-2 px-3 text-center">
+                              {formatDate(s.shift_date)}
+                            </td>
+                            <td className="py-2 px-3 text-center">
+                              {formatTime(s.start_time)}
+                            </td>
+                            <td className="py-2 px-3 text-center">
+                              {formatTime(s.end_time)}
+                            </td>
+                            <td className="py-2 px-3 text-center">
+                              <button
+                                className="indigo-button-sm"
+                                onClick={(e) => volunteer(e, s)}
+                              >
+                                Sign Up
+                              </button>
+                            </td>
+                          </tr>
+                        );
+                      })}
+                    </tbody>
+                  </table>
+                </div>
+              ) : (
+                <div className="mt-5 w-full">
+                  No available shifts at the moment! Check back in later.
+                </div>
+              )}
+            </div>
 
-          {open ? (
-            <div className="fixed inset-0 z-10 overflow-y-auto">
-              <div className="flex min-h-full z-10 items-end justify-center p-4 text-center sm:items-center sm:p-0">
-                <div className="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg">
-                  <div className="bg-white px-4 pt-5 pb-4 sm:p-8">
-                    <div className="mt-3 text-center sm:mt-0 sm:ml-0 sm:text-left">
-                      <h3 className="text-lg font-medium leading-6 text-gray-900">
-                        Status
-                      </h3>
-                      <hr />
-                      <div className="mt-2">
-                        <p className="text-sm text-gray-500">{message}</p>
+            {open ? (
+              <div className="fixed inset-0 z-10 overflow-y-auto">
+                <div className="flex min-h-full z-10 items-end justify-center p-4 text-center sm:items-center sm:p-0">
+                  <div className="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg">
+                    <div className="bg-white px-4 pt-5 pb-4 sm:p-8">
+                      <div className="mt-3 text-center sm:mt-0 sm:ml-0 sm:text-left">
+                        <h3 className="text-lg font-medium leading-6 text-gray-900">
+                          Status
+                        </h3>
+                        <hr />
+                        <div className="mt-2">
+                          <p className="text-sm text-gray-500">{message}</p>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                  <div className="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
-                    <button
-                      type="button"
-                      className="indigo-button-lg"
-                      onClick={() => setOpen(false)}
-                    >
-                      OK
-                    </button>
+                    <div className="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
+                      <button
+                        type="button"
+                        className="indigo-button-lg"
+                        onClick={() => setOpen(false)}
+                      >
+                        OK
+                      </button>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-          ) : (
-            <div></div>
-          )}
+            ) : (
+              <div></div>
+            )}
+          </div>
         </div>
       </div>
     </div>

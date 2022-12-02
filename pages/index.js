@@ -3,12 +3,10 @@ import Login from './login';
 
 export default function Home() {
 
-  const name = "MySmile";
-
   return (
     <div>
       <Head>
-        <title>{name}</title>
+        <title>MySmile</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <div>

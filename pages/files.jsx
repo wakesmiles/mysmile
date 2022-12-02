@@ -8,6 +8,7 @@ import Rerouting from "./components/reroute";
 import { formatDate } from "../utils/date-time";
 import { supabase } from "../utils/supabaseClient";
 import { saveAs } from "file-saver";
+import Head from "next/head";
 
 /**
  * Method for initially fetching user info upon render from client-side
@@ -165,107 +166,113 @@ const Upload = () => {
   };
 
   return (
-    <div className="flex flex-row">
-      <Navbar />
-      <div className="container p-10">
-        <div className="shadow sm:rounded-lg w-4/5">
-          <div className="px-4 py-5 sm:px-6">
-            <h2>Files</h2>
-          </div>
-          <div className="border-t border-gray-200 p-6">
-            <form>
-              <label className="flex flex-col justify-center w-full h-32 px-4 transition bg-white border-2 border-gray-300 border-dashed rounded-md appearance-none cursor-pointer hover:border-gray-400 focus:outline-none">
-                <div className="flex flex-col items-center space-x-2 w-full">
-                  <SlCloudUpload className="text-gray-600 w-7 h-7" />
-                  <div className="relative text-gray-600 w-full flex justify-center space-x-1">
-                    <p>Click here to upload (PDFs only).</p>
-                  </div>
-                </div>
-                <input
-                  type="file"
-                  id="single"
-                  accept="pdf/*"
-                  onChange={(e) => uploadFile(e)}
-                  name="file_upload"
-                  className="hidden"
-                />
-              </label>
-            </form>
-            <br />
-            <div>
-              <table className="orientation-shifts mt-5 w-full">
-                <thead className="mb-5 border-b border-gray-200">
-                  <tr className="grid w-full grid-cols-5 text-left mb-2">
-                    <th className="col-span-3 font-medium">Uploaded</th>
-                    <th className="col-span-1 font-medium">Date</th>
-                    <th className="col-span-1 font-medium w-5"></th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {files.length > 0 ? (
-                    files.map((f, i) => {
-                      return (
-                        <tr key={i} className="grid grid-cols-5 mt-2 text-sm">
-                          <td className="col-span-3 truncate">{f.name}</td>
-                          <td className="col-span-1">
-                            {formatDate(f.created_at.slice(0, 10))}
-                          </td>
-                          <td className="col-span-1 flex flex-row justify-end gap-4">
-                            <button
-                              className="w-5 h-5 text-indigo-600"
-                              onClick={(e) => downloadFile(e, f.name)}
-                            >
-                              <MdDownload className="w-full h-full" />
-                            </button>
-                            <button
-                              className="w-5 h-5 text-indigo-600"
-                              onClick={(e) => deleteFile(e, f.name)}
-                            >
-                              <FiTrash2 className="w-full h-full" />
-                            </button>
-                          </td>
-                        </tr>
-                      );
-                    })
-                  ) : (
-                    <tr className="grid grid-cols-5 mt-2 text-sm">
-                      <td className="col-span-5">No files uploaded yet.</td>
-                    </tr>
-                  )}
-                </tbody>
-              </table>
+    <div>
+      <Head>
+        <title>MySmiles</title>
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
+      <div className="flex flex-row">
+        <Navbar />
+        <div className="container p-10">
+          <div className="shadow sm:rounded-lg w-4/5">
+            <div className="px-4 py-5 sm:px-6">
+              <h2>Files</h2>
             </div>
+            <div className="border-t border-gray-200 p-6">
+              <form>
+                <label className="flex flex-col justify-center w-full h-32 px-4 transition bg-white border-2 border-gray-300 border-dashed rounded-md appearance-none cursor-pointer hover:border-gray-400 focus:outline-none">
+                  <div className="flex flex-col items-center space-x-2 w-full">
+                    <SlCloudUpload className="text-gray-600 w-7 h-7" />
+                    <div className="relative text-gray-600 w-full flex justify-center space-x-1">
+                      <p>Click here to upload (PDFs only).</p>
+                    </div>
+                  </div>
+                  <input
+                    type="file"
+                    id="single"
+                    accept="pdf/*"
+                    onChange={(e) => uploadFile(e)}
+                    name="file_upload"
+                    className="hidden"
+                  />
+                </label>
+              </form>
+              <br />
+              <div>
+                <table className="orientation-shifts mt-5 w-full">
+                  <thead className="mb-5 border-b border-gray-200">
+                    <tr className="grid w-full grid-cols-5 text-left mb-2">
+                      <th className="col-span-3 font-medium">Uploaded</th>
+                      <th className="col-span-1 font-medium">Date</th>
+                      <th className="col-span-1 font-medium w-5"></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {files.length > 0 ? (
+                      files.map((f, i) => {
+                        return (
+                          <tr key={i} className="grid grid-cols-5 mt-2 text-sm">
+                            <td className="col-span-3 truncate">{f.name}</td>
+                            <td className="col-span-1">
+                              {formatDate(f.created_at.slice(0, 10))}
+                            </td>
+                            <td className="col-span-1 flex flex-row justify-end gap-4">
+                              <button
+                                className="w-5 h-5 text-indigo-600"
+                                onClick={(e) => downloadFile(e, f.name)}
+                              >
+                                <MdDownload className="w-full h-full" />
+                              </button>
+                              <button
+                                className="w-5 h-5 text-indigo-600"
+                                onClick={(e) => deleteFile(e, f.name)}
+                              >
+                                <FiTrash2 className="w-full h-full" />
+                              </button>
+                            </td>
+                          </tr>
+                        );
+                      })
+                    ) : (
+                      <tr className="grid grid-cols-5 mt-2 text-sm">
+                        <td className="col-span-5">No files uploaded yet.</td>
+                      </tr>
+                    )}
+                  </tbody>
+                </table>
+              </div>
 
-            {open ? (
-              <div className="fixed inset-0 z-10 overflow-y-auto">
-                <div className="flex min-h-full z-10 items-end justify-center p-4 text-center sm:items-center sm:p-0">
-                  <div className="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg">
-                    <div className="bg-white px-4 pt-5 pb-4 sm:p-8">
-                      <div className="mt-3 text-center sm:mt-0 sm:ml-0 sm:text-left">
-                        <h3 className="text-lg font-medium leading-6 text-gray-900">
-                          Status
-                        </h3>
-                        <hr />
-                        <div className="mt-2">
-                          <p className="text-sm text-gray-500">{message}</p>
+              {open ? (
+                <div className="fixed inset-0 z-10 overflow-y-auto">
+                  <div className="flex min-h-full z-10 items-end justify-center p-4 text-center sm:items-center sm:p-0">
+                    <div className="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg">
+                      <div className="bg-white px-4 pt-5 pb-4 sm:p-8">
+                        <div className="mt-3 text-center sm:mt-0 sm:ml-0 sm:text-left">
+                          <h3 className="text-lg font-medium leading-6 text-gray-900">
+                            Status
+                          </h3>
+                          <hr />
+                          <div className="mt-2">
+                            <p className="text-sm text-gray-500">{message}</p>
+                          </div>
                         </div>
                       </div>
-                    </div>
-                    <div className="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
-                      <button
-                        type="button"
-                        className="indigo-button-lg"
-                        onClick={() => setOpen(false)}
-                      >
-                        OK
-                      </button>
+                      <div className="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
+                        <button
+                          type="button"
+                          className="indigo-button-lg"
+                          onClick={() => setOpen(false)}
+                        >
+                          OK
+                        </button>
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
-            ) : (
-              <div></div>
-            )}
+              ) : (
+                <div></div>
+              )}
+            </div>
           </div>
         </div>
       </div>
