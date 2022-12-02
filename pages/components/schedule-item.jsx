@@ -11,6 +11,10 @@ const ScheduleItem = (props) => {
   const today = new Date().toISOString().slice(0, 10);
   const refetch = props.refetch;
 
+  if (!s || !uid) {
+    return <></>;
+  } 
+
   /**
    * Delete the sign-up from the user's schedule
    * Increase the shift's number of available slots by 1
