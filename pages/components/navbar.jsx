@@ -10,7 +10,7 @@ const Navbar = () => {
     await supabase.auth.signOut().then(() => {
       success = true;
     });
-    if (success) router.push("/login");
+    if (success) router.push("/");
   };
 
   return (
