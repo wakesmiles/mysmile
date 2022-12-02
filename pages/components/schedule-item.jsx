@@ -1,8 +1,8 @@
 import { useState } from "react";
-import { formatDate, formatTime } from "../utils/date-time";
+import { formatDate, formatTime } from "../../utils/date-time";
 import { FiTrash2 } from "react-icons/fi";
 import { AiFillClockCircle } from "react-icons/ai";
-import { supabase } from "../utils/supabaseClient";
+import { supabase } from "../../utils/supabaseClient";
 
 const ScheduleItem = (props) => {
   const [open, setOpen] = useState(false);

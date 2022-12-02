@@ -1,8 +1,8 @@
 import { useRef } from "react";
 import { useRouter } from "next/router";
 import Link from "next/link";
-import states from "./utils/state-abbrev";
-import { supabase } from "./utils/supabaseClient.js";
+import states from "../utils/state-abbrev";
+import { supabase } from "../utils/supabaseClient.js";
 
 const Registration = () => {
   const router = useRouter();

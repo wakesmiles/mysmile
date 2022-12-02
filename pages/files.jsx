@@ -5,15 +5,15 @@ import { MdDownload } from "react-icons/md";
 import Navbar from "./components/navbar";
 import Loading from "./components/load";
 import Rerouting from "./components/reroute";
-import { formatDate } from "./utils/date-time";
-import { supabase } from "./utils/supabaseClient";
+import { formatDate } from "../utils/date-time";
+import { supabase } from "../utils/supabaseClient";
 import { saveAs } from "file-saver";
 
 /**
  * Method for initially fetching user info upon render from client-side
  * Should change when converting all interactions with DB to API routes
  */
-const FetchResource = () => {
+function FetchResource() {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const [folder, setFolder] = useState("");

@@ -1,10 +1,10 @@
 import { useState, useEffect } from "react";
-import { supabase } from "./utils/supabaseClient";
+import { supabase } from "../utils/supabaseClient";
 import Navbar from "./components/navbar";
 import Loading from "./components/load";
 import Rerouting from "./components/reroute";
 import ScheduleItem from "./components/schedule-item";
-import { getNow } from "./utils/date-time";
+import { getNow } from "../utils/date-time";
 
 function compareShift(a, b) {
   if (a.shift_date > b.shift_date) {

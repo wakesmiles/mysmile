@@ -3,9 +3,9 @@ import { FiEdit } from "react-icons/fi";
 import Navbar from "./components/navbar";
 import Loading from "./components/load";
 import Rerouting from "./components/reroute";
-import { formatDate } from './utils/date-time';
-import states from "./utils/state-abbrev";
-import { supabase } from "./utils/supabaseClient";
+import { formatDate } from '../utils/date-time';
+import states from "../utils/state-abbrev";
+import { supabase } from "../utils/supabaseClient";
 
 /**
  * Method for initially fetching user info upon render from client-side
