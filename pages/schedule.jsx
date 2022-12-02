@@ -123,7 +123,7 @@ const Schedule = () => {
   return (
     <div>
       <Head>
-        <title>MySmiles</title>
+        <title>MySmile</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <div className="flex flex-row">

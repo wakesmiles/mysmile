@@ -93,7 +93,7 @@ const Registration = () => {
   return (
     <div>
       <Head>
-        <title>MySmiles</title>
+        <title>MySmile</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <div className="grid place-items-center p-8">
