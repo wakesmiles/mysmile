@@ -1,17 +1,15 @@
 import { useRef } from "react";
-import { useRouter } from "next/router";
 import Link from "next/link";
+import Head from "next/head";
+import { useRouter } from "next/router";
 import states from "../utils/state-abbrev";
 import { supabase } from "../utils/supabaseClient.js";
-import Head from "next/head";
 
+/** New user registration form */
 const Registration = () => {
   const router = useRouter();
 
-  /**
-   * Registration form input fields
-   * Keep phone #, DOB, and zip code as string for easier formatting and data validation
-   */
+  // Keep phone #, DOB, and zip code as string for easier formatting and data validation
   const fnameRef = useRef("");
   const lnameRef = useRef("");
   const emailRef = useRef("");
@@ -36,12 +34,17 @@ const Registration = () => {
   maxDob =
     maxDob.slice(6, 10) + "-" + maxDob.slice(0, 2) + "-" + maxDob.slice(3, 5);
 
+  // Option component for US state drop down field
   const Option = (props) => <option>{props.label}</option>;
 
-  // Create new records in Supabase auth.users internal schema and public 'profiles' table
+  /**
+   * Create new record in Supabase auth.users internal schema and public "profiles" table
+   * Automatically log new user into their dashboard/schedule if registration is successful
+   */
   const signUp = async (e) => {
     e.preventDefault();
     let success = false;
+    let currentDob = dobRef.current.value ? dobRef.current.value : maxDob;
 
     await supabase.auth
       .signUp({
@@ -51,7 +54,7 @@ const Registration = () => {
           data: {
             first_name: fnameRef.current.value,
             last_name: lnameRef.current.value,
-            dob: dobRef.current.value,
+            dob: currentDob,
             role: "pre-dental",
             phone: phoneRef.current.value,
             address: addressRef.current.value,
@@ -62,9 +65,15 @@ const Registration = () => {
           },
         },
       })
-      .then(async (data) => {
-        const user = data.data.user;
+      .then(async ({ data, error }) => {
+        // If error occurs (ex: an account already exists with email), alert
+        if (error) {
+          alert(error.message);
+          return;
+        }
 
+        // If registration was successful, create a matching record with user info in the "profiles" table
+        const user = data.user;
         await supabase
           .from("profiles")
           .insert({
@@ -89,7 +98,6 @@ const Registration = () => {
     }
   };
 
-  // CLEAN: login & registration classes are quite similar, can probably simplify class names
   return (
     <div>
       <Head>
