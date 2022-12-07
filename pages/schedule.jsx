@@ -150,7 +150,7 @@ const Schedule = () => {
                     </div>
                   </div>
 
-                  <div className="mt-6">
+                  <div className="mt-6 overflow-y-scroll w-full h-full max-w-full max-h-96 scrollbar">
                     <table className="w-full text-sm text-gray-700">
                       <thead className="text-gray-900 border-b bg-white">
                         <tr>

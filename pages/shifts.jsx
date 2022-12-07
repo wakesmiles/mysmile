@@ -190,8 +190,8 @@ const Shifts = () => {
 
             <div className="border-t border-gray-200 p-4">
               {shifts && shifts.length > 0 ? (
-                <div className="mt-6">
-                  <table className="w-full text-sm text-gray-700">
+                <div className="mt-6 overflow-y-scroll w-full h-full max-w-full max-h-96 scrollbar">
+                  <table className="text-sm text-gray-700 w-full">
                     <thead className="text-gray-900 bg-white">
                       <tr className="text-left">
                         <th scope="col" className="table-header">

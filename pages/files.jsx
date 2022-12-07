@@ -49,7 +49,6 @@ function FetchResource() {
               await supabase.storage
                 .from("certifications")
                 .list(folderPath, {
-                  limit: 10,
                   offset: 0,
                   sortBy: { column: "created_at", order: "desc" },
                 })
@@ -108,6 +107,7 @@ const Upload = () => {
       });
   };
 
+  // Validate file type and file name, attempt to upload to Supabase storage
   const uploadFile = async (e) => {
     e.preventDefault();
     try {
@@ -116,7 +116,7 @@ const Upload = () => {
         e.target.files.length === 0 ||
         e.target.files[0].type !== "application/pdf"
       ) {
-        throw new Error("Invalid file.");
+        throw new Error("Invalid file. Please check file type and name.");
       }
       await supabase.storage
         .from("certifications")
@@ -198,7 +198,7 @@ const Upload = () => {
                 </label>
               </form>
               <br />
-              <div>
+              <div className="overflow-y-scroll w-full h-full max-w-full max-h-72 scrollbar">
                 <table className="orientation-shifts mt-5 w-full">
                   <thead className="mb-5 border-b border-gray-200">
                     <tr className="grid w-full grid-cols-5 text-left mb-2">
@@ -224,7 +224,7 @@ const Upload = () => {
                                 <MdDownload className="w-full h-full" />
                               </button>
                               <button
-                                className="w-5 h-5 text-indigo-600"
+                                className="w-5 h-5 mr-3 text-indigo-600"
                                 onClick={(e) => deleteFile(e, f.name)}
                               >
                                 <FiTrash2 className="w-full h-full" />

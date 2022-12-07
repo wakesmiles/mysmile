@@ -28,6 +28,7 @@ h2 {
   @apply text-lg font-medium leading-6 text-gray-900;
 }
 
+/** Boilerplate for future dark mode styling */
 @media (prefers-color-scheme: dark) {
   html {
     color-scheme: dark;
@@ -50,6 +51,28 @@ h2 {
   }
   .profile-row {
     @apply grid grid-cols-3 gap-4 px-6;
+  }
+}
+
+@layer utilities {
+  .scrollbar::-webkit-scrollbar {
+    width: 5px;
+    height: auto;
+  }
+
+  .scrollbar::-webkit-scrollbar-track {
+    border-radius: 100vh;
+    background: #ffffff;
+  }
+
+  .scrollbar::-webkit-scrollbar-thumb {
+    background: #e0cbcb;
+    border-radius: 100vh;
+    border: 3px solid #9654ba;
+  }
+
+  .scrollbar::-webkit-scrollbar-thumb:hover {
+    background: #ffffff;
   }
 }
 
