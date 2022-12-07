@@ -1,6 +1,7 @@
 import Link from "next/link";
 import Head from "next/head";
 
+/** Intermediate UI for attempting to load page while unauthenticated */
 const Rerouting = () => {
   return (
     <div>

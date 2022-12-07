@@ -11,7 +11,7 @@ export const formatTime = (time) => {
   return `${hour}:${time.slice(3, 5)} ${suffix}`;
 };
 
-// Retrieves current date in YYYY-MM-DD format and current time in HH:MM:SS format
+// Retrieve current date in YYYY-MM-DD format and current time in HH:MM:SS format
 export const getNow = () => {
   const now = new Date();
   const [year, month, day] = [now.getFullYear(), now.getMonth()+1, now.getDate()];

@@ -1,12 +1,15 @@
 import { useState, useEffect } from "react";
-import { supabase } from "../utils/supabaseClient";
 import Navbar from "./components/navbar";
 import Loading from "./components/load";
 import Rerouting from "./components/reroute";
 import ScheduleItem from "./components/schedule-item";
-import { getNow } from "../utils/date-time";
 import Head from "next/head";
+import { getNow } from "../utils/date-time";
+import { supabase } from "../utils/supabaseClient";
 
+/**
+ * Comparator for sorting shifts by date, start time, and end time
+ */
 function compareShift(a, b) {
   if (a.shift_date > b.shift_date) {
     return 1;
@@ -22,6 +25,10 @@ function compareShift(a, b) {
   }
 }
 
+/**
+ * Function for initially fetching user info upon render from client-side
+ * If converting interactions with DB to API routes, should change
+ */
 function FetchResource() {
   const [user, setUser] = useState(null);
   const [schedule, setSchedule] = useState([]);
@@ -107,10 +114,11 @@ function FetchResource() {
   return [user, loading, schedule, fetchSchedule];
 }
 
+/** User's upcoming schedule */
 const Schedule = () => {
   const [user, loading, schedule, fetchSchedule] = FetchResource();
 
-  // Empty UI for Loading State
+  // UI for loading state
   if (loading) {
     return <Loading />;
   }
@@ -150,7 +158,7 @@ const Schedule = () => {
                     </div>
                   </div>
 
-                  <div className="mt-6">
+                  <div className="mt-6 overflow-y-scroll w-full h-full max-w-full max-h-96 scrollbar">
                     <table className="w-full text-sm text-gray-700">
                       <thead className="text-gray-900 border-b bg-white">
                         <tr>

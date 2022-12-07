@@ -17,9 +17,9 @@ const Shifts = () => {
   const [shiftType, setShiftType] = useState("");
   const [loading, setLoading] = useState(true);
 
-  // Client-side data fetching for initial render
   async function getData() {
     try {
+      // Authenticate user
       await supabase.auth.getUser().then(async ({ data, error }) => {
         if (error) {
           return;
@@ -98,7 +98,10 @@ const Shifts = () => {
       });
   }
 
-  // Hook + Supabase subscription for refreshing data upon initial render and upon "shifts" table change
+  /**
+   * React hook + Supabase subscription for refreshing data upon any database changes
+   * Allows admin to post and edit "shifts" table, and for those changes immediately update on the volunteer end
+   */
   useEffect(() => {
     getData().then(() => {
       setLoading(false);
@@ -120,7 +123,7 @@ const Shifts = () => {
     };
   }, []);
 
-  // Empty UI for Loading State
+  // UI for loading state
   if (loading) {
     return <Loading />;
   }
@@ -131,7 +134,7 @@ const Shifts = () => {
   }
 
   /**
-   * Attempts to volunteer user for specific shift
+   * Sign up the current user for a specific shift (s)
    */
   const volunteer = async (e, s) => {
     e.preventDefault();
@@ -190,8 +193,8 @@ const Shifts = () => {
 
             <div className="border-t border-gray-200 p-4">
               {shifts && shifts.length > 0 ? (
-                <div className="mt-6">
-                  <table className="w-full text-sm text-gray-700">
+                <div className="mt-6 overflow-y-scroll w-full h-full max-w-full max-h-96 scrollbar">
+                  <table className="text-sm text-gray-700 w-full">
                     <thead className="text-gray-900 bg-white">
                       <tr className="text-left">
                         <th scope="col" className="table-header">

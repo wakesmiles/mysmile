@@ -28,6 +28,7 @@ h2 {
   @apply text-lg font-medium leading-6 text-gray-900;
 }
 
+/** Boilerplate for future dark mode styling */
 @media (prefers-color-scheme: dark) {
   html {
     color-scheme: dark;
@@ -53,6 +54,28 @@ h2 {
   }
 }
 
+@layer utilities {
+  .scrollbar::-webkit-scrollbar {
+    width: 5px;
+    height: auto;
+  }
+
+  .scrollbar::-webkit-scrollbar-track {
+    border-radius: 100vh;
+    background: #ffffff;
+  }
+
+  .scrollbar::-webkit-scrollbar-thumb {
+    background: #e0cbcb;
+    border-radius: 100vh;
+    border: 3px solid #9654ba;
+  }
+
+  .scrollbar::-webkit-scrollbar-thumb:hover {
+    background: #ffffff;
+  }
+}
+
 .red-button-sm {
   @apply inline-flex justify-center rounded-md border-transparent bg-red-500 py-1 px-3 text-sm font-medium text-white shadow-sm;
 }
@@ -61,7 +84,8 @@ h2 {
   @apply w-full h-screen flex flex-row justify-center justify-items-center align-middle overflow-hidden bg-white;
 }
 
-.indigo-button-sm, .indigo-button-lg {
+.indigo-button-sm,
+.indigo-button-lg {
   @apply inline-flex justify-center rounded-md border-transparent bg-indigo-600 py-1 px-3 text-sm font-medium text-white shadow-sm;
 }
 
@@ -72,7 +96,8 @@ h2 {
 .indigo-button-lg {
   @apply py-2 px-4;
 }
-.indigo-button-sm:disabled, .indigo-button-lg:disabled {
+.indigo-button-sm:disabled,
+.indigo-button-lg:disabled {
   @apply bg-gray-500;
 }
 
@@ -122,7 +147,6 @@ h2 {
 .profile-input {
   @apply mt-1 block w-full h-auto text-sm rounded-md border-gray-300;
 }
-
 
 /**Volunteer Schedule*************************/
 .table-header {

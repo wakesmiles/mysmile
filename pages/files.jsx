@@ -5,14 +5,14 @@ import { MdDownload } from "react-icons/md";
 import Navbar from "./components/navbar";
 import Loading from "./components/load";
 import Rerouting from "./components/reroute";
+import Head from "next/head";
 import { formatDate } from "../utils/date-time";
 import { supabase } from "../utils/supabaseClient";
 import { saveAs } from "file-saver";
-import Head from "next/head";
 
 /**
- * Method for initially fetching user info upon render from client-side
- * Should change when converting all interactions with DB to API routes
+ * Function for initially fetching user info upon render from client-side
+ * If converting interactions with DB to API routes, should change
  */
 function FetchResource() {
   const [user, setUser] = useState(null);
@@ -20,10 +20,11 @@ function FetchResource() {
   const [folder, setFolder] = useState("");
   const [files, setFiles] = useState([]);
 
-  // Attempt to retrieve current user and get their information from "profiles" table based on ID
   async function getData() {
     try {
       setLoading(true);
+
+      // Authenticate user
       await supabase.auth.getUser().then(async (data, err) => {
         if (data) {
           const id = data.data.user.id;
@@ -46,10 +47,10 @@ function FetchResource() {
                 user.id.slice(0, 5);
               setFolder(folderPath);
 
+              // Retrieve previously user-uploaded files from Supabase storage
               await supabase.storage
                 .from("certifications")
                 .list(folderPath, {
-                  limit: 10,
                   offset: 0,
                   sortBy: { column: "created_at", order: "desc" },
                 })
@@ -81,7 +82,7 @@ const Upload = () => {
 
   const [user, loading, folder, files, setFiles] = FetchResource();
 
-  // Empty UI for Loading State
+  // UI for loading state
   if (loading) {
     return <Loading />;
   }
@@ -91,7 +92,9 @@ const Upload = () => {
     return <Rerouting />;
   }
 
-  // Re-fetch/render from file storage for the same user after update
+  /**
+   * Re-fetch from file storage for the same user after update
+   */
   const refetch = async () => {
     console.log("in refetch now");
     await supabase.storage
@@ -108,16 +111,25 @@ const Upload = () => {
       });
   };
 
+  /**
+   * Validate file type and file name, then upload to Supabase storage
+   */
   const uploadFile = async (e) => {
     e.preventDefault();
     try {
-      if (
-        !e.target.files ||
-        e.target.files.length === 0 ||
-        e.target.files[0].type !== "application/pdf"
-      ) {
-        throw new Error("Invalid file.");
+      // No file detected
+      if (!e.target.files || e.target.files.length === 0) {
+        return;
       }
+
+      // Invalid file type or file name
+      if (
+        e.target.files[0].type !== "application/pdf" ||
+        !/^([\w_ \.\-\_]*)$/.test(e.target.files[0].name)
+      ) {
+        throw new Error("Invalid file. Please check file type and name.");
+      }
+
       await supabase.storage
         .from("certifications")
         .upload(folder + "/" + e.target.files[0].name, e.target.files[0])
@@ -132,6 +144,9 @@ const Upload = () => {
     }
   };
 
+  /**
+   * Delete file from Supabase storage
+   */
   const deleteFile = async (e, name) => {
     e.preventDefault();
     try {
@@ -145,6 +160,9 @@ const Upload = () => {
     }
   };
 
+  /**
+   * Download file into local directory from Supabase storage
+   */
   const downloadFile = async (e, name) => {
     e.preventDefault();
     try {
@@ -198,7 +216,7 @@ const Upload = () => {
                 </label>
               </form>
               <br />
-              <div>
+              <div className="overflow-y-scroll w-full h-full max-w-full max-h-72 scrollbar">
                 <table className="orientation-shifts mt-5 w-full">
                   <thead className="mb-5 border-b border-gray-200">
                     <tr className="grid w-full grid-cols-5 text-left mb-2">
@@ -224,7 +242,7 @@ const Upload = () => {
                                 <MdDownload className="w-full h-full" />
                               </button>
                               <button
-                                className="w-5 h-5 text-indigo-600"
+                                className="w-5 h-5 mr-3 text-indigo-600"
                                 onClick={(e) => deleteFile(e, f.name)}
                               >
                                 <FiTrash2 className="w-full h-full" />

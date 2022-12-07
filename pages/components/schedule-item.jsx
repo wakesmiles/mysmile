@@ -1,9 +1,10 @@
 import { useState } from "react";
-import { formatDate, formatTime } from "../../utils/date-time";
 import { FiTrash2 } from "react-icons/fi";
 import { AiFillClockCircle } from "react-icons/ai";
+import { formatDate, formatTime } from "../../utils/date-time";
 import { supabase } from "../../utils/supabaseClient";
 
+/** A row for the table of user's upcoming shifts in Schedule component */
 const ScheduleItem = (props) => {
   const [open, setOpen] = useState(false);
   const s = props.shift;
@@ -11,9 +12,10 @@ const ScheduleItem = (props) => {
   const today = new Date().toISOString().slice(0, 10);
   const refetch = props.refetch;
 
+  // Empty component fail-safe
   if (!s || !uid) {
     return <></>;
-  } 
+  }
 
   /**
    * Delete the sign-up from the user's schedule
@@ -30,7 +32,7 @@ const ScheduleItem = (props) => {
       .from("shifts")
       .select("remaining_slots")
       .eq("id", s.shift_id)
-      .then(({ data, }) => {
+      .then(({ data }) => {
         if (data && data.length !== 0) return data[0].remaining_slots + 1;
       })
       .then(async (slots) => {
@@ -89,7 +91,14 @@ const ScheduleItem = (props) => {
   return (
     <tr className="border-t bg-white">
       <td className="py-2 px-1 text-center">
-        <span className={"w-2 h-2 inline-block rounded-full mr-2 " + (s.shift_type === "orientation" ? "bg-secondary-color" : "bg-indigo-400")}/>
+        <span
+          className={
+            "w-2 h-2 inline-block rounded-full mr-2 " +
+            (s.shift_type === "orientation"
+              ? "bg-secondary-color"
+              : "bg-indigo-400")
+          }
+        />
       </td>
       <td className="py-2 px-3 text-center">{formatDate(s.shift_date)}</td>
       <td className="py-2 px-3 text-center">{formatTime(s.start_time)}</td>

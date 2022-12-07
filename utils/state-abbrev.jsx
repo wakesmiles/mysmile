@@ -1,3 +1,4 @@
+// US state abbreviations
 const states = [
   "AL",
   "AK",
