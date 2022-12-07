@@ -202,7 +202,7 @@ const Upload = () => {
                   <div className="flex flex-col items-center space-x-2 w-full">
                     <SlCloudUpload className="text-gray-600 w-7 h-7" />
                     <div className="relative text-gray-600 w-full flex justify-center space-x-1">
-                      <p>Click here to upload (PDFs only).</p>
+                      <p>Click here to upload PDF. Only dashes and underscores allowed in file name.</p>
                     </div>
                   </div>
                   <input
