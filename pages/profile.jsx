@@ -3,10 +3,10 @@ import { FiEdit } from "react-icons/fi";
 import Navbar from "./components/navbar";
 import Loading from "./components/load";
 import Rerouting from "./components/reroute";
-import { formatDate } from "../utils/date-time";
-import states from "../utils/state-abbrev";
-import { supabase } from "../utils/supabaseClient";
 import Head from "next/head";
+import states from "../utils/state-abbrev";
+import { formatDate } from "../utils/date-time";
+import { supabase } from "../utils/supabaseClient";
 
 /**
  * Method for initially fetching user info upon render from client-side
@@ -16,14 +16,15 @@ function FetchResource() {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  // Retrieve current user and get their information from "profiles" table based on ID
   async function getData() {
     try {
       setLoading(true);
 
-      await supabase.auth.getUser().then(async (data, err) => {
+      // Authenticate user
+      await supabase.auth.getUser().then(async ({ data }) => {
         if (data) {
-          const id = data.data.user.id;
+          // Retrieve current user info from "profiles" table
+          const id = data.user.id;
           await supabase
             .from("profiles")
             .select()
@@ -48,7 +49,7 @@ function FetchResource() {
     getData();
   }, []);
 
-  return [data, setData, loading, setLoading];
+  return [data, setData, loading];
 }
 
 const Profile = () => {
@@ -56,16 +57,16 @@ const Profile = () => {
   const [open, setOpen] = useState(false);
   const cancelButtonRef = useRef(null);
 
-  // Editable fields for user
+  // Editable fields
   const phone = useRef();
   const address = useRef();
   const city = useRef();
   const state = useRef();
   const zip = useRef();
 
-  const [data, setData, loading, setLoading] = FetchResource();
+  const [data, setData, loading] = FetchResource();
 
-  // Empty UI for Loading State
+  // UI for Loading State
   if (loading) {
     return <Loading />;
   }
@@ -78,7 +79,29 @@ const Profile = () => {
   // UI for US state abbreviations dropdown list
   const Option = (props) => <option>{props.label}</option>;
 
-  // Save modal form changes to DB and update UI
+  /**
+   * Re-fetch from database for the same user after update
+   */
+  const refetch = async () => {
+    await supabase
+      .from("profiles")
+      .select()
+      .eq("id", data.id)
+      .then((profile, err) => {
+        if (profile) {
+          return profile.data[0];
+        } else {
+          console.log(err);
+        }
+      })
+      .then((user) => {
+        setData(user);
+      });
+  };
+
+  /**
+   * Update user contact information in Supabase
+   */
   const save = async (e) => {
     e.preventDefault();
     let success = false;
@@ -102,24 +125,6 @@ const Profile = () => {
     } else {
       console.log(error);
     }
-  };
-
-  // Re-fetch/render from database for the same user after update
-  const refetch = async () => {
-    await supabase
-      .from("profiles")
-      .select()
-      .eq("id", data.id)
-      .then((profile, err) => {
-        if (profile) {
-          return profile.data[0];
-        } else {
-          console.log(err);
-        }
-      })
-      .then((user) => {
-        setData(user);
-      });
   };
 
   return (

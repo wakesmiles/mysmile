@@ -34,7 +34,7 @@ const Registration = () => {
   maxDob =
     maxDob.slice(6, 10) + "-" + maxDob.slice(0, 2) + "-" + maxDob.slice(3, 5);
 
-  // Option component for US state drop down field
+  // UI for US state abbreviations dropdown list
   const Option = (props) => <option>{props.label}</option>;
 
   /**

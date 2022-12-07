@@ -1,10 +1,11 @@
 import { useState, useRef } from "react";
 import { AiFillEyeInvisible, AiFillEye } from "react-icons/ai";
-import { useRouter } from "next/router";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import { supabase } from "../utils/supabaseClient";
 
+/** Login form and application homepage component */
 const Login = () => {
   const [show, setShow] = useState(false);
   const router = useRouter();
@@ -12,7 +13,9 @@ const Login = () => {
   const emailRef = useRef("");
   const passwordRef = useRef("");
 
-  // Log into application with Supabase auth
+  /** 
+   * Log into application with Supabase internal auth schema
+   */
   const login = async (e) => {
     e.preventDefault();
     let success = false;

@@ -24,7 +24,7 @@ function FetchResource() {
     try {
       setLoading(true);
 
-        // Authenticate user
+      // Authenticate user
       await supabase.auth.getUser().then(async (data, err) => {
         if (data) {
           const id = data.data.user.id;
@@ -93,8 +93,8 @@ const Upload = () => {
   }
 
   /**
-   * Re-fetch/render from file storage for the same user after update
-   */ 
+   * Re-fetch from file storage for the same user after update
+   */
   const refetch = async () => {
     console.log("in refetch now");
     await supabase.storage
@@ -113,7 +113,7 @@ const Upload = () => {
 
   /**
    * Validate file type and file name, then upload to Supabase storage
-   */ 
+   */
   const uploadFile = async (e) => {
     e.preventDefault();
     try {
@@ -125,7 +125,7 @@ const Upload = () => {
       // Invalid file type or file name
       if (
         e.target.files[0].type !== "application/pdf" ||
-        !(/^([\w_ \.\-\_]*)$/.test(e.target.files[0].name))
+        !/^([\w_ \.\-\_]*)$/.test(e.target.files[0].name)
       ) {
         throw new Error("Invalid file. Please check file type and name.");
       }

@@ -1,6 +1,7 @@
 import Navbar from "./navbar";
 import Head from "next/head";
 
+/** Temporary UI for loading while fetching data client-side */
 const Loading = () => {
   return (
     <div>
