@@ -9,8 +9,8 @@ import { formatDate } from "../utils/date-time";
 import { supabase } from "../utils/supabaseClient";
 
 /**
- * Method for initially fetching user info upon render from client-side
- * If converting all interactions with database to Next.js API routes, should change
+ * Function for initially fetching user info upon render from client-side
+ * If converting interactions with DB to API routes, should change
  */
 function FetchResource() {
   const [data, setData] = useState(null);
@@ -52,6 +52,7 @@ function FetchResource() {
   return [data, setData, loading];
 }
 
+/** User profile component */
 const Profile = () => {
   // Modal display variables
   const [open, setOpen] = useState(false);
@@ -66,7 +67,7 @@ const Profile = () => {
 
   const [data, setData, loading] = FetchResource();
 
-  // UI for Loading State
+  // UI for loading state
   if (loading) {
     return <Loading />;
   }

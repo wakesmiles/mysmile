@@ -84,7 +84,8 @@ h2 {
   @apply w-full h-screen flex flex-row justify-center justify-items-center align-middle overflow-hidden bg-white;
 }
 
-.indigo-button-sm, .indigo-button-lg {
+.indigo-button-sm,
+.indigo-button-lg {
   @apply inline-flex justify-center rounded-md border-transparent bg-indigo-600 py-1 px-3 text-sm font-medium text-white shadow-sm;
 }
 
@@ -95,7 +96,8 @@ h2 {
 .indigo-button-lg {
   @apply py-2 px-4;
 }
-.indigo-button-sm:disabled, .indigo-button-lg:disabled {
+.indigo-button-sm:disabled,
+.indigo-button-lg:disabled {
   @apply bg-gray-500;
 }
 
@@ -145,7 +147,6 @@ h2 {
 .profile-input {
   @apply mt-1 block w-full h-auto text-sm rounded-md border-gray-300;
 }
-
 
 /**Volunteer Schedule*************************/
 .table-header {
