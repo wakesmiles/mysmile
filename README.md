@@ -3,7 +3,7 @@ You can visit the deployed site at [mysmile.vercel.app](https://mysmile.vercel.a
 
 ## Run in Development Mode
 
-To run this application locally, first add an `.env.local` file into the root of this repository folder in your local IDE. Database client credentials will go into this file as environment variables for security reasons. If you're a developer on this project, please contact Fall 2022's Technical Lead, Alison "Lia" Zhang, for the information.
+To run this application locally, first add an `.env.local` file into the root of this repository folder in your local IDE. Database client credentials will go into this file as environment variables for security reasons. If you're a developer on this project, see the developer docs provided for you by admin (created by the Fall 2022 team). If not found, contact Fall 2022's Technical Lead, Alison "Lia" Zhang, for the information.
 
 Run the development server with
 
