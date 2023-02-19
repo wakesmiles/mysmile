@@ -1,9 +1,10 @@
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import Link from "next/link";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import states from "../utils/state-abbrev";
 import { supabase } from "../utils/supabaseClient.js";
+import { PatternFormat } from 'react-number-format'
 
 /** New user registration form */
 const Registration = () => {
@@ -14,6 +15,7 @@ const Registration = () => {
   const lnameRef = useRef("");
   const emailRef = useRef("");
   const passwordRef = useRef("");
+  const [phoneVal, setPhone] = useState("");
   const phoneRef = useRef("");
   const dobRef = useRef("");
   const addressRef = useRef("");
@@ -37,6 +39,13 @@ const Registration = () => {
   // UI for US state abbreviations dropdown list
   const Option = (props) => <option>{props.label}</option>;
 
+  //Update phoneRef when value changes
+  const updatePhoneRef = (val) =>{
+      setPhone(val)
+      //phoneRef.current = phoneVal;
+      console.log(phoneVal)
+      console.log(phoneRef.current)
+  }
   /**
    * Create new record in Supabase auth.users internal schema and public "profiles" table
    * Automatically log new user into their dashboard/schedule if registration is successful
@@ -45,7 +54,7 @@ const Registration = () => {
     e.preventDefault();
     let success = false;
     let currentDob = dobRef.current.value ? dobRef.current.value : maxDob;
-
+    console.log(phoneRef.current);
     await supabase.auth
       .signUp({
         email: emailRef.current.value,
@@ -171,15 +180,17 @@ const Registration = () => {
                   <label htmlFor="phone-number" className="auth-label">
                     Phone
                   </label>
-                  <input
+                  <PatternFormat
                     ref={phoneRef}
                     type="tel"
                     name="phone-number"
                     autoComplete="on"
                     className="auth-input"
+                    format ='###-###-####'
                     placeholder="###-###-####"
                     pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
                     required
+                    onValueChange = { value => updatePhoneRef(value.formattedValue)}
                   />
                 </div>
 
