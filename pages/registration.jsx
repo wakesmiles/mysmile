@@ -16,7 +16,7 @@ const Registration = () => {
   const emailRef = useRef("");
   const passwordRef = useRef("");
   const [phoneVal, setPhone] = useState("");
-  const phoneRef = useRef("");
+  //const phoneRef = useRef("");
   const dobRef = useRef("");
   const addressRef = useRef("");
   const cityRef = useRef("");
@@ -39,13 +39,6 @@ const Registration = () => {
   // UI for US state abbreviations dropdown list
   const Option = (props) => <option>{props.label}</option>;
 
-  //Update phoneRef when value changes
-  const updatePhoneRef = (val) =>{
-      setPhone(val)
-      //phoneRef.current = phoneVal;
-      console.log(phoneVal)
-      console.log(phoneRef.current)
-  }
   /**
    * Create new record in Supabase auth.users internal schema and public "profiles" table
    * Automatically log new user into their dashboard/schedule if registration is successful
@@ -54,7 +47,7 @@ const Registration = () => {
     e.preventDefault();
     let success = false;
     let currentDob = dobRef.current.value ? dobRef.current.value : maxDob;
-    console.log(phoneRef.current);
+
     await supabase.auth
       .signUp({
         email: emailRef.current.value,
@@ -65,7 +58,7 @@ const Registration = () => {
             last_name: lnameRef.current.value,
             dob: currentDob,
             role: "pre-dental",
-            phone: phoneRef.current.value,
+            phone: phoneVal,
             address: addressRef.current.value,
             city: cityRef.current.value,
             state: stateRef.current.value,
@@ -181,7 +174,6 @@ const Registration = () => {
                     Phone
                   </label>
                   <PatternFormat
-                    ref={phoneRef}
                     type="tel"
                     name="phone-number"
                     autoComplete="on"
@@ -190,7 +182,7 @@ const Registration = () => {
                     placeholder="###-###-####"
                     pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
                     required
-                    onValueChange = { value => updatePhoneRef(value.formattedValue)}
+                    onValueChange = {value => setPhone(value.formattedValue)}
                   />
                 </div>
 
