@@ -1,9 +1,10 @@
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import Link from "next/link";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import states from "../utils/state-abbrev";
 import { supabase } from "../utils/supabaseClient.js";
+import { PatternFormat } from 'react-number-format'
 
 /** New user registration form */
 const Registration = () => {
@@ -14,7 +15,8 @@ const Registration = () => {
   const lnameRef = useRef("");
   const emailRef = useRef("");
   const passwordRef = useRef("");
-  const phoneRef = useRef("");
+  const [phoneVal, setPhone] = useState("");
+  //const phoneRef = useRef("");
   const dobRef = useRef("");
   const addressRef = useRef("");
   const cityRef = useRef("");
@@ -56,7 +58,7 @@ const Registration = () => {
             last_name: lnameRef.current.value,
             dob: currentDob,
             role: "pre-dental",
-            phone: phoneRef.current.value,
+            phone: phoneVal,
             address: addressRef.current.value,
             city: cityRef.current.value,
             state: stateRef.current.value,
@@ -171,15 +173,16 @@ const Registration = () => {
                   <label htmlFor="phone-number" className="auth-label">
                     Phone
                   </label>
-                  <input
-                    ref={phoneRef}
+                  <PatternFormat
                     type="tel"
                     name="phone-number"
                     autoComplete="on"
                     className="auth-input"
+                    format ='###-###-####'
                     placeholder="###-###-####"
                     pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
                     required
+                    onValueChange = {value => setPhone(value.formattedValue)}
                   />
                 </div>
 
