@@ -89,7 +89,7 @@ const ScheduleItem = (props) => {
   };
 
   return (
-    <tr className="border-t bg-white">
+    <tr className="border-t border-gray-200 bg-white text-gray-900 dark:bg-neutral-900 dark:text-neutral-300 dark:border-neutral-800">
       <td className="py-2 px-1 text-center">
         <span
           className={
@@ -145,20 +145,20 @@ const ScheduleItem = (props) => {
         {open && (
           <div className="fixed inset-0 z-10 overflow-y-auto">
             <div className="flex min-h-full z-10 items-end justify-center p-4 text-center sm:items-center sm:p-0">
-              <form className="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg">
-                <div className="bg-white px-4 pt-5 pb-2 sm:p-8">
-                  <div className="mt-3 pb-2 text-center sm:mt-0 sm:ml-0 sm:text-left border-b">
-                    <h3 className="text-lg font-medium leading-6 text-gray-900">
+              <form className="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg  dark:bg-neutral-800">
+                <div className="bg-white px-4 pt-5 pb-2 sm:p-8 dark:bg-neutral-800">
+                  <div className="mt-3 pb-2 text-center sm:mt-0 sm:ml-0 sm:text-left border-b dark:border-neutral-600">
+                    <h3 className="text-lg font-medium leading-6 text-gray-900 dark:text-neutral-200">
                       Cancel
                     </h3>
                   </div>
                   <div className="mt-2">
-                    <p className="text-sm text-gray-500">
+                    <p className="text-sm text-gray-500 dark:text-neutral-200">
                       Are you sure you want to cancel your volunteer shift?
                     </p>
                   </div>
                 </div>
-                <div className="bg-gray-50 px-4 py-3 flex flex-row-reverse sm:px-6">
+                <div className="bg-gray-50 px-4 py-3 flex flex-row-reverse sm:px-6 dark:bg-neutral-800">
                   <button
                     type="button"
                     className="indigo-button-lg"
@@ -168,7 +168,7 @@ const ScheduleItem = (props) => {
                   </button>
                   <button
                     type="button"
-                    className="mt-3 mr-5 inline-flex w-full justify-center rounded-md border border-gray-300 bg-white px-4 py-2 text-base font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
+                    className="mt-3 mr-5 inline-flex w-full justify-center rounded-md border border-gray-300 dark:border-neutral-700 bg-white dark:bg-neutral-800 px-4 py-2 text-base font-medium text-gray-700 dark:text-indigo-500 shadow-sm hover:bg-gray-50 focus:outline-none dark:hover:bg-neutral-700 focus:ring-2 focus:ring-indigo-500 focus:ring-offset sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
                     onClick={() => setOpen(false)}
                   >
                     No

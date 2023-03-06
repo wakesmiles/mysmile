@@ -192,17 +192,20 @@ const Upload = () => {
       <div className="flex flex-row">
         <Navbar />
         <div className="container p-10">
-          <div className="shadow sm:rounded-lg w-4/5">
+          <div className="shadow sm:rounded-lg w-4/5 border-transparent dark:bg-neutral-900 dark:border-2 dark:border-neutral-800">
             <div className="px-4 py-5 sm:px-6">
               <h2>Files</h2>
             </div>
-            <div className="border-t border-gray-200 p-6">
+            <div className="border-t border-gray-200 p-6  dark:border-neutral-800">
               <form>
-                <label className="flex flex-col justify-center w-full h-32 px-4 transition bg-white border-2 border-gray-300 border-dashed rounded-md appearance-none cursor-pointer hover:border-gray-400 focus:outline-none">
+                <label className="flex flex-col justify-center w-full h-32 px-4 transition bg-white border-2 border-gray-300 border-dashed rounded-md appearance-none cursor-pointer hover:border-gray-400 focus:outline-none  dark:border-neutral-800 dark:bg-neutral-900 dark:hover:border-neutral-600">
                   <div className="flex flex-col items-center space-x-2 w-full">
-                    <SlCloudUpload className="text-gray-600 w-7 h-7" />
-                    <div className="relative text-gray-600 w-full flex justify-center space-x-1">
-                      <p>Click here to upload PDF. Only dashes and underscores allowed in file name.</p>
+                    <SlCloudUpload className="text-gray-600 w-7 h-7 dark:text-neutral-200" />
+                    <div className="relative text-gray-600 w-full flex justify-center space-x-1 dark:text-neutral-200">
+                      <p>
+                        Click here to upload PDF. Only dashes and underscores
+                        allowed in file name.
+                      </p>
                     </div>
                   </div>
                   <input
@@ -218,8 +221,8 @@ const Upload = () => {
               <br />
               <div className="overflow-y-scroll w-full h-full max-w-full max-h-72 scrollbar">
                 <table className="orientation-shifts mt-5 w-full">
-                  <thead className="mb-5 border-b border-gray-200">
-                    <tr className="grid w-full grid-cols-5 text-left mb-2">
+                  <thead className="mb-5 border-b border-gray-200 dark:border-neutral-800">
+                    <tr className="grid w-full grid-cols-5 text-left mb-2 dark:text-neutral-200">
                       <th className="col-span-3 font-medium">Uploaded</th>
                       <th className="col-span-1 font-medium">Date</th>
                       <th className="col-span-1 font-medium w-5"></th>
@@ -252,7 +255,7 @@ const Upload = () => {
                         );
                       })
                     ) : (
-                      <tr className="grid grid-cols-5 mt-2 text-sm">
+                      <tr className="grid grid-cols-5 mt-2 text-sm dark:text-neutral-200">
                         <td className="col-span-5">No files uploaded yet.</td>
                       </tr>
                     )}
@@ -263,19 +266,21 @@ const Upload = () => {
               {open ? (
                 <div className="fixed inset-0 z-10 overflow-y-auto">
                   <div className="flex min-h-full z-10 items-end justify-center p-4 text-center sm:items-center sm:p-0">
-                    <div className="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg">
-                      <div className="bg-white px-4 pt-5 pb-4 sm:p-8">
+                    <div className="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg dark:bg-neutral-800">
+                      <div className="bg-white px-4 pt-5 pb-4 sm:p-8 dark:bg-neutral-800">
                         <div className="mt-3 text-center sm:mt-0 sm:ml-0 sm:text-left">
-                          <h3 className="text-lg font-medium leading-6 text-gray-900">
+                          <h3 className="text-lg font-medium leading-6 text-gray-900 dark:text-neutral-200">
                             Status
                           </h3>
                           <hr />
                           <div className="mt-2">
-                            <p className="text-sm text-gray-500">{message}</p>
+                            <p className="text-sm text-gray-500 dark:text-neutral-200">
+                              {message}
+                            </p>
                           </div>
                         </div>
                       </div>
-                      <div className="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
+                      <div className="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6 dark:bg-neutral-800">
                         <button
                           type="button"
                           className="indigo-button-lg"

@@ -4,7 +4,7 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 import states from "../utils/state-abbrev";
 import { supabase } from "../utils/supabaseClient.js";
-import { PatternFormat } from 'react-number-format'
+import { PatternFormat } from "react-number-format";
 
 /** New user registration form */
 const Registration = () => {
@@ -109,7 +109,7 @@ const Registration = () => {
       <div className="grid place-items-center p-8">
         <form method="POST" onSubmit={(e) => signUp(e)}>
           <div className="auth-container">
-            <div className="bg-white px-4 py-5 sm:p-6">
+            <div className="bg-white px-4 py-5 sm:p-6 dark:bg-neutral-800">
               <legend className="registration-header">Basic Information</legend>
               <div className="grid grid-cols-6 gap-3 mt-3">
                 <div className="col-span-3">
@@ -178,11 +178,11 @@ const Registration = () => {
                     name="phone-number"
                     autoComplete="on"
                     className="auth-input"
-                    format ='###-###-####'
+                    format="###-###-####"
                     placeholder="###-###-####"
                     pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
                     required
-                    onValueChange = {value => setPhone(value.formattedValue)}
+                    onValueChange={(value) => setPhone(value.formattedValue)}
                   />
                 </div>
 
@@ -262,7 +262,7 @@ const Registration = () => {
                   />
                 </div>
               </div>
-              <hr className="mt-5 mb-5" />
+              <hr className="mt-5 mb-5 dark:border-neutral-600" />
               <fieldset>
                 <legend className="registration-header">Exposure Waiver</legend>
                 <div className="italic text-sm">
@@ -305,7 +305,7 @@ const Registration = () => {
                   </div>
                 </div>
               </fieldset>
-              <hr className="mt-5 mb-5" />
+              <hr className="mt-5 mb-5 dark:border-neutral-600" />
               <fieldset>
                 <legend className="registration-header">
                   HIPAA Privacy and Confidentiality Statement
@@ -358,7 +358,7 @@ const Registration = () => {
                 </div>
               </fieldset>
             </div>
-            <div className="bg-gray-50 px-4 py-3 text-right flex flex-row justify-between sm:px-6">
+            <div className="bg-gray-50 px-4 py-3 text-right flex flex-row justify-between sm:px-6 dark:bg-neutral-800 dark:border-t dark:border-neutral-600">
               <div className="flex items-center text-primary-color font-medium text-sm hover:text-indigo-600 hover:underline hover:underline-offset-4">
                 <Link href="/">Back to Login</Link>
               </div>

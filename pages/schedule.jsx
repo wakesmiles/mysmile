@@ -137,30 +137,34 @@ const Schedule = () => {
       <div className="flex flex-row">
         <Navbar />
         <div className="container p-10">
-          <div className="shadow sm:rounded-lg w-screen">
+          <div className="shadow border-transparent sm:rounded-lg w-screen dark:bg-neutral-900 dark:border-2 dark:border-neutral-800">
             <div className="px-4 py-5 sm:px-6">
-              <h2 className="text-lg font-medium leading-6 text-gray-900">
+              <h2 className="text-lg font-medium leading-6">
                 {user.first_name}&apos;s Schedule
               </h2>
             </div>
 
-            <div className="border-t p-4">
+            <div className="border-t border-gray-200 p-4 dark:border-neutral-800">
               {schedule && schedule.length > 0 ? (
                 <>
                   <div className="text-sm flex flex-row align-middle justify-center">
                     <div className="inline-flex items-center">
                       <span className="w-2 h-2 inline-block bg-secondary-color rounded-full mr-2"></span>
-                      <span className="text-gray-900">Orientation</span>
+                      <span className="text-gray-900 dark:text-neutral-200">
+                        Orientation
+                      </span>
                     </div>
                     <div className="inline-flex items-center ml-10">
                       <span className="w-2 h-2 inline-block bg-indigo-400 rounded-full mr-2"></span>
-                      <span className="text-gray-900">Volunteer Shift</span>
+                      <span className="text-gray-900 dark:text-neutral-200">
+                        Volunteer Shift
+                      </span>
                     </div>
                   </div>
 
                   <div className="mt-6 overflow-y-scroll w-full h-full max-w-full max-h-96 scrollbar">
                     <table className="w-full text-sm text-gray-700">
-                      <thead className="text-gray-900 border-b bg-white">
+                      <thead>
                         <tr>
                           <th scope="col" className="table-header"></th>
                           <th scope="col" className="table-header">
