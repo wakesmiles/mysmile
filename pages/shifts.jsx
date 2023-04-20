@@ -186,16 +186,16 @@ const Shifts = () => {
       <div className="flex flex-row">
         <Navbar />
         <div className="container p-10">
-          <div className="shadow sm:rounded-lg w-4/5">
+          <div className="shadow sm:rounded-lg border-transparent w-4/5 dark:bg-neutral-900 dark:border-2 dark:border-neutral-800">
             <div className="px-4 py-5 sm:px-6">
               <h2>Available {shiftType} Shifts</h2>
             </div>
 
-            <div className="border-t border-gray-200 p-4">
+            <div className="border-t border-gray-200 p-4 dark:border-neutral-800">
               {shifts && shifts.length > 0 ? (
                 <div className="mt-6 overflow-y-scroll w-full h-full max-w-full max-h-96 scrollbar">
                   <table className="text-sm text-gray-700 w-full">
-                    <thead className="text-gray-900 bg-white">
+                    <thead>
                       <tr className="text-left">
                         <th scope="col" className="table-header">
                           Date
@@ -212,7 +212,10 @@ const Shifts = () => {
                     <tbody>
                       {shifts.map((s) => {
                         return (
-                          <tr key={s.id} className="border-t bg-white text-sm">
+                          <tr
+                            key={s.id}
+                            className="border-t bg-white text-sm dark:bg-neutral-900 dark:border-neutral-800 dark:text-neutral-300"
+                          >
                             <td className="py-2 px-3 text-center">
                               {formatDate(s.shift_date)}
                             </td>
@@ -237,7 +240,7 @@ const Shifts = () => {
                   </table>
                 </div>
               ) : (
-                <div className="mt-5 w-full">
+                <div className="mt-5 w-full dark:text-neutral-200">
                   No available shifts at the moment! Check back in later.
                 </div>
               )}
@@ -246,19 +249,20 @@ const Shifts = () => {
             {open ? (
               <div className="fixed inset-0 z-10 overflow-y-auto">
                 <div className="flex min-h-full z-10 items-end justify-center p-4 text-center sm:items-center sm:p-0">
-                  <div className="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg">
-                    <div className="bg-white px-4 pt-5 pb-4 sm:p-8">
-                      <div className="mt-3 text-center sm:mt-0 sm:ml-0 sm:text-left">
-                        <h3 className="text-lg font-medium leading-6 text-gray-900">
+                  <div className="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg dark:bg-neutral-800">
+                    <div className="bg-white px-4 pt-5 pb-2 sm:p-8 dark:bg-neutral-800">
+                      <div className="mt-3 pb-2 text-center border-b  dark:border-neutral-600 sm:mt-0 sm:ml-0 sm:text-left">
+                        <h3 className="text-lg font-medium leading-6 text-gray-900 dark:text-neutral-200 ">
                           Status
                         </h3>
-                        <hr />
-                        <div className="mt-2">
-                          <p className="text-sm text-gray-500">{message}</p>
-                        </div>
+                      </div>
+                      <div className="mt-2">
+                        <p className="text-sm text-gray-500 dark:text-neutral-200">
+                          {message}
+                        </p>
                       </div>
                     </div>
-                    <div className="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
+                    <div className="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6 dark:bg-neutral-800">
                       <button
                         type="button"
                         className="indigo-button-lg"

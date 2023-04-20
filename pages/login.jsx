@@ -13,7 +13,7 @@ const Login = () => {
   const emailRef = useRef("");
   const passwordRef = useRef("");
 
-  /** 
+  /**
    * Log into application with Supabase internal auth schema
    */
   const login = async (e) => {
@@ -41,7 +41,18 @@ const Login = () => {
     <div className="flex min-h-full items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
       <div className="auth-container p-10 space-y-4">
         <div className="flex flex-row justify-center">
-          <Image src={"/ws_logo.png"} alt={"wake_smiles_logo"} width={50} height={50} />
+          <picture>
+            <source
+              srcSet="/ws_logo_dark.png"
+              media="(prefers-color-scheme: dark)"
+            />
+            <img
+              src="/ws_logo.png"
+              width="50px"
+              height="50px"
+              alt="wake_smiles_logo"
+            />
+          </picture>
           <div className="flex flex-col justify-center">
             <span className="ml-3 font-serif text-5xl text-primary-color">
               MySmile

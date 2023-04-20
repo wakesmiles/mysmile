@@ -28,17 +28,6 @@ h2 {
   @apply text-lg font-medium leading-6 text-gray-900;
 }
 
-/** Boilerplate for future dark mode styling */
-@media (prefers-color-scheme: dark) {
-  html {
-    color-scheme: dark;
-  }
-  body {
-    color: rgb(0, 0, 0);
-    background: black;
-  }
-}
-
 @screen sm {
   .auth-container {
     @apply rounded-md;
@@ -152,7 +141,6 @@ h2 {
 .table-header {
   @apply py-2 px-3 text-base text-center font-medium;
 }
-
 .clock-button {
   @apply text-indigo-600;
 }
@@ -163,4 +151,61 @@ h2 {
 
 .clock-button:disabled {
   @apply text-gray-500;
+}
+
+/** Boilerplate for future dark mode styling */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --primary-color: #a78bfa;
+    --secondary-color: #eef2ff;
+  }
+  html {
+    color-scheme: dark;
+  }
+  body {
+    @apply bg-neutral-900;
+  }
+
+  h2 {
+    @apply text-neutral-200;
+  }
+
+  span {
+    @apply text-neutral-200;
+  }
+  .container {
+    @apply bg-neutral-900;
+  }
+
+  /**Dark Mode Volunteer Login + Registration**/
+  .auth-label {
+    @apply text-neutral-300;
+  }
+  .auth-container {
+    @apply bg-neutral-800 border-neutral-600 rounded-lg border;
+  }
+
+  .auth-input {
+    @apply bg-neutral-900 border-neutral-600 text-neutral-100;
+  }
+  .password-toggle {
+    @apply text-neutral-100;
+  }
+
+  /**Dark mode Volunteer Profile**/
+  .profile-row {
+    @apply text-neutral-200;
+  }
+
+  .profile-input-label {
+    @apply text-neutral-300;
+  }
+
+  .profile-input {
+    @apply border-neutral-700 bg-neutral-800;
+  }
+  /* Dark Mode Volunteer Schedule */
+  .table-header {
+    @apply text-neutral-200;
+  }
 }
