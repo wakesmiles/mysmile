@@ -106,6 +106,8 @@ const PasswordReset = () => {
                                         name="password"
                                         type={show1 ? "text" : "password"}
                                         autoComplete="current-password"
+                                        minLength="6"
+                                        placeholder="******"
                                         className="auth-input"
                                         required
                                     />
@@ -128,6 +130,8 @@ const PasswordReset = () => {
                                         name="password"
                                         type={show2 ? "text" : "password"}
                                         autoComplete="current-password"
+                                        minLength="6"
+                                        placeholder="******"
                                         className="auth-input"
                                         required
                                     />
