@@ -22,6 +22,7 @@ const Registration = () => {
   const cityRef = useRef("");
   const stateRef = useRef("");
   const zipRef = useRef("");
+  const roleRef = useRef("");
   const waiverRef = useRef(false);
   const hipaaRef = useRef(false);
 
@@ -57,7 +58,7 @@ const Registration = () => {
             first_name: fnameRef.current.value,
             last_name: lnameRef.current.value,
             dob: currentDob,
-            role: "pre-dental",
+            role: roleRef.current.value,
             phone: phoneVal,
             address: addressRef.current.value,
             city: cityRef.current.value,
@@ -261,6 +262,27 @@ const Registration = () => {
                     required
                   />
                 </div>
+
+                <div className="col-span-3">
+                  <label htmlFor="role" className="auth-label">
+                    Role
+                  </label>
+                  <select
+                   // ref={roleRef}
+                    name="role"
+                    className="auth-input"
+                    ref={roleRef}
+                    required
+                  >
+                    <option value="">Choose a role</option>
+                    <option  value="predental">Pre-Dental</option>
+                    <option  value="da1">Dental Assistant One</option>
+                    <option  value="da2">Dental Assistant Two</option>
+                    <option  value="rdh">Registered Dental Hygienist</option>
+                    <option  value="dentist">Dentist</option>
+                  </select>
+                </div>
+
               </div>
               <hr className="mt-5 mb-5 dark:border-neutral-600" />
               <fieldset>
