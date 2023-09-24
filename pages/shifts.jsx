@@ -29,12 +29,17 @@ const Shifts = () => {
           // Get user information
           await supabase
             .from("profiles")
-            .select("id, first_name, last_name, email, orientation")
+            .select("id, first_name, last_name, email, orientation, role")
             .eq("id", id)
             .then(async ({ data }) => {
               if (data && data.length > 0) {
-                const sType = data[0].orientation ? "volunteer" : "orientation";
                 const uid = data[0].id;
+                let sType 
+                if (data[0].orientation) {
+                  sType = data[0].role.toLowerCase();
+                } else {
+                  sType = "orientation";
+                }
 
                 setUser(data[0]);
                 setShiftType(sType.charAt(0).toUpperCase() + sType.slice(1));
@@ -188,7 +193,7 @@ const Shifts = () => {
         <div className="container p-10">
           <div className="shadow sm:rounded-lg border-transparent w-4/5 dark:bg-neutral-900 dark:border-2 dark:border-neutral-800">
             <div className="px-4 py-5 sm:px-6">
-              <h2>Available {shiftType} Shifts</h2>
+              <h2>Available {shiftType.replace(/\b\w/g, (match) => match.toUpperCase())} Shifts</h2>
             </div>
 
             <div className="border-t border-gray-200 p-4 dark:border-neutral-800">
@@ -266,7 +271,7 @@ const Shifts = () => {
                       <button
                         type="button"
                         className="indigo-button-lg"
-                        onClick={() => setOpen(false)}
+                        onClick={() => location.reload()}
                       >
                         OK
                       </button>

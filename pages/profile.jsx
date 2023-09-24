@@ -158,13 +158,13 @@ const Profile = () => {
                 <div className="profile-row bg-gray-50 dark:bg-neutral-800 dark:text-neutral-200">
                   <dt className="font-mediu">Role</dt>
                   <dd className="mt-1 sm:col-span-2 sm:mt-0">
-                    {data.role === 'predental' ? (
+                    {data.role === 'Pre-Dental' ? (
                       'Pre-Dental'
-                    ) : data.role === 'da1' ? (
+                    ) : data.role === 'Dental Assistant One' ? (
                       'Dental Assistant One'
-                    ) : data.role === 'da2' ? (
+                    ) : data.role === 'Dental Assistant Two' ? (
                       'Dental Assistant Two'
-                    ) : data.role === 'rdh' ? (
+                    ) : data.role === 'Registered Dental Hygienist' ? (
                       'Registered Dental Hygienist'
                     ) : (
                       'Dentist'
