@@ -42,7 +42,7 @@ const Shifts = () => {
                 }
 
                 setUser(data[0]);
-                setShiftType(sType.charAt(0).toUpperCase() + sType.slice(1));
+                setShiftType(sType);
 
                 // Query shift information
                 fetchShifts(uid, sType);
@@ -84,7 +84,7 @@ const Shifts = () => {
         await supabase
           .from("shifts")
           .select()
-          .eq("shift_type", shiftType)
+          .contains('shift_type', [shiftType])
           .gte("shift_date", date)
           .filter("id", "not.in", assigned)
           .gt("remaining_slots", 0)
