@@ -193,7 +193,7 @@ const Shifts = () => {
         <div className="container p-10">
           <div className="shadow sm:rounded-lg border-transparent w-4/5 dark:bg-neutral-900 dark:border-2 dark:border-neutral-800">
             <div className="px-4 py-5 sm:px-6">
-              <h2>Available {shiftType.replace(/\b\w/g, (match) => match.toUpperCase())} Shifts</h2>
+              <h2>Available {shiftType === 'dental assistant ii' ? 'Dental Assistant II' : shiftType.replace(/\b\w/g, (match) => match.toUpperCase())} Shifts</h2>
             </div>
 
             <div className="border-t border-gray-200 p-4 dark:border-neutral-800">

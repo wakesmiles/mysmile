@@ -276,10 +276,12 @@ const Registration = () => {
                   >
                     <option value="">Choose a role</option>
                     <option  value="Pre-Dental">Pre-Dental</option>
-                    <option  value="Dental Assistant One">Dental Assistant One</option>
-                    <option  value="Dental Assistant Two">Dental Assistant Two</option>
+                    <option  value="Dental Assistant I">Dental Assistant I</option>
+                    <option  value="Dental Assistant II">Dental Assistant II</option>
                     <option  value="Registered Dental Hygienist">Registered Dental Hygienist</option>
                     <option  value="Dentist">Dentist</option>
+                    <option  value="Admin">Admin</option>
+                    <option  value="Interpreter">Interpreter</option>
                   </select>
                 </div>
 
