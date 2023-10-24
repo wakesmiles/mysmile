@@ -160,12 +160,16 @@ const Profile = () => {
                   <dd className="mt-1 sm:col-span-2 sm:mt-0">
                     {data.role === 'Pre-Dental' ? (
                       'Pre-Dental'
-                    ) : data.role === 'Dental Assistant One' ? (
-                      'Dental Assistant One'
-                    ) : data.role === 'Dental Assistant Two' ? (
-                      'Dental Assistant Two'
+                    ) : data.role === 'Dental Assistant I' ? (
+                      'Dental Assistant I'
+                    ) : data.role === 'Dental Assistant II' ? (
+                      'Dental Assistant II'
                     ) : data.role === 'Registered Dental Hygienist' ? (
                       'Registered Dental Hygienist'
+                    ) : data.role === 'Admin' ? (
+                      'Admin'
+                    ) : data.role === 'Interpreter' ? (
+                      'Interpreter'
                     ) : (
                       'Dentist'
                     )}</dd>
