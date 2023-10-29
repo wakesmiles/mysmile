@@ -18,21 +18,22 @@ const Navbar = () => {
   };
 
   return (
-    <div className="w-40 h-screen shadow-md bg-primary-color text-white sm:text-sm px-1">
-      <ul className="relative mt-6 space-y-4 pl-6">
-        <li className="navbar-item">
+    // <div className="w-40 h-screen shadow-md bg-primary-color text-white sm:text-sm px-1">
+    <div className="bg-primary-color text-white lg:text-lg px-10">
+      <ul className="flex items-center p-4">
+        <li className="mr-6">
           <Link href="/profile">Profile</Link>
         </li>
-        <li className="navbar-item">
+        <li className="mr-6">
           <Link href="/schedule">Schedule</Link>
         </li>
-        <li className="navbar-item">
+        <li className="mr-6">
           <Link href="/shifts">Shifts</Link>
         </li>
-        <li className="navbar-item">
+        <li className="mr-6">
           <Link href="/files">Files</Link>
         </li>
-        <li className="navbar-item">
+        <li>
           <button onClick={logout}>Logout</button>
         </li>
       </ul>

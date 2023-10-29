@@ -40,10 +40,11 @@ const Login = () => {
   return (
     <div className="flex min-h-full items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
       <div className="auth-container p-10 space-y-4">
-        <div className="flex flex-row justify-center">
+        <div className="flex  justify-center">
           <picture>
             <source
-              srcSet="/ws_logo_dark.png"
+              // srcSet="/ws_logo_dark.png"
+              srcSet="/ws_logo.png"
               media="(prefers-color-scheme: dark)"
             />
             <img
@@ -101,8 +102,8 @@ const Login = () => {
             <button type="submit" className="indigo-button-lg w-full">
               Log In
             </button>
-            <div className="flex flex-row justify-end mt-2 text-sm font-medium text-primary-color">
-              <div className="hover:text-indigo-600 hover:underline hover:underline-offset-4">
+            <div className="flex flex-row justify-end mt-2 text-sm font-medium text-secondary-color">
+              <div className="hover:text-indigo-400 hover:underline hover:underline-offset-4">
                 <Link href="/registration">Create New Account</Link>
               </div>
             </div>

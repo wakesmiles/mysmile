@@ -134,10 +134,12 @@ const Profile = () => {
         <title>MySmile</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <div className="flex flex-row">
+      <div className="">
         <Navbar />
         <div className="container p-10">
-          <div className="shadow sm:rounded-lg w-4/5  dark:bg-neutral-900 dark:border-2 dark:border-neutral-800">
+          <div className="shadow sm:rounded-lg w-4/5  
+         
+          border-gray-500 dark:bg-neutral-900 dark:border-2 dark:border-neutral-800">
             <div className="px-4 py-5 sm:px-6">
               <h2>Profile</h2>
             </div>

@@ -189,7 +189,7 @@ const Upload = () => {
         <title>MySmile</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <div className="flex flex-row">
+      <div className="">
         <Navbar />
         <div className="container p-10">
           <div className="shadow sm:rounded-lg w-4/5 border-transparent dark:bg-neutral-900 dark:border-2 dark:border-neutral-800">
