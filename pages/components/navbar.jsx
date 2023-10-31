@@ -59,12 +59,12 @@ const Navbar = () => {
               </span>
             </div>
             <div className={`wift menu-toggle ${isOpen ? 'active' : ''}`} onClick={toggleNavbar}>
-                <a>
-                  {/* <input type="checkbox" id="check"></input> */}
-                  <label for="check" class="checkbtn text-5xl">
-                    <i class="fa fa-bars" aria-hidden="true"></i>
-                  </label>
-                </a>
+              <a>
+                {/* <input type="checkbox" id="check"></input> */}
+                <label htmlFor="check" className="checkbtn text-5xl">
+                  <i className="fa fa-bars" aria-hidden="true"></i>
+                </label>
+              </a>
             </div>
           </div>   
           {isOpen && (
@@ -92,50 +92,49 @@ const Navbar = () => {
               </div>
             </div>
           )}
-        <div>
-          <Helmet>
-            <script src="https://kit.fontawesome.com/df52d66a28.js" crossorigin="anonymous"
-              defer
-            ></script>
-          </Helmet>
+          <div>
+            <Helmet>
+              <script src="https://kit.fontawesome.com/df52d66a28.js" crossorigin="anonymous"
+                defer
+              ></script>
+            </Helmet>
+          </div>
         </div>
-      </div>) : (
+      ) : (
         // <h1 style={{ fontSize: '36px' }}>Desktop Content</h1>
-      <div className="navbar bg-primary-color text-white lg:text-lg px-10 p-4">
-        <div className="flex justify-between">
-          <div className="flex flex-col justify-center">
-            <span className="ml-3 font-serif text-5xl text-white">
-              MySmile
-            </span>
-          </div>
-          <div className="navbar bg-primary-color text-white lg:text-2xl px-10">
-            <div className="nav-menu">
-              <ul className="menu flex items-right p-2">
-                <li className="mr-6">
-                  <Link href="/profile">Profile</Link>
-                </li>
-                <li className="mr-6">
-                  <Link href="/schedule">Schedule</Link>
-                </li>
-                <li className="mr-6">
-                  <Link href="/shifts">Shifts</Link>
-                </li>
-                <li className="mr-6">
-                  <Link href="/files">Files</Link>
-                </li>
-                <li className="mr-6">
-                  <button onClick={logout}>Logout</button>
-                </li>
-              </ul>
+        <div className="navbar bg-primary-color text-white lg:text-lg px-10 p-4">
+          <div className="flex justify-between">
+            <div className="flex flex-col justify-center">
+              <span className="ml-3 font-serif text-5xl text-white">
+                MySmile
+              </span>
             </div>
-          </div>
-        </div> 
-        
-      </div>   
+            <div className="navbar bg-primary-color text-white lg:text-2xl px-10">
+              <div className="nav-menu">
+                <ul className="menu flex items-right p-2">
+                  <li className="mr-6">
+                    <Link href="/profile">Profile</Link>
+                  </li>
+                  <li className="mr-6">
+                    <Link href="/schedule">Schedule</Link>
+                  </li>
+                  <li className="mr-6">
+                    <Link href="/shifts">Shifts</Link>
+                  </li>
+                  <li className="mr-6">
+                    <Link href="/files">Files</Link>
+                  </li>
+                  <li className="mr-6">
+                    <button onClick={logout}>Logout</button>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div> 
+        </div>   
       )}
     </div>
   );
 }
-
 
 export default Navbar;
