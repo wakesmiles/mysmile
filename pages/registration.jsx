@@ -64,7 +64,7 @@ const Registration = () => {
             city: cityRef.current.value,
             state: stateRef.current.value,
             zip: zipRef.current.value,
-            orientation: false,
+            orientation: (roleRef.current.value == "Dentist" || roleRef.current.value == "Registered Dental Hygienist")
           },
         },
       })
