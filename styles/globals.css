@@ -153,6 +153,14 @@ h2 {
   @apply text-gray-500;
 }
 
+.f-l {
+  float: left;
+}
+
+.f-r {
+  float: right;
+}
+
 /** Boilerplate for future dark mode styling */
 @media (prefers-color-scheme: dark) {
   :root {
