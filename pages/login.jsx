@@ -104,7 +104,13 @@ const Login = () => {
             </button>
             <div className="flex flex-row justify-end mt-2 text-sm font-medium text-secondary-color">
               <div className="hover:text-indigo-400 hover:underline hover:underline-offset-4">
+
                 <Link href="/registration">Create New Account</Link>
+              </div>
+            </div>
+            <div className="flex flex-row f-r mt-2 text-sm font-medium text-primary-color">
+              <div className="hover:text-indigo-600 hover:underline hover:underline-offset-4">
+                <Link href="/password">Forgot your password?</Link>
               </div>
             </div>
           </div>

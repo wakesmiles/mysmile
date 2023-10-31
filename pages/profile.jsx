@@ -159,7 +159,22 @@ const Profile = () => {
                 </div>
                 <div className="profile-row bg-gray-50 dark:bg-neutral-800 dark:text-neutral-200">
                   <dt className="font-mediu">Role</dt>
-                  <dd className="mt-1 sm:col-span-2 sm:mt-0">{data.role}</dd>
+                  <dd className="mt-1 sm:col-span-2 sm:mt-0">
+                    {data.role === 'Pre-Dental' ? (
+                      'Pre-Dental'
+                    ) : data.role === 'Dental Assistant I' ? (
+                      'Dental Assistant I'
+                    ) : data.role === 'Dental Assistant II' ? (
+                      'Dental Assistant II'
+                    ) : data.role === 'Registered Dental Hygienist' ? (
+                      'Registered Dental Hygienist'
+                    ) : data.role === 'Admin' ? (
+                      'Admin'
+                    ) : data.role === 'Interpreter' ? (
+                      'Interpreter'
+                    ) : (
+                      'Dentist'
+                    )}</dd>
                 </div>
                 <div className="profile-row bg-white dark:bg-neutral-900 dark:text-neutral-200">
                   <dt className="font-mediu flex flex-start">
