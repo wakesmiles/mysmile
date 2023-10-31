@@ -9,7 +9,7 @@ const Loading = () => {
         <title>MySmile</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <div className="">
+      <div>
         <Navbar />
         <div className="container p-10">
           <div className="shadow sm:rounded-lg w-4/5"></div>
