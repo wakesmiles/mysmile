@@ -84,7 +84,7 @@ const Shifts = () => {
         await supabase
           .from("shifts")
           .select()
-          .contains('shift_type', [shiftType])
+          .or([`shift_type.cs.{"${shiftType}"}`,'shift_type.cs.{"volunteer"}'])
           .gte("shift_date", date)
           .filter("id", "not.in", assigned)
           .gt("remaining_slots", 0)
