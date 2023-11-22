@@ -134,10 +134,12 @@ const Profile = () => {
         <title>MySmile</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <div className="flex flex-row">
+      <div className="">
         <Navbar />
         <div className="container p-10">
-          <div className="shadow sm:rounded-lg w-4/5  dark:bg-neutral-900 dark:border-2 dark:border-neutral-800">
+          <div className="shadow sm:rounded-lg w-4/5  
+         
+          border-gray-500 dark:bg-neutral-900 dark:border-2 dark:border-neutral-800">
             <div className="px-4 py-5 sm:px-6">
               <h2>Profile</h2>
             </div>
@@ -157,7 +159,22 @@ const Profile = () => {
                 </div>
                 <div className="profile-row bg-gray-50 dark:bg-neutral-800 dark:text-neutral-200">
                   <dt className="font-mediu">Role</dt>
-                  <dd className="mt-1 sm:col-span-2 sm:mt-0">{data.role}</dd>
+                  <dd className="mt-1 sm:col-span-2 sm:mt-0">
+                    {data.role === 'Pre-Dental' ? (
+                      'Pre-Dental'
+                    ) : data.role === 'Dental Assistant I' ? (
+                      'Dental Assistant I'
+                    ) : data.role === 'Dental Assistant II' ? (
+                      'Dental Assistant II'
+                    ) : data.role === 'Registered Dental Hygienist' ? (
+                      'Registered Dental Hygienist'
+                    ) : data.role === 'Admin' ? (
+                      'Admin'
+                    ) : data.role === 'Interpreter' ? (
+                      'Interpreter'
+                    ) : (
+                      'Dentist'
+                    )}</dd>
                 </div>
                 <div className="profile-row bg-white dark:bg-neutral-900 dark:text-neutral-200">
                   <dt className="font-mediu flex flex-start">

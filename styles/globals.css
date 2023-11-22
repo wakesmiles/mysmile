@@ -70,7 +70,7 @@ h2 {
 }
 
 .container {
-  @apply w-full h-screen flex flex-row justify-center justify-items-center align-middle overflow-hidden bg-white;
+  @apply w-full h-screen flex  justify-center justify-items-center align-middle overflow-hidden bg-white;
 }
 
 .indigo-button-sm,
@@ -153,10 +153,18 @@ h2 {
   @apply text-gray-500;
 }
 
+.f-l {
+  float: left;
+}
+
+.f-r {
+  float: right;
+}
+
 /** Boilerplate for future dark mode styling */
 @media (prefers-color-scheme: dark) {
   :root {
-    --primary-color: #a78bfa;
+    /* --primary-color: #a78bfa; */
     --secondary-color: #eef2ff;
   }
   html {
