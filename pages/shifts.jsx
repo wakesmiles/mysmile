@@ -81,7 +81,28 @@ const Shifts = () => {
 
         const [date, time] = getNow();
 
-        await supabase
+        if (shiftType == 'orientation') {
+          await supabase
+          .from("shifts")
+          .select()
+          .contains('shift_type', ['orientation'])
+          .gte("shift_date", date)
+          .filter("id", "not.in", assigned)
+          .gt("remaining_slots", 0)
+          .order("shift_date", { ascending: true })
+          .order("start_time", { ascending: true })
+          .then(({ data }) => {
+            if (data) {
+              const reduced = data.filter(
+                (v) =>
+                  v.shift_date > date ||
+                  (v.shift_date === date && v.end_time > time)
+              );
+              setShifts(reduced);
+            }
+          });
+        } else {
+          await supabase
           .from("shifts")
           .select()
           .or([`shift_type.cs.{"${shiftType}"}`,'shift_type.cs.{"volunteer"}'])
@@ -100,6 +121,7 @@ const Shifts = () => {
               setShifts(reduced);
             }
           });
+        }
       });
   }
 
