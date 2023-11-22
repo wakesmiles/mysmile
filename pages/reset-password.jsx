@@ -2,6 +2,7 @@ import { useState, useRef, useEffect } from "react";
 import { AiFillEyeInvisible, AiFillEye } from "react-icons/ai";
 import { supabase } from "../utils/supabaseClient";
 import Rerouting from "./components/reroute";
+import { Link } from "react-router-dom";
 
 function FetchUser() {
     const [user, setUser] = useState(null)
@@ -93,14 +94,16 @@ const PasswordReset = () => {
                         <div className="rounded-md mb-3 space-y-3">
                             {done ? (
                                 <>
-                                <div className="flex flex-row font-medium text-green-500">
+                                <div className="flex flex-row font-medium text-green-500 pb-5">
                                     Password has been changed!
                                 </div>
+                                <a className="text-purple-800 hover:underline pt-10" href="https://mysmile.vercel.app/">Back to Login Page</a>
                                 </>
                             ) : (
                                 <>
                                 <div>
                                     <label className="auth-label">New Password</label>
+                                    
                                     <input
                                         ref={passwordRef}
                                         name="password"
