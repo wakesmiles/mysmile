@@ -22,16 +22,15 @@ const Navbar = () => {
   };
 
   // Responsive Window Frame to Mobile and Web
-  const [windowWidth, setWindowWidth] = useState(typeof window !== 'undefined' ? window.innerWidth : 0);
-
+  const [isMobile, setIsMobile] = useState(false);
+  const handleResize = () => {
+    setIsMobile(window.innerWidth <= 768);
+    console.log(isMobile)
+  };
   useEffect(() => {
-    const handleResize = () => {
-      setWindowWidth(window.innerWidth);
-    };
-
     window.addEventListener('resize', handleResize);
-
     // Clean up the event listener when the component is unmounted
+    setIsMobile(window.innerWidth <= 768)
     return () => {
       window.removeEventListener('resize', handleResize);
     };
@@ -43,8 +42,6 @@ const Navbar = () => {
   const toggleNavbar = () => {
     setIsOpen(!isOpen);
   };
-
-  const isMobile = windowWidth <= 768;
 
   return (
     <div style={{}}>
